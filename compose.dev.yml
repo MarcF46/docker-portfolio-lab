@@ -1,0 +1,23 @@
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./app:/usr/share/nginx/html:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  redis:
+    image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-dev_password_change_me}"]
+    volumes:
+      - redis_data_dev:/data
+    restart: unless-stopped
+
+volumes:
+  redis_data_dev:

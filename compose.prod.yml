@@ -1,0 +1,24 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: handsonlabs/my-web:v1.2
+    ports:
+      - "8082:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  redis:
+    image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-change_me_for_prod}"]
+    volumes:
+      - redis_data_prod:/data
+    restart: unless-stopped
+
+volumes:
+  redis_data_prod:

@@ -1,0 +1,18 @@
+# Git-Verlauf nicht ins Docker-Image kopieren
+.git
+
+# Lokale Umgebungsdateien mit möglichen Passwörtern
+.env
+*.env
+
+# Word-Dokumente gehören nicht ins Docker-Image
+*.docx
+
+# Logs und temporäre Dateien
+*.log
+tmp/
+temp/
+
+# VS-Code-Einstellungen
+.vscode/
+*.code-workspace
