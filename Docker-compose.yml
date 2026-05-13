@@ -1,0 +1,18 @@
+services:
+  mein-server:
+    # 1. Wir nutzen jetzt DEIN fertiges Image aus der Cloud statt 'build: .'
+    image: handsonlabs/my-web:v1.1
+    ports:
+      - "8081:80"
+    # 2. Die Volume-Freigabe (Bind Mount) löschen wir! 
+    # Der Server soll NUR die Daten aus dem Image nutzen.
+
+  meine-datenbank:
+    image: redis:alpine
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:

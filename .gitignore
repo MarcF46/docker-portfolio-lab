@@ -1,0 +1,24 @@
+# Lokale Umgebungsdateien / Passwörter
+.env
+*.env
+
+# Logs
+*.log
+
+# Word-Dokumente / lokale Lernnotizen
+*.docx
+
+# VS-Code lokale Projektdateien
+.vscode/
+*.code-workspace
+
+# Temporäre Dateien
+tmp/
+temp/
+
+# Alte Testdateien
+docker-compose_alt.yml
+
+# Windows-Systemdateien
+Thumbs.db
+Desktop.ini
