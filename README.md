@@ -49,6 +49,28 @@ Docker Compose ist ein Werkzeug, mit dem mehrere Container gemeinsam über eine 
 YAML ist ein Dateiformat, das häufig für Konfigurationsdateien genutzt wird.  
 Bei Docker Compose beschreibt eine YAML-Datei, welche Container gestartet werden sollen.
 
+### Git
+
+Git ist ein Versionskontrollsystem.  
+Es speichert Änderungen an Dateien nachvollziehbar ab, sodass man später sehen kann, was geändert wurde.
+
+### GitHub
+
+GitHub ist eine Online-Plattform für Git-Projekte.  
+Dort können Projekte gespeichert, dokumentiert und später als Portfolio gezeigt werden.
+
+### Umgebungsvariable
+
+Eine Umgebungsvariable ist ein Wert, der nicht fest in den Programmcode geschrieben wird, sondern von außen an eine Anwendung oder einen Container übergeben wird.
+
+Das ist besonders nützlich für:
+
+- Passwörter
+- Ports
+- Zugangsdaten
+- Umgebungsnamen
+- technische Konfigurationen
+
 ---
 
 ## Projektstruktur
@@ -61,6 +83,7 @@ Docker Übung/
 ├── compose.dev.yml
 ├── compose.prod.yml
 ├── .dockerignore
+├── .env
 ├── .env.example
 ├── .gitignore
 └── README.md
@@ -77,9 +100,39 @@ Docker Übung/
 | `compose.dev.yml` | Docker-Compose-Datei für den Development-Modus |
 | `compose.prod.yml` | Docker-Compose-Datei für den Production-Modus |
 | `.dockerignore` | verhindert unnötige Dateien im Docker-Build-Kontext |
+| `.env` | lokale Datei für echte Konfigurationswerte, wird nicht zu GitHub hochgeladen |
+| `.env.example` | Beispiel für benötigte Umgebungsvariablen, darf auf GitHub liegen |
 | `.gitignore` | verhindert, dass lokale/geheime Dateien zu Git hinzugefügt werden |
-| `.env.example` | Beispiel für benötigte Umgebungsvariablen |
 | `README.md` | Dokumentation des Projekts |
+
+---
+
+## Umgebungsvariablen mit `.env`
+
+Dieses Projekt nutzt eine `.env`-Datei für lokale Konfigurationswerte.
+
+Eine Umgebungsvariable ist ein Wert, der nicht fest in den Programmcode geschrieben wird, sondern von außen an die Anwendung oder den Container übergeben wird.
+
+Das ist besonders nützlich für Passwörter, Ports, Zugangsdaten oder andere Einstellungen.
+
+Beispiel:
+
+```env
+REDIS_PASSWORD=local_redis_password_please_change
+```
+
+Die echte `.env`-Datei wird nicht zu GitHub hochgeladen, weil sie in `.gitignore` eingetragen ist.
+
+Damit andere Nutzer wissen, welche Werte benötigt werden, gibt es zusätzlich eine `.env.example`.
+
+```text
+.env           = echte lokale Werte, nicht für GitHub
+.env.example   = Beispielwerte, darf auf GitHub liegen
+```
+
+Wichtig: In echte `.env`-Dateien gehören keine Werte, die später öffentlich sichtbar sein sollen.
+
+Die Datei `.env.example` dient nur als Vorlage. Andere Personen können sie kopieren, in `.env` umbenennen und eigene Werte eintragen.
 
 ---
 
@@ -116,6 +169,8 @@ http://localhost:8081
 
 Im Development-Modus wird der Ordner `app/` per Bind Mount in den Container eingebunden.
 
+Ein Bind Mount ist eine direkte Verbindung zwischen einem Ordner auf dem eigenen Computer und einem Ordner im Container.
+
 Das bedeutet: Änderungen an `app/index.html` werden nach dem Speichern direkt im Browser sichtbar.
 
 Die Einbindung erfolgt read-only:
@@ -126,6 +181,8 @@ Die Einbindung erfolgt read-only:
 
 `ro` bedeutet `read-only`, also nur lesbar.  
 Der Container darf die Datei lesen, aber nicht verändern oder löschen.
+
+Das ist wichtig, weil bei einer normalen Schreibfreigabe Dateien im Container auch Dateien auf dem eigenen Computer verändern oder löschen könnten.
 
 ---
 
@@ -177,6 +234,16 @@ Dafür muss das Image neu gebaut werden.
 docker compose -f compose.prod.yml up -d --build --force-recreate
 ```
 
+Bedeutung:
+
+| Teil | Erklärung |
+|---|---|
+| `docker compose` | startet Docker Compose |
+| `-f compose.prod.yml` | nutzt die Production-Compose-Datei |
+| `up -d` | startet die Container im Hintergrund |
+| `--build` | baut das Image neu |
+| `--force-recreate` | erstellt die Container sicher neu |
+
 ---
 
 ## Production-Modus stoppen
@@ -227,6 +294,55 @@ Nach einem Commit kann die Änderung über GitHub Desktop mit **Push origin** zu
 
 ---
 
+## Typischer Arbeitsablauf
+
+Ein einfacher Arbeitsablauf sieht so aus:
+
+```text
+Datei ändern
+↓
+Speichern
+↓
+git status prüfen
+↓
+Änderung mit git add vormerken
+↓
+Commit erstellen
+↓
+Push origin in GitHub Desktop ausführen
+```
+
+Beispiel:
+
+```powershell
+git status
+git add README.md
+git commit -m "Dokumentiere Umgebungsvariablen mit .env"
+git status
+```
+
+Danach in GitHub Desktop:
+
+```text
+Push origin
+```
+
+---
+
+## Wichtige Sicherheitsregel
+
+Echte Zugangsdaten, Passwörter, Tokens oder API-Schlüssel gehören nicht direkt in:
+
+- `README.md`
+- `Dockerfile`
+- `compose.dev.yml`
+- `compose.prod.yml`
+- öffentlich sichtbare Dateien auf GitHub
+
+Dafür nutzt man lokale Konfigurationsdateien wie `.env`, die nicht hochgeladen werden.
+
+---
+
 ## Lernziel
 
 Das Ziel dieses Projekts ist nicht nur, Docker-Befehle auswendig zu lernen, sondern zu verstehen:
@@ -235,6 +351,8 @@ Das Ziel dieses Projekts ist nicht nur, Docker-Befehle auswendig zu lernen, sond
 - wie Images gebaut werden
 - wie Docker Compose mehrere Dienste verwaltet
 - wie Development- und Production-Modus sich unterscheiden
+- wie Umgebungsvariablen genutzt werden
+- wie sensible Werte aus GitHub herausgehalten werden
 - wie Dateien sauber strukturiert werden
 - wie man ein Projekt mit Git versioniert
 - wie man Änderungen nachvollziehbar auf GitHub dokumentiert
