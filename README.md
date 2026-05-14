@@ -901,3 +901,754 @@ Das Backup wurde erfolgreich wiederhergestellt und geprüft.
 ```
 
 Erst der zweite Punkt ist im professionellen Betrieb wirklich belastbar.
+---
+
+## Professioneller Blick auf Backup, Restore und Betrieb
+
+In diesem Lernprojekt wurde ein Redis-Volume nicht nur gesichert, sondern auch praktisch wiederhergestellt und geprüft.
+
+Das ist ein wichtiger Unterschied:
+
+```text
+Es gibt ein Backup.
+```
+
+ist nicht dasselbe wie:
+
+```text
+Das Backup wurde erfolgreich wiederhergestellt und geprüft.
+```
+
+Ein Backup ist erst dann wirklich belastbar, wenn ein Restore erfolgreich getestet wurde.
+
+---
+
+## Aktueller Stand im Lernprojekt
+
+Dieses Projekt enthält inzwischen drei Skripte für den Backup- und Restore-Prozess:
+
+| Skript | Zweck |
+|---|---|
+| `scripts/backup-redis-volume.ps1` | erstellt ein Redis-Volume-Backup und prüft das Archiv technisch |
+| `scripts/test-redis-restore.ps1` | spielt ein Backup in ein Restore-Test-Volume zurück und prüft den Redis-Wert |
+| `scripts/backup-and-test-redis.ps1` | führt Backup und Restore-Test als Gesamtprozess aus |
+
+---
+
+## Master-Skript ausführen
+
+Der komplette Backup-und-Restore-Testprozess kann mit folgendem Befehl gestartet werden:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\backup-and-test-redis.ps1
+```
+
+Wichtig: Der Befehl wird im Projektordner ausgeführt:
+
+```text
+C:\Docker Übung
+```
+
+Nicht im Unterordner `scripts/`.
+
+---
+
+## Was das Master-Skript macht
+
+Das Master-Skript führt zwei Teilschritte aus.
+
+### Schritt 1: Backup erstellen und technisch prüfen
+
+Dabei wird:
+
+```text
+1. geprüft, ob das Redis-Production-Volume existiert
+2. eine Backup-Datei mit Zeitstempel erstellt
+3. geprüft, ob die Backup-Datei existiert
+4. geprüft, ob die Backup-Datei nicht leer ist
+5. der Inhalt des TAR-Archivs angezeigt
+```
+
+### Schritt 2: Restore-Test durchführen
+
+Dabei wird:
+
+```text
+1. ein separates Restore-Test-Volume vorbereitet
+2. das neueste Backup in dieses Test-Volume zurückgespielt
+3. ein Redis-Testcontainer mit diesem Volume gestartet
+4. der Wert training_status aus Redis gelesen
+5. geprüft, ob der erwartete Wert vorhanden ist
+6. der Testcontainer wieder entfernt
+7. das Restore-Test-Volume für weitere Übungen behalten
+```
+
+---
+
+## Wichtige Begriffe
+
+### TAR
+
+TAR steht ursprünglich für `Tape Archive`.
+
+Das ist ein Archivformat aus der Unix-/Linux-Welt. Man kann es sich ähnlich wie eine ZIP-Datei vorstellen.
+
+Eine Datei mit der Endung `.tar.gz` besteht aus zwei Teilen:
+
+```text
+.tar = mehrere Dateien werden in ein Archiv gepackt
+.gz  = dieses Archiv wird mit gzip komprimiert
+```
+
+Wichtige TAR-Befehle aus diesem Projekt:
+
+```text
+tar czf = Archiv erstellen
+tar tzf = Archivinhalt anzeigen
+tar xzf = Archiv entpacken
+```
+
+Merksatz:
+
+```text
+tar czf = Backup bauen
+tar tzf = Backup anschauen
+tar xzf = Backup zurückspielen
+```
+
+---
+
+## Redis-Persistenz: RDB und AOF
+
+Redis arbeitet stark im Arbeitsspeicher. Damit Daten nach einem Neustart erhalten bleiben können, nutzt Redis Persistenzmechanismen.
+
+Persistenz bedeutet:
+
+```text
+Daten werden dauerhaft gespeichert und verschwinden nicht einfach nach einem Neustart.
+```
+
+### RDB
+
+RDB bedeutet `Redis Database`.
+
+Einfach erklärt:
+
+```text
+RDB = Foto der Datenbank
+```
+
+Redis erstellt dabei eine Momentaufnahme der Daten zu einem bestimmten Zeitpunkt.
+
+Vorteile:
+
+```text
+kompakt
+gut für Backups
+gut für schnelle Wiederherstellung
+```
+
+Nachteil:
+
+```text
+Änderungen seit dem letzten Snapshot können verloren gehen
+```
+
+### AOF
+
+AOF bedeutet `Append Only File`.
+
+Einfach erklärt:
+
+```text
+AOF = Tagebuch der Datenbankänderungen
+```
+
+Redis schreibt dabei Änderungsbefehle fortlaufend mit.
+
+Beispiel:
+
+```text
+SET training_status "volume-test-erfolgreich"
+```
+
+Beim Neustart kann Redis diese Befehle erneut abspielen und den Datenbestand wiederherstellen.
+
+Vorteile:
+
+```text
+genauere Wiederherstellung möglich
+weniger Datenverlust als bei seltenen Snapshots
+```
+
+Nachteile:
+
+```text
+größere Dateien
+mehr Schreiblast
+mehr Konfigurationsaufwand
+```
+
+Merksatz:
+
+```text
+RDB = Foto
+AOF = Tagebuch
+```
+
+---
+
+## Backup-Prüfung: drei Stufen
+
+Nicht jede Prüfung ist gleich stark.
+
+### Stufe 1: Backup-Datei existiert
+
+Beispiel:
+
+```powershell
+dir backups
+```
+
+Das beweist nur:
+
+```text
+Es gibt eine Datei.
+```
+
+Das ist wichtig, aber noch schwach.
+
+---
+
+### Stufe 2: Backup-Archiv ist lesbar
+
+Beispiel:
+
+```powershell
+tar tzf redis_data_prod_backup.tar.gz
+```
+
+Das beweist:
+
+```text
+Das Archiv kann geöffnet werden.
+Im Archiv sind Dateien sichtbar.
+```
+
+Das ist besser, aber noch kein vollständiger Restore-Test.
+
+---
+
+### Stufe 3: Restore-Test
+
+Dabei wird geprüft:
+
+```text
+Kann das Backup in ein neues Volume zurückgespielt werden?
+Kann Redis mit diesem Volume starten?
+Sind die erwarteten Daten wieder lesbar?
+```
+
+Das ist der wichtigste Nachweis.
+
+In diesem Projekt wird dafür der Wert geprüft:
+
+```text
+training_status = volume-test-erfolgreich
+```
+
+Wenn dieser Wert nach dem Restore-Test wieder gelesen werden kann, ist bewiesen:
+
+```text
+Das Backup ist praktisch wiederherstellbar.
+```
+
+---
+
+## Warum ein separates Restore-Test-Volume?
+
+Der Restore-Test nutzt nicht direkt das produktive Volume.
+
+Produktives Volume:
+
+```text
+dockerbung_redis_data_prod
+```
+
+Restore-Test-Volume:
+
+```text
+dockerbung_redis_data_restore_test
+```
+
+Das ist wichtig, weil ein Restore in ein echtes produktives Volume Daten überschreiben kann.
+
+Sicherer Ablauf:
+
+```text
+1. Backup erstellen
+2. Backup technisch prüfen
+3. Backup in separates Test-Volume zurückspielen
+4. Anwendung mit Test-Volume starten
+5. Daten prüfen
+6. erst danach über produktiven Restore nachdenken
+```
+
+---
+
+## Warum Backups nicht auf GitHub gehören
+
+Der Ordner `backups/` wird in `.gitignore` ausgeschlossen.
+
+Grund:
+
+```text
+Backups können echte Daten enthalten.
+```
+
+Beispiele:
+
+```text
+Benutzerdaten
+Sitzungsdaten
+Datenbankinhalte
+Passwörter
+Tokens
+interne Systeminformationen
+```
+
+Deshalb gilt:
+
+```text
+Backups gehören nicht automatisch in ein öffentliches GitHub-Repository.
+```
+
+---
+
+## Sensible Daten und Secrets
+
+Sensible Daten sind geheime oder schützenswerte Werte.
+
+Beispiele:
+
+```text
+Passwörter
+API-Keys
+Tokens
+SSH-Schlüssel
+Zertifikate
+Datenbankzugänge
+Cloud-Zugangsdaten
+```
+
+Solche Werte gehören nicht direkt in:
+
+```text
+README.md
+Dockerfile
+compose.dev.yml
+compose.prod.yml
+öffentliche Logs
+Screenshots
+GitHub
+```
+
+---
+
+## Aktueller Lernansatz mit `.env`
+
+In diesem Lernprojekt wird für lokale Werte eine `.env`-Datei genutzt.
+
+Beispiel:
+
+```env
+REDIS_PASSWORD=local_redis_password_please_change
+```
+
+Die Datei `.env` wird nicht zu GitHub hochgeladen, weil sie in `.gitignore` steht.
+
+Das ist für die Lernumgebung akzeptabel.
+
+Dazu gibt es eine `.env.example`.
+
+Die Datei `.env.example` enthält nur Beispielwerte und darf auf GitHub liegen.
+
+Merksatz:
+
+```text
+.env = echte lokale Werte, nicht hochladen
+.env.example = Vorlage, darf ins Repository
+```
+
+---
+
+## Docker Compose Secrets
+
+Ein Secret ist ein geheimer Wert.
+
+Docker Compose Secrets sind eine Möglichkeit, solche geheimen Werte gezielter an Container zu übergeben.
+
+Statt ein Passwort direkt in eine Compose-Datei zu schreiben, kann ein Secret als Datei bereitgestellt werden.
+
+Im Container liegt das Secret typischerweise unter:
+
+```text
+/run/secrets/<secret_name>
+```
+
+Beispiel-Idee:
+
+```yaml
+secrets:
+  redis_password:
+    file: ./secrets/redis_password.txt
+```
+
+Ein Service kann dann gezielt Zugriff auf dieses Secret bekommen.
+
+Wichtig:
+
+```text
+Nicht jeder Container bekommt automatisch jedes Secret.
+Nur Services, die das Secret ausdrücklich verwenden, erhalten Zugriff.
+```
+
+Für dieses Lernprojekt wird Docker Compose Secrets noch nicht aktiv eingesetzt.  
+Das Thema wird später als eigene Sicherheitslektion behandelt.
+
+---
+
+## Lernumgebung vs. Produktion
+
+Dieses Projekt ist bewusst ein Lernprojekt.
+
+Es zeigt:
+
+```text
+Docker Volumes
+Redis-Persistenz
+Backup-Erstellung
+Backup-Prüfung
+Restore-Test
+Git-Dokumentation
+Skript-Automatisierung
+```
+
+Für echte Produktion müssten zusätzliche Themen berücksichtigt werden.
+
+---
+
+## Produktionsanforderung 1: Externe Backup-Speicherung
+
+Im Lernprojekt liegen Backups lokal im Ordner:
+
+```text
+C:\Docker Übung\backups
+```
+
+Für Produktion reicht das nicht.
+
+Wenn derselbe Rechner kaputtgeht, gestohlen wird oder durch Schadsoftware verschlüsselt wird, kann auch das lokale Backup verloren sein.
+
+Produktionsnäher wäre:
+
+```text
+lokales Backup
++
+externes Backup
++
+regelmäßiger Restore-Test
+```
+
+Mögliche externe Speicherorte:
+
+```text
+Backup-Server
+NAS-System
+Cloud Storage
+offline gelagerter Datenträger
+immutable Storage
+```
+
+NAS bedeutet `Network Attached Storage`, also ein Speichergerät im Netzwerk.
+
+Immutable Storage bedeutet unveränderbarer Speicher.  
+Daten können dort für eine bestimmte Zeit nicht verändert oder gelöscht werden.
+
+Das ist besonders wichtig gegen Ransomware.
+
+---
+
+## Produktionsanforderung 2: Verschlüsselung
+
+Backups können sensible Daten enthalten.
+
+Deshalb sollten produktive Backups verschlüsselt werden.
+
+Verschlüsselung bedeutet:
+
+```text
+Die Backup-Datei ist ohne passenden Schlüssel nicht sinnvoll lesbar.
+```
+
+Produktionsnaher Ablauf:
+
+```text
+Backup erstellen
+Backup prüfen
+Backup verschlüsseln
+Backup extern speichern
+Restore-Test regelmäßig durchführen
+```
+
+Wichtig:
+
+```text
+Der Schlüssel für die Verschlüsselung darf nicht zusammen mit dem Backup offen abgelegt werden.
+```
+
+---
+
+## Produktionsanforderung 3: Rechtekonzept
+
+Ein Rechtekonzept beantwortet:
+
+```text
+Wer darf Backups erstellen?
+Wer darf Backups lesen?
+Wer darf Backups löschen?
+Wer darf Restore ausführen?
+Wer darf Passwörter sehen?
+```
+
+Warum ist das wichtig?
+
+Wer ein Backup lesen kann, kann oft indirekt auch die Datenbank lesen.
+
+Beispielrollen:
+
+| Rolle | Typische Rechte |
+|---|---|
+| Entwickler | darf lokale Testdaten nutzen |
+| DevOps/Admin | darf Backups erstellen und Restore testen |
+| Security/Compliance | darf Prozesse prüfen |
+| normale Benutzer | kein Zugriff auf Backups |
+
+---
+
+## Produktionsanforderung 4: Monitoring
+
+Monitoring bedeutet Überwachung.
+
+Ein Backup-Prozess darf nicht still fehlschlagen.
+
+Schlechtes Szenario:
+
+```text
+Backups schlagen seit 30 Tagen fehl.
+Niemand merkt es.
+Dann fällt das System aus.
+Es gibt kein brauchbares Backup.
+```
+
+Gutes Szenario:
+
+```text
+Backup läuft regelmäßig.
+Ergebnis wird überwacht.
+Bei Fehler wird ein Alarm ausgelöst.
+Restore-Tests werden dokumentiert.
+```
+
+Mögliche Prüfungen:
+
+```text
+Backup-Datei wurde erstellt
+Backup-Datei ist nicht leer
+Archiv ist lesbar
+Restore-Test war erfolgreich
+Backup ist nicht zu alt
+Speicherplatz reicht aus
+```
+
+---
+
+## Produktionsanforderung 5: Protokollierung
+
+Protokollierung bedeutet:
+
+```text
+Wichtige Ereignisse werden nachvollziehbar gespeichert.
+```
+
+Beispiel:
+
+```text
+Backup gestartet: 2026-05-15 00:05:14
+Volume: dockerbung_redis_data_prod
+Backup-Datei: redis_data_prod_backup_2026-05-15_00-05-14.tar.gz
+Archivprüfung: erfolgreich
+Restore-Test: erfolgreich
+Dauer: 12 Sekunden
+```
+
+Warum wichtig?
+
+Bei Problemen muss nachvollziehbar sein:
+
+```text
+Wann lief das letzte Backup?
+War es erfolgreich?
+Wurde es wiederhergestellt getestet?
+Welche Datei wurde verwendet?
+Gab es Fehler oder Warnungen?
+```
+
+---
+
+## Produktionsanforderung 6: Retention Policy
+
+Retention Policy bedeutet Aufbewahrungsregel.
+
+Sie beantwortet:
+
+```text
+Wie lange werden Backups behalten?
+Wie viele tägliche Backups werden behalten?
+Wie viele wöchentliche Backups werden behalten?
+Wann wird automatisch gelöscht?
+```
+
+Beispiel:
+
+```text
+stündliche Backups: 24 Stunden behalten
+tägliche Backups: 30 Tage behalten
+wöchentliche Backups: 12 Wochen behalten
+monatliche Backups: 12 Monate behalten
+```
+
+Ohne Retention Policy entstehen zwei typische Probleme:
+
+```text
+Backups werden nie gelöscht und der Speicher läuft voll.
+```
+
+oder:
+
+```text
+Backups werden zu früh gelöscht und eine Wiederherstellung ist nicht mehr möglich.
+```
+
+---
+
+## Produktionsanforderung 7: Secret Management
+
+Secret Management bedeutet sichere Verwaltung geheimer Werte.
+
+In einfachen Lernprojekten kann `.env` ausreichen, solange die Datei nicht veröffentlicht wird.
+
+In Produktion nutzt man eher:
+
+```text
+Docker Compose Secrets
+Kubernetes Secrets
+Cloud Secret Manager
+Azure Key Vault
+AWS Secrets Manager
+Google Secret Manager
+HashiCorp Vault
+```
+
+Ziel:
+
+```text
+Geheime Werte nicht in Code schreiben
+Geheime Werte nicht in GitHub speichern
+Geheime Werte nicht in Logs ausgeben
+Zugriff auf Secrets gezielt einschränken
+```
+
+---
+
+## Saubere Backup-Denkweise
+
+Ein professioneller Backup-Prozess besteht nicht nur aus einem Befehl.
+
+Er besteht aus mehreren Fragen:
+
+```text
+Welche Daten müssen gesichert werden?
+Wie oft muss gesichert werden?
+Wo wird gespeichert?
+Ist das Backup verschlüsselt?
+Wer darf darauf zugreifen?
+Wie lange wird es behalten?
+Wird überwacht, ob das Backup funktioniert?
+Wird regelmäßig ein Restore getestet?
+Ist der Restore dokumentiert?
+```
+
+---
+
+## Lernversion dieses Projekts
+
+Dieses Projekt bildet bewusst eine verständliche Lernversion ab:
+
+```text
+1. Redis-Daten in Docker Volume speichern
+2. Testwert schreiben
+3. Persistenz nach Container-Neustart prüfen
+4. Backup-Datei erstellen
+5. Backup-Datei technisch prüfen
+6. Restore in separates Test-Volume durchführen
+7. Redis aus Restore-Volume starten
+8. Testwert wieder auslesen
+9. Skripte für Backup und Restore erstellen
+10. Gesamtprozess mit Master-Skript starten
+```
+
+---
+
+## Produktionsnahe Erweiterungen für später
+
+Spätere sinnvolle Erweiterungen wären:
+
+```text
+Backups verschlüsseln
+Backups extern speichern
+alte Backups automatisch nach Regel löschen
+Log-Datei für Backup-Prozess schreiben
+Monitoring/Alarmierung ergänzen
+Docker Compose Secrets verwenden
+Restore-Test regelmäßig automatisieren
+Kubernetes-Backup-Konzepte kennenlernen
+```
+
+---
+
+## Praxis-Fazit
+
+Dieses Projekt zeigt nicht nur, wie ein Docker-Volume gesichert wird.
+
+Es zeigt den wichtigeren betrieblichen Gedanken:
+
+```text
+Ein Backup ohne Restore-Test ist nur eine Hoffnung.
+Ein Backup mit erfolgreichem Restore-Test ist ein belastbarer Betriebsprozess.
+```
+
+Das Ziel ist nicht nur, Docker-Befehle auswendig zu lernen.
+
+Das Ziel ist zu verstehen:
+
+```text
+Wie bleiben Daten erhalten?
+Wie sichere ich sie?
+Wie prüfe ich sie?
+Wie stelle ich sie wieder her?
+Wie dokumentiere ich den Prozess?
+Wie unterscheidet sich eine Lernumgebung von echter Produktion?
+```
+
+Damit ist dieses Lernprojekt ein wichtiger Schritt in Richtung DevOps-, Cloud- und Plattform-Betrieb.
