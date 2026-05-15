@@ -2482,3 +2482,298 @@ Restore ist fachlich fehlgeschlagen
 Logdatei kann nicht geschrieben werden
 PowerShell-Fehler werden nicht sauber abgefangen
 falsches Arbeitsverzeichnis
+---
+
+## Realistische Restore-Fehlerübung
+
+Das Projekt enthält zusätzlich eine realistische Fehlerübung für den Restore-Prozess.
+
+Die Datei lautet:
+
+```text
+scripts/simulate-restore-value-mismatch.ps1
+```
+
+Diese Übung simuliert keinen frei erfundenen Fehlertext, sondern einen praxisnahen Fall:
+
+```text
+Das Backup wird technisch erfolgreich wiederhergestellt.
+Redis startet mit dem wiederhergestellten Volume.
+Der erwartete Datenwert stimmt aber nicht mit dem gelesenen Datenwert überein.
+```
+
+Dadurch wird sichtbar, dass ein Restore nicht nur technisch funktionieren muss.
+
+Ein Restore ist erst dann wirklich erfolgreich, wenn auch die erwarteten Daten wieder vorhanden sind.
+
+---
+
+## Warum diese Übung wichtig ist
+
+In echten Betriebsumgebungen reicht es nicht aus, dass ein Container nach einem Restore startet.
+
+Ein Restore kann technisch erfolgreich aussehen, obwohl fachlich etwas nicht stimmt.
+
+Beispiele:
+
+```text
+falsches Backup wurde verwendet
+falsches Volume wurde gesichert
+Backup-Zeitpunkt war falsch
+Daten wurden vor dem Backup nicht gespeichert
+dev/prod wurde verwechselt
+Redis-Persistenz war nicht wie erwartet aktiv
+```
+
+Deshalb prüft diese Übung nicht nur:
+
+```text
+Startet Redis?
+```
+
+sondern auch:
+
+```text
+Ist der erwartete Redis-Wert nach dem Restore vorhanden?
+```
+
+---
+
+## Ausführen der Fehlerübung
+
+Die Übung wird mit folgendem Befehl gestartet:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\simulate-restore-value-mismatch.ps1
+```
+
+Standardmäßig erwartet das Skript absichtlich diesen falschen Wert:
+
+```text
+absichtlich-falscher-wert
+```
+
+Im wiederhergestellten Redis-Volume steht aber der echte Wert:
+
+```text
+volume-test-erfolgreich
+```
+
+Dadurch schlägt der fachliche Restore-Test erwartungsgemäß fehl.
+
+---
+
+## Erwartete Ausgabe
+
+Typische Ausgabe:
+
+```text
+Erwarteter Wert: absichtlich-falscher-wert
+Gelesener Wert:  volume-test-erfolgreich
+
+FEHLER:
+Restore-Test fachlich fehlgeschlagen: Erwarteter Redis-Wert wurde nicht gefunden.
+```
+
+Das ist in dieser Übung kein Problem, sondern das gewünschte Lernziel.
+
+Der Fehler zeigt:
+
+```text
+Das Backup wurde technisch wiederhergestellt.
+Redis konnte gestartet werden.
+Der Datenwert konnte gelesen werden.
+Der gelesene Wert entsprach aber nicht dem erwarteten Wert.
+```
+
+---
+
+## Logauswertung
+
+Die Übung schreibt das Ergebnis in die lokale Logdatei:
+
+```text
+logs/backup-restore.log
+```
+
+Die Logdatei bleibt lokal und wird nicht auf GitHub hochgeladen.
+
+Ausgabe anzeigen:
+
+```powershell
+Get-Content .\logs\backup-restore.log -Tail 30
+```
+
+Typische Logeinträge:
+
+```text
+INFO | Fachlicher Restore-Test: Erwartet='absichtlich-falscher-wert' | Erhalten='volume-test-erfolgreich'
+ERROR | Restore-Test fachlich fehlgeschlagen: Redis-Wert 'training_status' stimmt nicht.
+ERROR | Naechste Pruefung: Backup-Zeitpunkt, Volume-Name, Redis-Persistenz und verwendete Backup-Datei pruefen.
+```
+
+Das Log nennt den erwarteten Wert, den tatsächlich gelesenen Wert, den betroffenen Redis-Schlüssel und die nächste sinnvolle Diagnose-Richtung.
+
+---
+
+## Wichtige Erkenntnis: Technischer Erfolg ist nicht automatisch fachlicher Erfolg
+
+Diese Übung zeigt einen wichtigen Unterschied:
+
+| Ebene | Bedeutung |
+|---|---|
+| technischer Restore | Backup konnte entpackt werden, Container startet |
+| fachlicher Restore | erwartete Daten sind tatsächlich vorhanden |
+| betrieblich belastbarer Restore | technischer Restore, fachliche Prüfung, Logging und Dokumentation sind erfolgreich |
+
+Ein Restore ist im Betrieb erst dann belastbar, wenn alle relevanten Prüfungen erfolgreich sind.
+
+---
+
+## Wichtige Erkenntnis: Warnungen können Skripte unerwartet abbrechen lassen
+
+Während der Entwicklung dieser Übung trat ein weiterer realistischer Automatisierungsfehler auf.
+
+Redis gab zunächst diese Warnung aus:
+
+```text
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+```
+
+Diese Meldung war keine fachliche Restore-Fehlermeldung.
+
+Sie war nur eine Sicherheitswarnung von Redis, weil ein Passwort direkt über die Kommandozeile übergeben wurde.
+
+Trotzdem wurde sie durch die strenge PowerShell-Fehlerbehandlung zunächst wie ein Fehler behandelt.
+
+Das führte zu einem unerwarteten Skriptabbruch.
+
+---
+
+## Warum Warnungen gefährlich für Automatisierung sein können
+
+Viele Kommandozeilenprogramme schreiben Warnungen auf den Fehlerkanal.
+
+Das bedeutet aber nicht automatisch, dass der eigentliche Befehl fachlich fehlgeschlagen ist.
+
+In Skripten muss deshalb sauber unterschieden werden zwischen:
+
+```text
+echtem Fehler
+Warnung
+Exitcode
+fachlichem Prüfergebnis
+```
+
+Ein gutes Skript darf nicht nur prüfen:
+
+```text
+Gab es rote Ausgabe?
+```
+
+Es muss prüfen:
+
+```text
+Ist der Befehl wirklich fehlgeschlagen?
+Was sagt der Exitcode?
+Sind die erwarteten Daten vorhanden?
+Ist die Warnung relevant für das Ergebnis?
+```
+
+---
+
+## Korrektur im Skript
+
+Die Redis-Warnung wurde im Skript gezielt entschärft durch:
+
+```powershell
+redis-cli --no-auth-warning --raw -a $RedisPassword GET $RedisKey
+```
+
+Bedeutung:
+
+| Option | Erklärung |
+|---|---|
+| `--no-auth-warning` | unterdrückt die bekannte Redis-Warnung bei Passwortübergabe über `-a` |
+| `--raw` | gibt den Redis-Wert ohne zusätzliche Anführungszeichen aus |
+
+Dadurch kann das Skript den eigentlichen Datenwert sauber auswerten.
+
+---
+
+## Sicherheitsbewertung
+
+Diese Übung verändert nicht das produktive Redis-Volume.
+
+Sie nutzt ein separates Test-Volume:
+
+```text
+dockerbung_redis_data_mismatch_test
+```
+
+Das produktive Volume bleibt unverändert:
+
+```text
+dockerbung_redis_data_prod
+```
+
+Dadurch ist die Übung sicher für das lokale Labor.
+
+---
+
+## Wichtige Prüfungen nach der Übung
+
+Nach der Übung können diese Befehle genutzt werden:
+
+```powershell
+docker ps -a
+docker volume ls
+git status -uall
+git status --ignored
+```
+
+Erwartung:
+
+```text
+Der Testcontainer wurde entfernt.
+Das Test-Volume bleibt für Diagnosezwecke erhalten.
+Die Logdatei bleibt ignoriert.
+Das Skript ist als neue Git-Datei sichtbar oder bereits committed.
+```
+
+---
+
+## Bezug zur Troubleshooting-Dokumentation
+
+Die realistische Restore-Fehlerübung passt zur weiterführenden Troubleshooting-Dokumentation:
+
+```text
+docs/troubleshooting-backup-restore.md
+```
+
+Dort werden typische Fehlerbilder, Ursachen, erste Prüfungen, Risiken und sichere Lösungen gesammelt.
+
+---
+
+## Praxis-Fazit
+
+Diese Übung zeigt zwei sehr wichtige Betriebslektionen:
+
+```text
+Ein Restore ist nicht nur dann erfolgreich, wenn der Container startet.
+Ein Restore ist erst dann erfolgreich, wenn die erwarteten Daten wieder vorhanden sind.
+```
+
+Und:
+
+```text
+Nicht jede Warnung ist ein fachlicher Fehler.
+Aber eine falsch behandelte Warnung kann eine Automatisierung trotzdem abbrechen.
+```
+
+Merksatz:
+
+```text
+Gute Betriebsautomatisierung prüft nicht nur, ob ein Befehl läuft.
+Sie prüft, ob das fachliche Ziel wirklich erreicht wurde.
+```
