@@ -13,6 +13,8 @@ Das Projekt unterscheidet bewusst zwischen:
 - lokaler Konfiguration mit `.env`
 - persistenter Datenspeicherung mit Docker Volumes
 - Backup und Restore von Volume-Daten
+- einfacher Retention Policy für lokale Backup-Dateien
+- weiterführender Backup-Strategie mit GFS und 3-2-1-Regel
 
 Dadurch wird sichtbar, warum Änderungen in der Entwicklung sofort erscheinen können, während produktionsnahe Container erst neu gebaut werden müssen und wichtige Daten nicht im Container selbst gespeichert werden sollten.
 
@@ -123,6 +125,41 @@ tar tzf = Backup-Inhalt anzeigen
 tar xzf = Backup wiederherstellen
 ```
 
+### Retention Policy
+
+Retention Policy bedeutet Aufbewahrungsregel.
+
+Sie legt fest:
+
+```text
+Wie lange Backups behalten werden.
+Wie viele Backups mindestens erhalten bleiben.
+Wann alte Backups gelöscht werden dürfen.
+```
+
+### Dry-Run
+
+Dry-Run bedeutet Testlauf ohne echte Änderung.
+
+In diesem Projekt bedeutet das:
+
+```text
+Das Skript zeigt an, was gelöscht werden würde.
+Es löscht aber nichts.
+```
+
+### GFS
+
+GFS steht für `Grandfather-Father-Son`.
+
+Auf Deutsch:
+
+```text
+Großvater-Vater-Sohn
+```
+
+Das ist eine Backup-Aufbewahrungsstrategie mit Tages-, Wochen-, Monats- und Jahresständen.
+
 ---
 
 ## Projektstruktur
@@ -132,7 +169,14 @@ Docker Übung/
 ├── app/
 │   └── index.html
 ├── backups/
-│   └── redis_data_prod_backup.tar.gz
+│   └── lokale Backup-Dateien, nicht auf GitHub
+├── docs/
+│   └── backup-strategie-gfs.md
+├── scripts/
+│   ├── backup-redis-volume.ps1
+│   ├── test-redis-restore.ps1
+│   ├── backup-and-test-redis.ps1
+│   └── cleanup-old-backups.ps1
 ├── Dockerfile
 ├── compose.dev.yml
 ├── compose.prod.yml
@@ -160,6 +204,11 @@ Wichtig: Der Ordner `backups/` ist lokal vorhanden, wird aber nicht zu GitHub ho
 | `.env.example` | Beispiel für benötigte Umgebungsvariablen, darf auf GitHub liegen |
 | `.gitignore` | verhindert, dass lokale/geheime Dateien zu Git hinzugefügt werden |
 | `backups/` | lokaler Ordner für Sicherungen, wird nicht zu GitHub hochgeladen |
+| `scripts/backup-redis-volume.ps1` | erstellt Redis-Volume-Backups |
+| `scripts/test-redis-restore.ps1` | testet die Wiederherstellung eines Backups |
+| `scripts/backup-and-test-redis.ps1` | führt Backup und Restore-Test als Gesamtprozess aus |
+| `scripts/cleanup-old-backups.ps1` | prüft alte Backups nach einer einfachen Retention Policy |
+| `docs/backup-strategie-gfs.md` | Vertiefung zu GFS, 3-2-1, RPO/RTO und Backup-Strategie |
 | `README.md` | Dokumentation des Projekts |
 
 ---
@@ -772,6 +821,66 @@ Saubere Lösung:
 
 ---
 
+## Skripte für Backup, Restore und Retention
+
+Dieses Projekt enthält inzwischen mehrere Skripte für den Backup- und Restore-Prozess.
+
+| Skript | Zweck |
+|---|---|
+| `scripts/backup-redis-volume.ps1` | erstellt ein Redis-Volume-Backup und prüft das Archiv technisch |
+| `scripts/test-redis-restore.ps1` | spielt ein Backup in ein Restore-Test-Volume zurück und prüft den Redis-Wert |
+| `scripts/backup-and-test-redis.ps1` | führt Backup und Restore-Test als Gesamtprozess aus |
+| `scripts/cleanup-old-backups.ps1` | prüft alte Backups nach einer einfachen Retention Policy |
+
+---
+
+## Master-Skript ausführen
+
+Der komplette Backup-und-Restore-Testprozess kann mit folgendem Befehl gestartet werden:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\backup-and-test-redis.ps1
+```
+
+Das Master-Skript führt zwei Teilschritte aus:
+
+```text
+1. Backup erstellen und Archiv prüfen
+2. Restore-Test aus dem neuesten Backup durchführen
+```
+
+---
+
+## Retention Policy ausführen
+
+Das Retention-Skript läuft standardmäßig im Dry-Run-Modus.
+
+Beispiel:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\cleanup-old-backups.ps1
+```
+
+Strenger Test ohne Löschung:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\cleanup-old-backups.ps1 -RetentionDays 0 -MinimumBackupsToKeep 1
+```
+
+Erst mit `-Execute` würde wirklich gelöscht:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\cleanup-old-backups.ps1 -RetentionDays 7 -MinimumBackupsToKeep 2 -Execute
+```
+
+Wichtig:
+
+```text
+Ohne -Execute wird nichts gelöscht.
+```
+
+---
+
 ## Wichtige Betriebsregel
 
 Ein Backup ist erst dann wirklich wertvoll, wenn ein Restore erfolgreich getestet wurde.
@@ -790,230 +899,65 @@ Sind die erwarteten Daten wirklich vorhanden?
 
 ---
 
-## Git und GitHub
+## Backup-Prüfung: drei Stufen
 
-Dieses Projekt wird mit Git versioniert und auf GitHub gespeichert.
+Nicht jede Prüfung ist gleich stark.
 
-Wichtige Git-Befehle:
-
-```powershell
-git status
-git add .
-git commit -m "Beschreibung der Änderung"
-```
-
-Nach einem Commit kann die Änderung über GitHub Desktop mit **Push origin** zu GitHub hochgeladen werden.
-
----
-
-## Typischer Arbeitsablauf
-
-Ein einfacher Arbeitsablauf sieht so aus:
-
-```text
-Datei ändern
-↓
-Speichern
-↓
-git status prüfen
-↓
-Änderung mit git add vormerken
-↓
-Commit erstellen
-↓
-Push origin in GitHub Desktop ausführen
-```
+### Stufe 1: Backup-Datei existiert
 
 Beispiel:
 
 ```powershell
-git status
-git add README.md
-git commit -m "Dokumentiere Docker Volume Backup und Restore"
-git status
+dir backups
 ```
 
-Danach in GitHub Desktop:
+Das beweist nur:
 
 ```text
-Push origin
+Es gibt eine Datei.
 ```
 
----
+Das ist wichtig, aber noch schwach.
 
-## Wichtige Sicherheitsregel
+### Stufe 2: Backup-Archiv ist lesbar
 
-Echte Zugangsdaten, Passwörter, Tokens oder API-Schlüssel gehören nicht direkt in:
-
-- `README.md`
-- `Dockerfile`
-- `compose.dev.yml`
-- `compose.prod.yml`
-- öffentlich sichtbare Dateien auf GitHub
-
-Dafür nutzt man lokale Konfigurationsdateien wie `.env`, die nicht hochgeladen werden.
-
-Auch lokale Backups gehören nicht automatisch auf GitHub.
-
-Backups können echte Daten enthalten und werden deshalb durch `.gitignore` ausgeschlossen.
-
----
-
-## Lernziel
-
-Das Ziel dieses Projekts ist nicht nur, Docker-Befehle auswendig zu lernen, sondern zu verstehen:
-
-- wie Container gestartet werden
-- wie Images gebaut werden
-- wie Docker Compose mehrere Dienste verwaltet
-- wie Development- und Production-Modus sich unterscheiden
-- wie Umgebungsvariablen genutzt werden
-- wie sensible Werte aus GitHub herausgehalten werden
-- wie Docker Volumes Daten dauerhaft speichern
-- wie Daten nach Container-Neustarts erhalten bleiben
-- wie Volume-Backups erstellt werden
-- wie Backup-Inhalte geprüft werden
-- wie ein Restore sicher in einem Test-Volume durchgeführt wird
-- wie man Risiken für produktive Daten reduziert
-- wie Dateien sauber strukturiert werden
-- wie man ein Projekt mit Git versioniert
-- wie man Änderungen nachvollziehbar auf GitHub dokumentiert
-- wie daraus später ein Portfolio-Projekt entstehen kann
-
----
-
-## Hinweis
-
-Dieses Projekt ist ein Lernprojekt und noch keine produktionsreife Umgebung.
-
-Es bildet aber bereits wichtige Grundlagen ab, die auch in echten DevOps-, Cloud- und Plattform-Teams relevant sind.
-
-Besonders wichtig ist der Unterschied zwischen:
-
-```text
-Es gibt ein Backup.
-```
-
-und:
-
-```text
-Das Backup wurde erfolgreich wiederhergestellt und geprüft.
-```
-
-Erst der zweite Punkt ist im professionellen Betrieb wirklich belastbar.
----
-
-## Professioneller Blick auf Backup, Restore und Betrieb
-
-In diesem Lernprojekt wurde ein Redis-Volume nicht nur gesichert, sondern auch praktisch wiederhergestellt und geprüft.
-
-Das ist ein wichtiger Unterschied:
-
-```text
-Es gibt ein Backup.
-```
-
-ist nicht dasselbe wie:
-
-```text
-Das Backup wurde erfolgreich wiederhergestellt und geprüft.
-```
-
-Ein Backup ist erst dann wirklich belastbar, wenn ein Restore erfolgreich getestet wurde.
-
----
-
-## Aktueller Stand im Lernprojekt
-
-Dieses Projekt enthält inzwischen drei Skripte für den Backup- und Restore-Prozess:
-
-| Skript | Zweck |
-|---|---|
-| `scripts/backup-redis-volume.ps1` | erstellt ein Redis-Volume-Backup und prüft das Archiv technisch |
-| `scripts/test-redis-restore.ps1` | spielt ein Backup in ein Restore-Test-Volume zurück und prüft den Redis-Wert |
-| `scripts/backup-and-test-redis.ps1` | führt Backup und Restore-Test als Gesamtprozess aus |
-
----
-
-## Master-Skript ausführen
-
-Der komplette Backup-und-Restore-Testprozess kann mit folgendem Befehl gestartet werden:
+Beispiel:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\backup-and-test-redis.ps1
+tar tzf redis_data_prod_backup.tar.gz
 ```
 
-Wichtig: Der Befehl wird im Projektordner ausgeführt:
+Das beweist:
 
 ```text
-C:\Docker Übung
+Das Archiv kann geöffnet werden.
+Im Archiv sind Dateien sichtbar.
 ```
 
-Nicht im Unterordner `scripts/`.
+Das ist besser, aber noch kein vollständiger Restore-Test.
 
----
+### Stufe 3: Restore-Test
 
-## Was das Master-Skript macht
-
-Das Master-Skript führt zwei Teilschritte aus.
-
-### Schritt 1: Backup erstellen und technisch prüfen
-
-Dabei wird:
+Dabei wird geprüft:
 
 ```text
-1. geprüft, ob das Redis-Production-Volume existiert
-2. eine Backup-Datei mit Zeitstempel erstellt
-3. geprüft, ob die Backup-Datei existiert
-4. geprüft, ob die Backup-Datei nicht leer ist
-5. der Inhalt des TAR-Archivs angezeigt
+Kann das Backup in ein neues Volume zurückgespielt werden?
+Kann Redis mit diesem Volume starten?
+Sind die erwarteten Daten wieder lesbar?
 ```
 
-### Schritt 2: Restore-Test durchführen
+Das ist der wichtigste Nachweis.
 
-Dabei wird:
+In diesem Projekt wird dafür der Wert geprüft:
 
 ```text
-1. ein separates Restore-Test-Volume vorbereitet
-2. das neueste Backup in dieses Test-Volume zurückgespielt
-3. ein Redis-Testcontainer mit diesem Volume gestartet
-4. der Wert training_status aus Redis gelesen
-5. geprüft, ob der erwartete Wert vorhanden ist
-6. der Testcontainer wieder entfernt
-7. das Restore-Test-Volume für weitere Übungen behalten
+training_status = volume-test-erfolgreich
 ```
 
----
-
-## Wichtige Begriffe
-
-### TAR
-
-TAR steht ursprünglich für `Tape Archive`.
-
-Das ist ein Archivformat aus der Unix-/Linux-Welt. Man kann es sich ähnlich wie eine ZIP-Datei vorstellen.
-
-Eine Datei mit der Endung `.tar.gz` besteht aus zwei Teilen:
+Wenn dieser Wert nach dem Restore-Test wieder gelesen werden kann, ist bewiesen:
 
 ```text
-.tar = mehrere Dateien werden in ein Archiv gepackt
-.gz  = dieses Archiv wird mit gzip komprimiert
-```
-
-Wichtige TAR-Befehle aus diesem Projekt:
-
-```text
-tar czf = Archiv erstellen
-tar tzf = Archivinhalt anzeigen
-tar xzf = Archiv entpacken
-```
-
-Merksatz:
-
-```text
-tar czf = Backup bauen
-tar tzf = Backup anschauen
-tar xzf = Backup zurückspielen
+Das Backup ist praktisch wiederherstellbar.
 ```
 
 ---
@@ -1094,104 +1038,6 @@ Merksatz:
 ```text
 RDB = Foto
 AOF = Tagebuch
-```
-
----
-
-## Backup-Prüfung: drei Stufen
-
-Nicht jede Prüfung ist gleich stark.
-
-### Stufe 1: Backup-Datei existiert
-
-Beispiel:
-
-```powershell
-dir backups
-```
-
-Das beweist nur:
-
-```text
-Es gibt eine Datei.
-```
-
-Das ist wichtig, aber noch schwach.
-
----
-
-### Stufe 2: Backup-Archiv ist lesbar
-
-Beispiel:
-
-```powershell
-tar tzf redis_data_prod_backup.tar.gz
-```
-
-Das beweist:
-
-```text
-Das Archiv kann geöffnet werden.
-Im Archiv sind Dateien sichtbar.
-```
-
-Das ist besser, aber noch kein vollständiger Restore-Test.
-
----
-
-### Stufe 3: Restore-Test
-
-Dabei wird geprüft:
-
-```text
-Kann das Backup in ein neues Volume zurückgespielt werden?
-Kann Redis mit diesem Volume starten?
-Sind die erwarteten Daten wieder lesbar?
-```
-
-Das ist der wichtigste Nachweis.
-
-In diesem Projekt wird dafür der Wert geprüft:
-
-```text
-training_status = volume-test-erfolgreich
-```
-
-Wenn dieser Wert nach dem Restore-Test wieder gelesen werden kann, ist bewiesen:
-
-```text
-Das Backup ist praktisch wiederherstellbar.
-```
-
----
-
-## Warum ein separates Restore-Test-Volume?
-
-Der Restore-Test nutzt nicht direkt das produktive Volume.
-
-Produktives Volume:
-
-```text
-dockerbung_redis_data_prod
-```
-
-Restore-Test-Volume:
-
-```text
-dockerbung_redis_data_restore_test
-```
-
-Das ist wichtig, weil ein Restore in ein echtes produktives Volume Daten überschreiben kann.
-
-Sicherer Ablauf:
-
-```text
-1. Backup erstellen
-2. Backup technisch prüfen
-3. Backup in separates Test-Volume zurückspielen
-4. Anwendung mit Test-Volume starten
-5. Daten prüfen
-6. erst danach über produktiven Restore nachdenken
 ```
 
 ---
@@ -1330,6 +1176,7 @@ Redis-Persistenz
 Backup-Erstellung
 Backup-Prüfung
 Restore-Test
+Retention Policy
 Git-Dokumentation
 Skript-Automatisierung
 ```
@@ -1591,70 +1438,7 @@ Ist der Restore dokumentiert?
 
 ---
 
-## Lernversion dieses Projekts
-
-Dieses Projekt bildet bewusst eine verständliche Lernversion ab:
-
-```text
-1. Redis-Daten in Docker Volume speichern
-2. Testwert schreiben
-3. Persistenz nach Container-Neustart prüfen
-4. Backup-Datei erstellen
-5. Backup-Datei technisch prüfen
-6. Restore in separates Test-Volume durchführen
-7. Redis aus Restore-Volume starten
-8. Testwert wieder auslesen
-9. Skripte für Backup und Restore erstellen
-10. Gesamtprozess mit Master-Skript starten
-```
-
----
-
-## Produktionsnahe Erweiterungen für später
-
-Spätere sinnvolle Erweiterungen wären:
-
-```text
-Backups verschlüsseln
-Backups extern speichern
-alte Backups automatisch nach Regel löschen
-Log-Datei für Backup-Prozess schreiben
-Monitoring/Alarmierung ergänzen
-Docker Compose Secrets verwenden
-Restore-Test regelmäßig automatisieren
-Kubernetes-Backup-Konzepte kennenlernen
-```
-
----
-
-## Praxis-Fazit
-
-Dieses Projekt zeigt nicht nur, wie ein Docker-Volume gesichert wird.
-
-Es zeigt den wichtigeren betrieblichen Gedanken:
-
-```text
-Ein Backup ohne Restore-Test ist nur eine Hoffnung.
-Ein Backup mit erfolgreichem Restore-Test ist ein belastbarer Betriebsprozess.
-```
-
-Das Ziel ist nicht nur, Docker-Befehle auswendig zu lernen.
-
-Das Ziel ist zu verstehen:
-
-```text
-Wie bleiben Daten erhalten?
-Wie sichere ich sie?
-Wie prüfe ich sie?
-Wie stelle ich sie wieder her?
-Wie dokumentiere ich den Prozess?
-Wie unterscheidet sich eine Lernumgebung von echter Produktion?
-```
-
-Damit ist dieses Lernprojekt ein wichtiger Schritt in Richtung DevOps-, Cloud- und Plattform-Betrieb.
----
-
-## Erweiterung: Einfache Retention Policy vs. GFS und 3-2-1-Backup-Regel
+## Einfache Retention Policy vs. GFS und 3-2-1-Backup-Regel
 
 Dieses Lernprojekt nutzt aktuell eine einfache Retention Policy.
 
@@ -2134,23 +1918,6 @@ Secret Management verbessern
 
 ---
 
-## Merksatz
-
-```text
-Docker-Image = versionierter Bauplan
-Docker-Container = ersetzbare Laufzeitinstanz
-Docker-Volume = schützenswerter Datenbestand
-```
-
-Und für Backups:
-
-```text
-Ein Backup ohne Restore-Test ist nur eine Hoffnung.
-Ein Backup mit erfolgreichem Restore-Test ist ein belastbarer Betriebsprozess.
-```
-
----
-
 ## Nächster sinnvoller Schritt
 
 Dieses Projekt nutzt aktuell eine einfache Retention Policy.
@@ -2170,11 +1937,58 @@ Ziel wäre dann:
 Nicht alle Backups gleich behandeln,
 sondern je nach Bedeutung und Alter unterschiedlich lange behalten.
 ```
+
 ---
 
-## Weiterführende Dokumentation: Backup-Strategie mit GFS und 3-2-1
+## Weiterführende Dokumentation: GFS-Backup-Strategie
 
-Für das Thema Backup-Aufbewahrung wurde eine zusätzliche Vertiefungsdokumentation erstellt:
+Für das Thema Backup-Aufbewahrung wurde eine eigene Vertiefungsdokumentation erstellt:
+
+[docs/backup-strategie-gfs.md](docs/backup-strategie-gfs.md)
+
+Diese Datei erklärt ausführlich:
+
+```text
+GFS / Grandfather-Father-Son
+Großvater-Vater-Sohn-Prinzip
+3-2-1-Backup-Regel
+3-2-1-1-0-Erweiterung
+RPO und RTO
+Docker Images vs. Container vs. Volumes
+Redis-Persistenz mit RDB und AOF
+Lernversion vs. Produktion
+BSI-/NIST-Einordnung
+Risikoanalyse
+produktive Erweiterungsmöglichkeiten
+```
+
+Die wichtigste Einordnung:
+
+```text
+Die aktuelle Retention Policy in diesem Projekt ist eine gute Lernversion.
+Eine produktionsnähere Backup-Strategie würde zusätzlich GFS, externe Speicherung, Verschlüsselung, Monitoring, dokumentierte Restore-Tests und klare Aufbewahrungsregeln berücksichtigen.
+```
+
+Direkter Pfad im Repository:
 
 ```text
 docs/backup-strategie-gfs.md
+```
+
+Merksatz:
+
+```text
+Images werden versioniert.
+Container werden ersetzt.
+Volumes werden gesichert.
+Backups werden erst durch erfolgreiche Restore-Tests belastbar.
+```
+
+Diese Trennung ist bewusst gewählt:
+
+```text
+README.md = Einstieg und Projektübersicht
+docs/backup-strategie-gfs.md = fachliche Vertiefung zur Backup-Strategie
+```
+
+Dadurch bleibt die README besser lesbar, während komplexere Themen in eigene Dokumentationsdateien ausgelagert werden.
