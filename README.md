@@ -1992,3 +1992,248 @@ docs/backup-strategie-gfs.md = fachliche Vertiefung zur Backup-Strategie
 ```
 
 Dadurch bleibt die README besser lesbar, während komplexere Themen in eigene Dokumentationsdateien ausgelagert werden.
+---
+
+## GFS-Retention-Simulation
+
+Zusätzlich zur einfachen Retention Policy enthält dieses Projekt eine sichere GFS-Simulation.
+
+Die Datei lautet:
+
+```text
+scripts/simulate-gfs-retention.ps1
+```
+
+GFS bedeutet:
+
+```text
+Grandfather-Father-Son
+```
+
+Auf Deutsch:
+
+```text
+Großvater-Vater-Sohn
+```
+
+Die Simulation prüft fiktive Backup-Dateien nach abgestuften Backup-Regeln:
+
+```text
+Daily   = tägliche Backups
+Weekly  = wöchentliche Backups
+Monthly = monatliche Backups
+Yearly  = jährliche Backups
+```
+
+Wichtig:
+
+```text
+Dieses Skript löscht nichts.
+Dieses Skript verändert keine echten Backup-Dateien.
+Dieses Skript erzeugt nur eine sichere Simulation.
+```
+
+---
+
+## Zweck der GFS-Simulation
+
+Die einfache Retention Policy im Projekt arbeitet nach Alter und Mindestanzahl.
+
+Beispiel:
+
+```text
+Backups älter als 7 Tage können Löschkandidaten sein.
+Die neuesten 2 Backups bleiben geschützt.
+```
+
+Eine GFS-Strategie ist produktionsnäher, weil nicht alle Backups gleich behandelt werden.
+
+Beispiel:
+
+```text
+Tägliche Backups: kurzfristig behalten
+Wöchentliche Backups: länger behalten
+Monatliche Backups: noch länger behalten
+Jährliche Backups: am längsten behalten
+```
+
+Dadurch entstehen unterschiedliche Wiederherstellungspunkte für unterschiedliche Situationen.
+
+---
+
+## GFS-Simulation ausführen
+
+Standardlauf:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\simulate-gfs-retention.ps1
+```
+
+Dabei werden standardmäßig 420 fiktive Tagesbackups simuliert.
+
+Die Standardregeln sind:
+
+```text
+Daily:   14 Tage inklusive heute
+Weekly:  8 Wochen, jeweils Sonntags-Backup
+Monthly: 12 Monatsstände, jeweils Monatsanfang
+Yearly:  5 Jahresstände, jeweils Jahresanfang
+```
+
+---
+
+## Test mit strengeren Regeln
+
+Beispiel mit kürzeren Aufbewahrungsregeln:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\simulate-gfs-retention.ps1 -DaysToSimulate 180 -DailyRetentionDays 7 -WeeklyRetentionWeeks 4 -MonthlyRetentionMonths 6 -YearlyRetentionYears 2
+```
+
+Dabei wird simuliert:
+
+```text
+180 Tage Rückblick
+7 tägliche Backups
+4 wöchentliche Backups
+6 monatliche Backups
+2 jährliche Backups
+```
+
+---
+
+## Bedeutung der Ausgabe
+
+Die Simulation zeigt zwei wichtige Entscheidungen:
+
+```text
+KEEP
+DELETE_CANDIDATE
+```
+
+Bedeutung:
+
+| Ausgabe | Erklärung |
+|---|---|
+| `KEEP` | Dieses Backup würde nach mindestens einer GFS-Regel behalten |
+| `DELETE_CANDIDATE` | Dieses Backup wäre theoretisch löschbar |
+| `DAILY` | geschützt durch tägliche Regel |
+| `WEEKLY` | geschützt durch wöchentliche Regel |
+| `MONTHLY` | geschützt durch monatliche Regel |
+| `YEARLY` | geschützt durch jährliche Regel |
+
+Ein Backup kann mehrere Schutzgründe haben.
+
+Beispiel:
+
+```text
+DAILY,WEEKLY
+```
+
+Das bedeutet:
+
+```text
+Dieses Backup ist sowohl durch die Daily-Regel als auch durch die Weekly-Regel geschützt.
+```
+
+---
+
+## Warum die Simulation wichtig ist
+
+Eine echte GFS-Löschlogik wäre gefährlich, wenn sie nicht vorher geprüft wird.
+
+Deshalb gilt in diesem Projekt:
+
+```text
+Erst simulieren.
+Dann verstehen.
+Dann dokumentieren.
+Erst später echte Automatisierung bauen.
+```
+
+Das schützt vor typischen Fehlern:
+
+```text
+wichtige Monatsbackups versehentlich löschen
+Jahresstände nicht behalten
+zu viele Backups behalten
+zu wenige Backups behalten
+Löschlogik ohne Restore-Test einsetzen
+```
+
+---
+
+## Ergebnis der erfolgreichen Tests
+
+Die Simulation wurde mit zwei Varianten getestet.
+
+### Standardtest
+
+Erwartete Kernausgabe:
+
+```text
+DAILY:   14
+WEEKLY:  8
+MONTHLY: 12
+YEARLY:  1
+```
+
+`YEARLY: 1` ist in diesem Test normal, weil der simulierte Zeitraum nur bis ins Jahr 2025 zurückreicht und dadurch nur der Jahresstand `2026-01-01` enthalten ist.
+
+### Strenger Test
+
+Erwartete Kernausgabe:
+
+```text
+DAILY:   7
+WEEKLY:  4
+MONTHLY: 6
+YEARLY:  1
+```
+
+Damit ist bewiesen:
+
+```text
+Die GFS-Simulation erkennt tägliche, wöchentliche, monatliche und jährliche Schutzregeln korrekt.
+```
+
+---
+
+## Produktionshinweis
+
+Diese Simulation ist noch keine produktive Löschautomatisierung.
+
+In echter Produktion dürfte automatische Löschlogik erst aktiv werden, wenn zusätzliche Bedingungen erfüllt sind:
+
+```text
+Restore-Test erfolgreich
+Backup-Prozess überwacht
+Löschregeln freigegeben
+Backups extern gespeichert
+Backups verschlüsselt
+Rollen- und Rechtekonzept vorhanden
+Protokollierung aktiv
+RPO und RTO definiert
+```
+
+RPO bedeutet:
+
+```text
+Recovery Point Objective = maximal akzeptabler Datenverlust
+```
+
+RTO bedeutet:
+
+```text
+Recovery Time Objective = maximal akzeptable Wiederherstellungszeit
+```
+
+---
+
+## Merksatz
+
+```text
+Eine einfache Retention Policy räumt Backups nach Alter und Anzahl auf.
+Eine GFS-Strategie schützt gezielt Tages-, Wochen-, Monats- und Jahresstände.
+Eine echte Löschautomatisierung darf erst nach geprüfter Restore-Fähigkeit und klarer Betriebsfreigabe aktiv werden.
+```
