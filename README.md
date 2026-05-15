@@ -1652,3 +1652,521 @@ Wie unterscheidet sich eine Lernumgebung von echter Produktion?
 ```
 
 Damit ist dieses Lernprojekt ein wichtiger Schritt in Richtung DevOps-, Cloud- und Plattform-Betrieb.
+---
+
+## Erweiterung: Einfache Retention Policy vs. GFS und 3-2-1-Backup-Regel
+
+Dieses Lernprojekt nutzt aktuell eine einfache Retention Policy.
+
+Retention Policy bedeutet:
+
+```text
+Aufbewahrungsregel für Backups
+```
+
+Das aktuelle Skript `scripts/cleanup-old-backups.ps1` prüft:
+
+```text
+Wie alt sind Backup-Dateien?
+Wie viele neue Backups sollen mindestens erhalten bleiben?
+Welche Dateien wären Löschkandidaten?
+Soll wirklich gelöscht werden oder nur ein Dry-Run stattfinden?
+```
+
+Das ist eine gute Lernversion, aber noch keine vollständige Enterprise-Backup-Strategie.
+
+---
+
+## Was unsere aktuelle Retention Policy macht
+
+Die aktuelle Laborregel arbeitet vereinfacht nach diesem Prinzip:
+
+```text
+Backups älter als X Tage dürfen gelöscht werden.
+Aber mindestens die neuesten Y Backups bleiben immer erhalten.
+```
+
+Beispiel:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\cleanup-old-backups.ps1 -RetentionDays 7 -MinimumBackupsToKeep 2
+```
+
+Bedeutung:
+
+```text
+Backups älter als 7 Tage werden als mögliche Löschkandidaten betrachtet.
+Die neuesten 2 Backups bleiben immer geschützt.
+Ohne -Execute wird nichts gelöscht.
+```
+
+Das ist eine sogenannte einfache Rolling Retention.
+
+Rolling Retention bedeutet:
+
+```text
+Es wird laufend nach Alter und Anzahl entschieden, welche Backups erhalten bleiben.
+```
+
+---
+
+## Warum das noch nicht vollständig produktionsnah ist
+
+In echter Produktion reicht eine einfache Regel oft nicht aus.
+
+Unternehmen brauchen häufig Antworten auf Fragen wie:
+
+```text
+Gibt es ein Backup von gestern?
+Gibt es ein Backup von letzter Woche?
+Gibt es ein Backup vom Monatsabschluss?
+Gibt es ein Backup vom Jahresabschluss?
+Wie lange müssen Daten aus rechtlichen Gründen aufbewahrt werden?
+Wie schnell muss ein System nach Ausfall wieder laufen?
+Wie viel Datenverlust ist maximal erlaubt?
+```
+
+Deshalb werden in der Praxis oft abgestufte Backup-Strategien eingesetzt.
+
+---
+
+## GFS: Großvater-Vater-Sohn-Prinzip
+
+GFS steht für:
+
+```text
+Grandfather-Father-Son
+```
+
+Auf Deutsch:
+
+```text
+Großvater-Vater-Sohn
+```
+
+Das ist eine klassische Backup-Aufbewahrungsstrategie.
+
+Sie arbeitet mit verschiedenen Zeitstufen:
+
+| Ebene | Bedeutung | Typisches Beispiel |
+|---|---|---|
+| Sohn | kurzfristige Backups | tägliche Backups |
+| Vater | mittelfristige Backups | wöchentliche Backups |
+| Großvater | langfristige Backups | monatliche oder jährliche Backups |
+
+Die Grundidee:
+
+```text
+Aktuelle Backups werden engmaschig behalten.
+Ältere Backups werden ausgedünnt.
+Wichtige Wochen-, Monats- oder Jahresstände bleiben länger erhalten.
+```
+
+---
+
+## Einfaches GFS-Beispiel
+
+Eine mögliche GFS-Regel könnte sein:
+
+```text
+Tägliche Backups: 14 Tage behalten
+Wöchentliche Backups: 8 Wochen behalten
+Monatliche Backups: 12 Monate behalten
+Jährliche Backups: 5 Jahre behalten
+```
+
+Dadurch hat man kurzfristig viele Wiederherstellungspunkte, aber langfristig nicht jeden einzelnen Tag als Backup-Datei.
+
+Das spart Speicherplatz und hält trotzdem wichtige Wiederherstellungspunkte verfügbar.
+
+---
+
+## Vergleich: einfache Retention vs. GFS
+
+| Ansatz | Idee | Vorteil | Nachteil |
+|---|---|---|---|
+| einfache Retention | nach Alter und Mindestanzahl löschen | leicht verständlich, gut für Labor | weniger flexibel |
+| GFS | tägliche, wöchentliche, monatliche, jährliche Stufen | produktionsnäher, besser für langfristige Aufbewahrung | deutlich komplexer |
+| 3-2-1-Regel | mehrere Kopien auf verschiedenen Speicherorten | schützt gegen Hardwareverlust und Standortausfall | braucht zusätzliche Infrastruktur |
+
+---
+
+## 3-2-1-Backup-Regel
+
+Die 3-2-1-Regel ist eine bekannte Grundregel für robuste Backups.
+
+Sie bedeutet:
+
+```text
+3 Kopien der Daten
+2 verschiedene Speichermedien
+1 Kopie extern/offsite
+```
+
+Einfach erklärt:
+
+| Zahl | Bedeutung |
+|---|---|
+| 3 | Originaldaten plus zwei Backup-Kopien |
+| 2 | Daten auf mindestens zwei unterschiedlichen Speichermedien |
+| 1 | eine Kopie außerhalb des Hauptstandorts |
+
+Beispiel:
+
+```text
+1. Redis-Daten im Docker Volume
+2. lokales Backup im Ordner backups/
+3. externe Kopie auf Backup-Server, NAS oder Cloud Storage
+```
+
+NAS bedeutet `Network Attached Storage`, also ein Speichergerät im Netzwerk.
+
+Offsite bedeutet:
+
+```text
+nicht am selben Ort wie das Hauptsystem
+```
+
+---
+
+## Warum 3-2-1 wichtig ist
+
+Wenn Backups nur lokal liegen, können sie gemeinsam mit dem System verloren gehen.
+
+Beispiele:
+
+```text
+Laptop defekt
+Server-Festplatte kaputt
+Ransomware verschlüsselt lokale Dateien
+Brand oder Wasserschaden
+Diebstahl
+versehentliches Löschen
+```
+
+Die 3-2-1-Regel reduziert dieses Risiko, weil nicht alles am selben Ort und auf demselben Medium liegt.
+
+---
+
+## Moderne Erweiterung: 3-2-1-1-0
+
+In modernen Backup-Konzepten wird die klassische 3-2-1-Regel oft erweitert.
+
+Eine bekannte Erweiterung ist:
+
+```text
+3-2-1-1-0
+```
+
+Bedeutung:
+
+| Teil | Erklärung |
+|---|---|
+| 3 | drei Kopien der Daten |
+| 2 | zwei unterschiedliche Speichermedien |
+| 1 | eine Kopie offsite |
+| 1 | eine zusätzliche unveränderbare oder offline Kopie |
+| 0 | null Fehler bei der Wiederherstellungsprüfung |
+
+Unveränderbar bedeutet:
+
+```text
+Ein Backup kann für eine festgelegte Zeit nicht verändert oder gelöscht werden.
+```
+
+Das ist besonders wichtig gegen Ransomware.
+
+Der Punkt `0` ist für dieses Lernprojekt besonders interessant:
+
+```text
+0 ungeprüfte Wiederherstellungsfehler
+```
+
+Das passt zu unserem Grundsatz:
+
+```text
+Ein Backup ist erst dann belastbar, wenn ein Restore erfolgreich getestet wurde.
+```
+
+---
+
+## Bezug zu Docker, Images, Containern und Volumes
+
+Bei Docker muss man sauber unterscheiden:
+
+```text
+Image
+Container
+Volume
+```
+
+### Images
+
+Images sind Bauvorlagen für Container.
+
+Beispiel:
+
+```text
+handsonlabs/my-web:v1.2
+```
+
+Images werden normalerweise versioniert und in einer Registry gespeichert.
+
+Für Images nutzt man eher:
+
+```text
+Tags
+Container Registry
+Rollback
+CI/CD-Pipeline
+Release-Versionen
+```
+
+CI/CD bedeutet `Continuous Integration / Continuous Deployment`.
+
+Einfach erklärt:
+
+```text
+Code wird automatisch geprüft, gebaut und verteilt.
+```
+
+### Container
+
+Container sind laufende Instanzen von Images.
+
+Container selbst werden normalerweise nicht klassisch gesichert.
+
+Warum?
+
+```text
+Container sollen ersetzbar sein.
+Wenn ein Container kaputt ist, startet man einen neuen aus dem Image.
+```
+
+### Volumes
+
+Volumes enthalten die wichtigen veränderlichen Daten.
+
+Beispiele:
+
+```text
+Datenbankdaten
+Uploads
+persistente Anwendungsdaten
+Konfigurationszustände
+```
+
+Deshalb gilt:
+
+```text
+Images werden versioniert.
+Container werden ersetzt.
+Volumes werden gesichert.
+```
+
+Für Backup-Strategien wie Retention, GFS und 3-2-1 sind also besonders die Volumes wichtig.
+
+---
+
+## Bezug zu unserem Projekt
+
+In diesem Projekt ist das wichtigste produktive Volume:
+
+```text
+dockerbung_redis_data_prod
+```
+
+Dieses Volume enthält Redis-Daten.
+
+Redis speichert darin unter anderem Dateien wie:
+
+```text
+dump.rdb
+appendonlydir/
+appendonly.aof.manifest
+```
+
+Das Backup-Skript erstellt daraus lokale `.tar.gz`-Dateien im Ordner:
+
+```text
+backups/
+```
+
+Diese Dateien werden durch `.gitignore` bewusst nicht nach GitHub hochgeladen.
+
+---
+
+## BSI- und NIST-Einordnung
+
+Für produktionsnahe Systeme sollte ein Backup-Konzept nicht nur technisch funktionieren, sondern auch organisatorisch sauber geplant sein.
+
+Das BSI (Bundesamt für Sicherheit in der Informationstechnik) beschreibt im IT-Grundschutz-Baustein CON.3, dass Datensicherung dazu dient, durch redundante Datenbestände den IT-Betrieb kurzfristig wiederaufnehmen zu können.
+
+NIST (National Institute of Standards and Technology) behandelt in SP 800-34 Notfall- und Wiederherstellungsplanung. Dabei geht es nicht nur um Dateien, sondern um Prozesse, Tests, Rollen, Wiederherstellungsziele und dokumentierte Verfahren.
+
+Für dieses Lernprojekt bedeutet das:
+
+```text
+Nicht nur Backup-Datei erzeugen.
+Restore testen.
+Ergebnis dokumentieren.
+Risiken kennen.
+Aufbewahrung regeln.
+Zugriff schützen.
+```
+
+---
+
+## RPO und RTO
+
+In professionellen Backup- und Wiederherstellungskonzepten tauchen oft zwei Begriffe auf:
+
+```text
+RPO
+RTO
+```
+
+### RPO
+
+RPO bedeutet:
+
+```text
+Recovery Point Objective
+```
+
+Einfach erklärt:
+
+```text
+Wie viel Datenverlust ist maximal akzeptabel?
+```
+
+Beispiel:
+
+```text
+RPO = 24 Stunden
+```
+
+Das bedeutet:
+
+```text
+Im schlimmsten Fall dürfen Daten seit dem letzten täglichen Backup verloren gehen.
+```
+
+### RTO
+
+RTO bedeutet:
+
+```text
+Recovery Time Objective
+```
+
+Einfach erklärt:
+
+```text
+Wie schnell muss das System nach einem Ausfall wieder laufen?
+```
+
+Beispiel:
+
+```text
+RTO = 2 Stunden
+```
+
+Das bedeutet:
+
+```text
+Nach einem Ausfall muss der Dienst spätestens nach 2 Stunden wieder verfügbar sein.
+```
+
+---
+
+## Produktionsnahe Backup-Fragen
+
+Ein professionelles Backup-Konzept beantwortet mindestens diese Fragen:
+
+```text
+Welche Daten müssen gesichert werden?
+Wie oft werden sie gesichert?
+Wie lange werden Backups behalten?
+Wo werden Backups gespeichert?
+Sind Backups verschlüsselt?
+Wer darf Backups lesen?
+Wer darf Backups löschen?
+Wer darf Restore durchführen?
+Wie wird geprüft, ob Backups funktionieren?
+Wie wird ein Restore dokumentiert?
+Wie wird ein Backup-Fehler gemeldet?
+Wie schnell muss das System wiederhergestellt werden?
+Wie viel Datenverlust ist akzeptabel?
+```
+
+---
+
+## Einordnung unserer aktuellen Umsetzung
+
+Unsere aktuelle Umsetzung ist eine starke Lernversion:
+
+```text
+Backup erstellen
+Backup-Datei prüfen
+Restore-Test durchführen
+Master-Skript nutzen
+Retention-Dry-Run ausführen
+ältere Backups kontrolliert erkennen
+GitHub-Dokumentation pflegen
+```
+
+Sie ist aber noch keine vollständige produktionsreife Backup-Lösung.
+
+Eine produktionsnähere Erweiterung wäre:
+
+```text
+GFS-Retention ergänzen
+3-2-1-Strategie einplanen
+Backups verschlüsseln
+Backups extern speichern
+Restore-Tests regelmäßig automatisieren
+Monitoring ergänzen
+Logdateien schreiben
+RPO/RTO definieren
+Secret Management verbessern
+```
+
+---
+
+## Merksatz
+
+```text
+Docker-Image = versionierter Bauplan
+Docker-Container = ersetzbare Laufzeitinstanz
+Docker-Volume = schützenswerter Datenbestand
+```
+
+Und für Backups:
+
+```text
+Ein Backup ohne Restore-Test ist nur eine Hoffnung.
+Ein Backup mit erfolgreichem Restore-Test ist ein belastbarer Betriebsprozess.
+```
+
+---
+
+## Nächster sinnvoller Schritt
+
+Dieses Projekt nutzt aktuell eine einfache Retention Policy.
+
+Eine spätere Lerneinheit kann daraus eine produktionsnähere GFS-Simulation machen:
+
+```text
+daily backups
+weekly backups
+monthly backups
+yearly backups
+```
+
+Ziel wäre dann:
+
+```text
+Nicht alle Backups gleich behandeln,
+sondern je nach Bedeutung und Alter unterschiedlich lange behalten.
+```
