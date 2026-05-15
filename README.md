@@ -2459,3 +2459,26 @@ Und:
 ```text
 Logs sind Betriebsnachweise, gehören aber nicht unkontrolliert in ein öffentliches Repository.
 ```
+---
+
+## Weiterführende Dokumentation: Troubleshooting Backup und Restore
+
+Für typische Fehlerbilder beim Docker-Volume-Backup, Restore-Test, Redis-Prüfung und Logging wurde eine eigene Troubleshooting-Dokumentation erstellt:
+
+[docs/troubleshooting-backup-restore.md](docs/troubleshooting-backup-restore.md)
+
+Diese Datei erklärt typische Probleme wie:
+
+```text
+Docker läuft nicht
+Docker Volume existiert nicht
+Backup-Ordner fehlt
+Backup-Datei ist beschädigt
+Speicherplatz ist voll
+Redis-Passwort ist falsch
+Restore-Testcontainer startet nicht
+Restore-Volume ist in Benutzung
+Restore ist fachlich fehlgeschlagen
+Logdatei kann nicht geschrieben werden
+PowerShell-Fehler werden nicht sauber abgefangen
+falsches Arbeitsverzeichnis
