@@ -2237,3 +2237,225 @@ Eine einfache Retention Policy räumt Backups nach Alter und Anzahl auf.
 Eine GFS-Strategie schützt gezielt Tages-, Wochen-, Monats- und Jahresstände.
 Eine echte Löschautomatisierung darf erst nach geprüfter Restore-Fähigkeit und klarer Betriebsfreigabe aktiv werden.
 ```
+---
+
+## Protokollierung des Backup-und-Restore-Prozesses
+
+Das Projekt enthält inzwischen eine einfache lokale Protokollierung für den Backup-und-Restore-Gesamtprozess.
+
+Die Protokollierung wurde im Master-Skript ergänzt:
+
+```text
+scripts/backup-and-test-redis.ps1
+```
+
+Beim Ausführen des Skripts wird eine lokale Logdatei erstellt:
+
+```text
+logs/backup-restore.log
+```
+
+Diese Datei enthält kurze Einträge darüber, wann der Prozess gestartet wurde, welche Schritte ausgeführt wurden und ob der Gesamtprozess erfolgreich war.
+
+---
+
+## Warum Logging wichtig ist
+
+Logging bedeutet:
+
+```text
+wichtige Ereignisse werden nachvollziehbar protokolliert
+```
+
+In einem echten Betriebsumfeld reicht es nicht aus, dass ein Backup-Prozess einmal sichtbar im Terminal erfolgreich war.
+
+Man möchte später nachvollziehen können:
+
+```text
+Wann lief der Backup-Prozess?
+Wurde ein Backup erstellt?
+Wurde das Backup technisch geprüft?
+Wurde ein Restore-Test durchgeführt?
+War der Gesamtprozess erfolgreich?
+Gab es Fehler?
+```
+
+Ohne Protokollierung wäre diese Information nach dem Schließen des Terminals schnell verloren.
+
+---
+
+## Beispiel einer Logausgabe
+
+Beispiel aus der lokalen Logdatei:
+
+```text
+2026-05-15 20:27:29 | INFO | Backup-und-Restore-Gesamtprozess gestartet.
+2026-05-15 20:27:29 | INFO | Schritt 1 gestartet: Backup erstellen und Archiv pruefen.
+2026-05-15 20:27:31 | SUCCESS | Schritt 1 erfolgreich: Backup wurde erstellt und technisch geprueft.
+2026-05-15 20:27:31 | INFO | Schritt 2 gestartet: Restore-Test aus neuestem Backup.
+2026-05-15 20:27:35 | SUCCESS | Schritt 2 erfolgreich: Restore-Test wurde erfolgreich abgeschlossen.
+2026-05-15 20:27:35 | SUCCESS | Gesamtprozess erfolgreich abgeschlossen. Backup wurde erstellt, geprueft und per Restore-Test verifiziert.
+```
+
+---
+
+## Bedeutung der Log-Level
+
+In der Logdatei werden einfache Statusstufen verwendet.
+
+| Log-Level | Bedeutung |
+|---|---|
+| `INFO` | normale Information über einen gestarteten Schritt |
+| `SUCCESS` | ein Schritt oder der Gesamtprozess war erfolgreich |
+| `ERROR` | ein Fehler ist aufgetreten |
+
+Damit lässt sich später schneller erkennen, ob ein Lauf erfolgreich war oder ob ein Problem untersucht werden muss.
+
+---
+
+## Warum echte Logdateien nicht auf GitHub gehören
+
+Die Datei:
+
+```text
+logs/backup-restore.log
+```
+
+wird bewusst nicht auf GitHub hochgeladen.
+
+Grund:
+
+```text
+Logdateien können sensible Informationen enthalten.
+```
+
+Beispiele:
+
+```text
+lokale Pfade
+Systemnamen
+Zeitpunkte
+Fehlermeldungen
+technische Details
+Dateinamen
+eventuell Zugangsdaten oder Tokens, falls ein Skript schlecht gebaut wurde
+```
+
+Deshalb ist der Ordner `logs/` in `.gitignore` berücksichtigt.
+
+---
+
+## `.gitignore`-Regel für Logs
+
+In `.gitignore` steht:
+
+```gitignore
+# Lokale Log-Dateien
+logs/*
+!logs/.gitkeep
+```
+
+Bedeutung:
+
+| Eintrag | Erklärung |
+|---|---|
+| `logs/*` | ignoriert alle Dateien im Ordner `logs/` |
+| `!logs/.gitkeep` | erlaubt die Platzhalterdatei `.gitkeep` trotzdem |
+
+Dadurch wird die echte Logdatei nicht hochgeladen, aber der Ordner bleibt im Repository sichtbar.
+
+---
+
+## Warum `.gitkeep` verwendet wird
+
+Git speichert normalerweise keine leeren Ordner.
+
+Damit der Ordner `logs/` trotzdem im Projekt sichtbar bleibt, liegt darin eine leere Platzhalterdatei:
+
+```text
+logs/.gitkeep
+```
+
+Diese Datei enthält keine sensiblen Informationen.
+
+Sie dient nur dazu, die Ordnerstruktur sichtbar zu machen.
+
+---
+
+## Aktueller Ablauf mit Logging
+
+Der Backup-und-Restore-Gesamtprozess läuft jetzt so:
+
+```text
+1. Master-Skript starten
+2. Logdatei vorbereiten
+3. Backup-Skript ausführen
+4. Backup technisch prüfen
+5. Restore-Test-Skript ausführen
+6. Restore-Ergebnis prüfen
+7. Erfolg oder Fehler in die Logdatei schreiben
+8. Logdatei lokal behalten
+```
+
+Ausführen:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\backup-and-test-redis.ps1
+```
+
+Logdatei anzeigen:
+
+```powershell
+Get-Content .\logs\backup-restore.log
+```
+
+---
+
+## Lernversion vs. Produktion
+
+Diese Protokollierung ist eine gute Lernversion.
+
+Sie zeigt:
+
+```text
+wie ein Skript Ereignisse protokolliert
+wie erfolgreiche Schritte sichtbar bleiben
+wie Fehler später nachvollziehbar werden
+wie lokale Logs von GitHub ferngehalten werden
+```
+
+Für echte Produktion wären weitere Punkte nötig:
+
+```text
+strukturierte Logformate
+zentrale Logsammlung
+Monitoring
+Alarmierung bei Fehlern
+Logrotation
+Zugriffsrechte
+Manipulationsschutz
+Aufbewahrungsregeln für Logs
+```
+
+Logrotation bedeutet:
+
+```text
+alte Logdateien werden nach einer Regel archiviert, gekürzt oder gelöscht
+```
+
+Dadurch verhindert man, dass Logdateien unbegrenzt wachsen.
+
+---
+
+## Merksatz
+
+```text
+Ein Backup-Prozess ohne Log zeigt nur im Moment, ob etwas funktioniert hat.
+Ein Backup-Prozess mit Log macht später nachvollziehbar, was passiert ist.
+```
+
+Und:
+
+```text
+Logs sind Betriebsnachweise, gehören aber nicht unkontrolliert in ein öffentliches Repository.
+```
