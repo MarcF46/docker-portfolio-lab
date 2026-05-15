@@ -2170,3 +2170,11 @@ Ziel wäre dann:
 Nicht alle Backups gleich behandeln,
 sondern je nach Bedeutung und Alter unterschiedlich lange behalten.
 ```
+---
+
+## Weiterführende Dokumentation: Backup-Strategie mit GFS und 3-2-1
+
+Für das Thema Backup-Aufbewahrung wurde eine zusätzliche Vertiefungsdokumentation erstellt:
+
+```text
+docs/backup-strategie-gfs.md
