@@ -31,3 +31,7 @@ Desktop.ini
 
 # macOS-Systemdateien, falls das Projekt später auf einem Mac geöffnet wird
 .DS_Store
+
+# Lokale Log-Dateien
+logs/*
+!logs/.gitkeep
