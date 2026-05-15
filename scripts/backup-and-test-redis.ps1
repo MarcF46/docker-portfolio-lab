@@ -7,12 +7,22 @@
 # 2. Restore-Test aus dem neuesten Backup durchfuehren
 # 3. Ergebnis lokal protokollieren
 #
+# Neu in Mini-Lerneinheit 3H:
+# Mit -SimulateFailure kann ein kontrollierter Fehler ausgeloest werden.
+# Dadurch wird getestet, ob die Fehlerprotokollierung funktioniert.
+#
 # Die Logdatei liegt unter:
 # logs/backup-restore.log
 #
 # Hinweis:
 # Der Ordner logs/ wird lokal genutzt.
 # Echte Logdateien werden durch .gitignore nicht zu GitHub hochgeladen.
+
+param(
+    # Kontrollierter Testfehler.
+    # Damit kann geprueft werden, ob ERROR-Eintraege sauber in die Logdatei geschrieben werden.
+    [switch]$SimulateFailure
+)
 
 $ErrorActionPreference = "Stop"
 
@@ -66,6 +76,12 @@ try {
     Write-Step "Backup-Skript: $BackupScript"
     Write-Step "Restore-Test-Skript: $RestoreTestScript"
 
+    if ($SimulateFailure) {
+        Write-Step "Simulationsmodus: Fehlerfall ist aktiviert."
+        Write-Step "Dieser Testfehler prueft nur die Fehlerprotokollierung."
+        Write-Step "Es werden dabei keine produktiven Docker-Volumes geloescht oder veraendert."
+    }
+
     if (-Not (Test-Path $BackupScript)) {
         throw "Backup-Skript wurde nicht gefunden: $BackupScript"
     }
@@ -89,6 +105,10 @@ try {
     }
 
     Write-Log -Level "SUCCESS" -Message "Schritt 1 erfolgreich: Backup wurde erstellt und technisch geprueft."
+
+    if ($SimulateFailure) {
+        throw "Absichtlich simulierter Fehler nach erfolgreichem Backup. Dieser Fehler dient nur zum Test der ERROR-Protokollierung."
+    }
 
     Write-Host ""
     Write-Host "=============================================="
@@ -136,6 +156,11 @@ catch {
 
     Write-Log -Level "ERROR" -Message $_.Exception.Message
     Write-Log -Level "ERROR" -Message "Backup-und-Restore-Gesamtprozess fehlgeschlagen."
+
+    Write-Host ""
+    Write-Host "Logdatei:"
+    Write-Host $LogFile
+    Write-Host ""
 
     exit 1
 }
