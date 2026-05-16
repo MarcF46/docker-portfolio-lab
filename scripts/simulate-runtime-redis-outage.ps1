@@ -74,7 +74,7 @@ Write-Host ""
 # Redis SHUTDOWN NOSAVE beendet den Redis-Serverprozess.
 # Dadurch endet der Hauptprozess des Containers, und Docker kann die Restart Policy anwenden.
 Write-Host "6) Redis-Prozess im Container per redis-cli SHUTDOWN NOSAVE beenden"
-docker exec $RedisContainer redis-cli -a $RedisPassword SHUTDOWN NOSAVE
+docker exec --env "REDISCLI_AUTH=$RedisPassword" $RedisContainer redis-cli SHUTDOWN NOSAVE
 
 # Wartet, damit Docker Zeit hat, Redis neu zu starten.
 # Zusätzlich bekommt Redis Zeit, wieder healthy zu werden.
