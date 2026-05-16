@@ -1,24 +1,122 @@
+# Docker Compose Production-Datei
+# Zweck:
+# - definiert den produktionsnahen Stack
+# - startet Webserver + Redis
+# - nutzt ein persistentes Docker Volume für Redis-Daten
+# - prüft per Health Check, ob die Dienste wirklich funktionieren
+
 services:
+  # Web-Service:
+  # Das ist dein Nginx-Webcontainer mit deiner HTML-Seite.
   web:
+    # build bedeutet:
+    # Docker baut das Image aus deinem lokalen Projektordner.
     build:
+      # context . bedeutet:
+      # Der aktuelle Projektordner ist der Build-Kontext.
       context: .
+
+      # Dockerfile bedeutet:
+      # Docker benutzt die Datei "Dockerfile" als Bauanleitung für das Image.
       dockerfile: Dockerfile
+
+    # image gibt dem gebauten Image einen Namen und eine Version.
+    # In echter Production wären Versionen besonders wichtig für Rollbacks.
     image: handsonlabs/my-web:v1.2
+
+    # ports verbindet einen Port auf deinem Windows-Rechner mit einem Port im Container.
+    # Links: Host-Port auf deinem PC
+    # Rechts: Container-Port im Webcontainer
+    # Ergebnis: http://localhost:8082 zeigt auf Port 80 im Container.
     ports:
       - "8082:80"
+
+    # restart sorgt dafür, dass Docker den Container nach einem Absturz
+    # oder nach einem Docker-Neustart wieder startet.
+    # unless-stopped bedeutet:
+    # automatisch neu starten, außer du hast ihn bewusst gestoppt.
     restart: unless-stopped
+
+    # depends_on beschreibt eine fachliche Start-Abhängigkeit:
+    # Der Web-Service braucht Redis.
+    # Darum soll web erst starten, wenn redis als "healthy" gilt.
+    depends_on:
+      redis:
+        # service_healthy bedeutet:
+        # Docker Compose wartet nicht nur darauf, dass Redis gestartet wurde,
+        # sondern darauf, dass der Redis-Healthcheck erfolgreich ist.
+        condition: service_healthy
+
+    # healthcheck prüft, ob der Webserver im Container wirklich antwortet.
+    # Wichtig:
+    # "Container läuft" ist nicht automatisch gleich "Dienst funktioniert".
     healthcheck:
+      # wget ruft lokal im Container http://127.0.0.1 auf.
+      # Wenn Nginx korrekt antwortet, ist der Check erfolgreich.
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1"]
+
+      # interval:
+      # Docker führt den Health Check alle 30 Sekunden aus.
       interval: 30s
+
+      # timeout:
+      # Der Check darf maximal 3 Sekunden dauern.
       timeout: 3s
+
+      # retries:
+      # Nach 3 fehlgeschlagenen Versuchen gilt der Container als unhealthy.
       retries: 3
 
+  # Redis-Service:
+  # Redis ist dein Daten-/Cache-Service.
+  # In deinem Projekt nutzt du Redis unter anderem für persistente Übungsdaten.
   redis:
+    # image bedeutet:
+    # Docker lädt das fertige Redis-Image aus der Registry.
+    # alpine ist eine kleinere Linux-Variante.
     image: redis:alpine
+
+    # command überschreibt den Standardstartbefehl von Redis.
+    # --appendonly yes aktiviert AOF-Persistenz.
+    # Dadurch schreibt Redis Änderungen zusätzlich in eine Datei.
+    # --requirepass aktiviert Passwortschutz für Redis.
+    # ${REDIS_PASSWORD:-change_me_for_prod} bedeutet:
+    # Nimm REDIS_PASSWORD aus der Umgebung.
+    # Falls keine Variable gesetzt ist, nutze den Fallback "change_me_for_prod".
     command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-change_me_for_prod}"]
+
+    # volumes verbindet ein Docker Volume mit dem Redis-Datenordner.
+    # Dadurch bleiben Redis-Daten erhalten, auch wenn der Container gelöscht wird.
     volumes:
       - redis_data_prod:/data
+
+    # restart sorgt auch bei Redis dafür, dass der Container nach Absturz
+    # oder Docker-Neustart wieder automatisch gestartet wird.
     restart: unless-stopped
 
+    # healthcheck prüft, ob Redis wirklich antwortet.
+    # Wegen --requirepass muss redis-cli hier ebenfalls das Passwort verwenden.
+    healthcheck:
+      # redis-cli ping erwartet bei erfolgreicher Verbindung die Antwort "PONG".
+      # -a übergibt das Redis-Passwort an redis-cli.
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-change_me_for_prod}", "ping"]
+
+      # Redis wird alle 10 Sekunden geprüft.
+      interval: 10s
+
+      # Wenn Redis nach 3 Sekunden nicht antwortet, gilt dieser Check als fehlgeschlagen.
+      timeout: 3s
+
+      # Nach 5 fehlgeschlagenen Checks gilt Redis als unhealthy.
+      retries: 5
+
+      # start_period gibt Redis nach dem Containerstart 10 Sekunden Schonzeit.
+      # Das verhindert Fehlalarme direkt beim Start.
+      start_period: 10s
+
+# volumes definiert benannte Docker Volumes.
+# Compose erstellt daraus in deinem Projekt aktuell:
+# dockerbung_redis_data_prod
 volumes:
+  # Dieses Volume speichert die Redis-Daten produktionsnah persistent.
   redis_data_prod:
