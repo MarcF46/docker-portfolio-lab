@@ -1,18 +1,53 @@
-# Git-Verlauf nicht ins Docker-Image kopieren
+# .dockerignore
+# Zweck:
+# - unnötige und sensible Dateien nicht in den Docker-Build-Kontext senden
+# - Build-Kontext klein halten
+# - Risiko reduzieren, dass lokale Artefakte versehentlich in Images gelangen
+
+# Git-Verlauf nicht an den Docker Builder senden
 .git
+.gitignore
+.gitattributes
 
 # Lokale Umgebungsdateien mit möglichen Passwörtern
 .env
+.env.*
 *.env
+!.env.example
 
-# Word-Dokumente gehören nicht ins Docker-Image
-*.docx
+# Lokale Backups und Archive gehören nicht in den Build-Kontext
+backups/
+*.tar
+*.tar.gz
+*.tgz
+*.zip
 
-# Logs und temporäre Dateien
+# Logs und Terminal-Mitschnitte
+logs/
 *.log
+
+# Lokale Notizen und Lernunterlagen
+Notizen/
+*.docx
+*.xlsx
+*.pptx
+
+# Temporäre Dateien
 tmp/
 temp/
+*.tmp
 
-# VS-Code-Einstellungen
+# Editor-/IDE-Dateien
 .vscode/
 *.code-workspace
+
+# Dokumentation und Skripte werden aktuell nicht für den Web-Image-Build benötigt.
+# Der Dockerfile kopiert nur app/index.html in das Nginx-Image.
+docs/
+scripts/
+archive/
+
+# Systemdateien
+Thumbs.db
+Desktop.ini
+.DS_Store

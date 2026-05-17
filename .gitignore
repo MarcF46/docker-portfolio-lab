@@ -1,29 +1,49 @@
+# .gitignore
+# Zweck:
+# - lokale, sensible oder automatisch erzeugte Dateien nicht in Git aufnehmen
+# - Repository sauber halten
+# - Backups, Logs, lokale Secrets und persönliche Notizen schützen
+
 # Lokale Umgebungsdateien / Passwörter
 .env
+.env.*
 *.env
+!.env.example
+
+# Lokale Backups nicht zu GitHub hochladen
+backups/
+*.tar
+*.tar.gz
+*.tgz
+*.zip
 
 # Logs
+logs/*
+!logs/.gitkeep
 *.log
 
-# Word-Dokumente / lokale Lernnotizen
+# Terminal-/Incident-Mitschnitte
+logs/terminal-sessions/
+
+# Word-Dokumente / lokale Lernunterlagen
 *.docx
+*.xlsx
+*.pptx
+
+# Temporäre Dateien
+tmp/
+temp/
+*.tmp
+
+# Lokale Notizen
+Notizen/
 
 # VS-Code lokale Projektdateien
 .vscode/
 *.code-workspace
 
-# Temporäre Dateien
-tmp/
-temp/
-
-# Alte Testdateien
+# Alte Testdateien / lokale Altstände
 docker-compose_alt.yml
-
-# Lokale Backups nicht zu GitHub hochladen
-backups/
-
-# Lokale Notizen
-Notizen/
 
 # Windows-Systemdateien
 Thumbs.db
@@ -31,7 +51,3 @@ Desktop.ini
 
 # macOS-Systemdateien, falls das Projekt später auf einem Mac geöffnet wird
 .DS_Store
-
-# Lokale Log-Dateien
-logs/*
-!logs/.gitkeep
