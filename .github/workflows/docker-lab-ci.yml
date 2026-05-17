@@ -1,0 +1,82 @@
+name: Docker Lab CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  validate-docker-lab:
+    name: Validate Docker Compose lab
+    runs-on: ubuntu-latest
+
+    # Fester Compose-Projektname.
+    # Grund: Dadurch heißen Container in CI genauso wie lokal im Lab:
+    # dockerbung-redis-1 und dockerbung-web-1
+    env:
+      COMPOSE_PROJECT_NAME: dockerbung
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Docker-Versionen anzeigen
+        run: |
+          docker version
+          docker compose version
+
+      - name: Lokale CI-Secret-Datei erzeugen
+        run: |
+          # SECURITY:
+          # Dieses Secret wird nur im kurzlebigen GitHub-Actions-Runner erzeugt.
+          # Es wird nicht committed und nicht im Workflow ausgegeben.
+          mkdir -p secrets
+          openssl rand -hex 32 > secrets/redis_password.txt
+          chmod 600 secrets/redis_password.txt
+
+      - name: Docker Compose Konfiguration prüfen
+        run: |
+          # Prüft, ob Compose die produktionsnahe Konfiguration parsen,
+          # Variablen auflösen und in kanonischer Form rendern kann.
+          docker compose -f compose.prod.yml config
+
+      - name: Web-Image bauen
+        run: |
+          # Prüft, ob Dockerfile, Build-Kontext und .dockerignore korrekt zusammenspielen.
+          docker compose -f compose.prod.yml build web
+
+      - name: Stack starten
+        run: |
+          # Startet den produktionsnahen Stack im CI-Runner.
+          docker compose -f compose.prod.yml up -d --build
+
+      - name: Auf Healthchecks warten
+        run: |
+          # Wartet, bis Redis und Web Zeit hatten, healthy zu werden.
+          sleep 20
+          docker compose -f compose.prod.yml ps
+
+      - name: Web per HTTP prüfen
+        run: |
+          # Prüft, ob die Web-App vom CI-Runner aus erreichbar ist.
+          curl --fail --show-error --silent http://localhost:8082 > /dev/null
+
+      - name: Redis per PING prüfen
+        run: |
+          # Prüft Redis fachlich per PING/PONG.
+          # REDISCLI_AUTH liest das Passwort im Container aus der Secret-Datei.
+          docker compose -f compose.prod.yml exec -T redis sh -c 'REDISCLI_AUTH="$(cat /run/secrets/redis_password)" redis-cli ping | grep PONG'
+
+      - name: Logs bei Fehler anzeigen
+        if: failure()
+        run: |
+          docker compose -f compose.prod.yml ps
+          docker compose -f compose.prod.yml logs --tail=120
+
+      - name: Stack aufräumen
+        if: always()
+        run: |
+          # Entfernt Container, Netzwerk und Volumes im CI-Runner.
+          # Im CI ist das sicher, weil es eine kurzlebige Testumgebung ist.
+          docker compose -f compose.prod.yml down -v
