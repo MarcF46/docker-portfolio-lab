@@ -10,6 +10,11 @@
 *.env
 !.env.example
 
+# Lokale Secret-Dateien
+# Der Ordner darf existieren, aber echte Secret-Dateien sollen nicht nach GitHub.
+secrets/*
+!secrets/.gitkeep
+
 # Lokale Backups nicht zu GitHub hochladen
 backups/
 *.tar

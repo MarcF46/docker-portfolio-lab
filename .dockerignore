@@ -15,6 +15,9 @@
 *.env
 !.env.example
 
+# Lokale Secret-Dateien gehören nicht in den Build-Kontext
+secrets/
+
 # Lokale Backups und Archive gehören nicht in den Build-Kontext
 backups/
 *.tar
