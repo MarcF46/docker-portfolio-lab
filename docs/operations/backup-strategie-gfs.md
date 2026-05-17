@@ -36,25 +36,25 @@ dockerbung_redis_data_prod
 Dieses Volume wird durch ein Skript gesichert:
 
 ```text
-scripts/backup-redis-volume.ps1
+scripts/backup/backup-redis-volume.ps1
 ```
 
 Ein zweites Skript testet die Wiederherstellung:
 
 ```text
-scripts/test-redis-restore.ps1
+scripts/restore/test-redis-restore.ps1
 ```
 
 Ein Master-Skript führt beide Schritte zusammen aus:
 
 ```text
-scripts/backup-and-test-redis.ps1
+scripts/backup/backup-and-test-redis.ps1
 ```
 
 Ein weiteres Skript prüft, welche alten Backup-Dateien nach einer einfachen Aufbewahrungsregel gelöscht werden könnten:
 
 ```text
-scripts/cleanup-old-backups.ps1
+scripts/retention/cleanup-old-backups.ps1
 ```
 
 ---
@@ -72,7 +72,7 @@ Lösche nur, wenn -Execute ausdrücklich gesetzt wurde.
 Beispiel:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\cleanup-old-backups.ps1 -RetentionDays 7 -MinimumBackupsToKeep 2
+powershell -ExecutionPolicy Bypass -File .\scripts\retention\cleanup-old-backups.ps1 -RetentionDays 7 -MinimumBackupsToKeep 2
 ```
 
 Bedeutung:
@@ -701,7 +701,7 @@ Eine spätere Übung könnte ein GFS-Simulationsskript erstellen.
 Mögliche Datei:
 
 ```text
-scripts/simulate-gfs-retention.ps1
+scripts/retention/simulate-gfs-retention.ps1
 ```
 
 Dieses Skript könnte prüfen:

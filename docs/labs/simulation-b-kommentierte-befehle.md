@@ -8,7 +8,7 @@ Wichtig: Diese Notiz ist als Lern- und Wiederholungsunterlage gedacht.
 Das ausführbare Skript dazu liegt unter:
 
 ```text
-scripts/simulate-runtime-redis-outage.ps1
+scripts/incidents/simulate-runtime-redis-outage.ps1
 ```
 
 ---

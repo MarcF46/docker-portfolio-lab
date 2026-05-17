@@ -204,11 +204,11 @@ Wichtig: Der Ordner `backups/` ist lokal vorhanden, wird aber nicht zu GitHub ho
 | `.env.example` | Beispiel für benötigte Umgebungsvariablen, darf auf GitHub liegen |
 | `.gitignore` | verhindert, dass lokale/geheime Dateien zu Git hinzugefügt werden |
 | `backups/` | lokaler Ordner für Sicherungen, wird nicht zu GitHub hochgeladen |
-| `scripts/backup-redis-volume.ps1` | erstellt Redis-Volume-Backups |
-| `scripts/test-redis-restore.ps1` | testet die Wiederherstellung eines Backups |
-| `scripts/backup-and-test-redis.ps1` | führt Backup und Restore-Test als Gesamtprozess aus |
-| `scripts/cleanup-old-backups.ps1` | prüft alte Backups nach einer einfachen Retention Policy |
-| `docs/backup-strategie-gfs.md` | Vertiefung zu GFS, 3-2-1, RPO/RTO und Backup-Strategie |
+| `scripts/backup/backup-redis-volume.ps1` | erstellt Redis-Volume-Backups |
+| `scripts/restore/test-redis-restore.ps1` | testet die Wiederherstellung eines Backups |
+| `scripts/backup/backup-and-test-redis.ps1` | führt Backup und Restore-Test als Gesamtprozess aus |
+| `scripts/retention/cleanup-old-backups.ps1` | prüft alte Backups nach einer einfachen Retention Policy |
+| `docs/operations/backup-strategie-gfs.md` | Vertiefung zu GFS, 3-2-1, RPO/RTO und Backup-Strategie |
 | `README.md` | Dokumentation des Projekts |
 
 ---
@@ -827,10 +827,10 @@ Dieses Projekt enthält inzwischen mehrere Skripte für den Backup- und Restore-
 
 | Skript | Zweck |
 |---|---|
-| `scripts/backup-redis-volume.ps1` | erstellt ein Redis-Volume-Backup und prüft das Archiv technisch |
-| `scripts/test-redis-restore.ps1` | spielt ein Backup in ein Restore-Test-Volume zurück und prüft den Redis-Wert |
-| `scripts/backup-and-test-redis.ps1` | führt Backup und Restore-Test als Gesamtprozess aus |
-| `scripts/cleanup-old-backups.ps1` | prüft alte Backups nach einer einfachen Retention Policy |
+| `scripts/backup/backup-redis-volume.ps1` | erstellt ein Redis-Volume-Backup und prüft das Archiv technisch |
+| `scripts/restore/test-redis-restore.ps1` | spielt ein Backup in ein Restore-Test-Volume zurück und prüft den Redis-Wert |
+| `scripts/backup/backup-and-test-redis.ps1` | führt Backup und Restore-Test als Gesamtprozess aus |
+| `scripts/retention/cleanup-old-backups.ps1` | prüft alte Backups nach einer einfachen Retention Policy |
 
 ---
 
@@ -839,7 +839,7 @@ Dieses Projekt enthält inzwischen mehrere Skripte für den Backup- und Restore-
 Der komplette Backup-und-Restore-Testprozess kann mit folgendem Befehl gestartet werden:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\backup-and-test-redis.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\backup\backup-and-test-redis.ps1
 ```
 
 Das Master-Skript führt zwei Teilschritte aus:
@@ -858,19 +858,19 @@ Das Retention-Skript läuft standardmäßig im Dry-Run-Modus.
 Beispiel:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\cleanup-old-backups.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\retention\cleanup-old-backups.ps1
 ```
 
 Strenger Test ohne Löschung:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\cleanup-old-backups.ps1 -RetentionDays 0 -MinimumBackupsToKeep 1
+powershell -ExecutionPolicy Bypass -File .\scripts\retention\cleanup-old-backups.ps1 -RetentionDays 0 -MinimumBackupsToKeep 1
 ```
 
 Erst mit `-Execute` würde wirklich gelöscht:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\cleanup-old-backups.ps1 -RetentionDays 7 -MinimumBackupsToKeep 2 -Execute
+powershell -ExecutionPolicy Bypass -File .\scripts\retention\cleanup-old-backups.ps1 -RetentionDays 7 -MinimumBackupsToKeep 2 -Execute
 ```
 
 Wichtig:
@@ -1448,7 +1448,7 @@ Retention Policy bedeutet:
 Aufbewahrungsregel für Backups
 ```
 
-Das aktuelle Skript `scripts/cleanup-old-backups.ps1` prüft:
+Das aktuelle Skript `scripts/retention/cleanup-old-backups.ps1` prüft:
 
 ```text
 Wie alt sind Backup-Dateien?
@@ -1473,7 +1473,7 @@ Aber mindestens die neuesten Y Backups bleiben immer erhalten.
 Beispiel:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\cleanup-old-backups.ps1 -RetentionDays 7 -MinimumBackupsToKeep 2
+powershell -ExecutionPolicy Bypass -File .\scripts\retention\cleanup-old-backups.ps1 -RetentionDays 7 -MinimumBackupsToKeep 2
 ```
 
 Bedeutung:
@@ -1944,7 +1944,7 @@ sondern je nach Bedeutung und Alter unterschiedlich lange behalten.
 
 Für das Thema Backup-Aufbewahrung wurde eine eigene Vertiefungsdokumentation erstellt:
 
-[docs/backup-strategie-gfs.md](docs/backup-strategie-gfs.md)
+[docs/operations/backup-strategie-gfs.md](docs/operations/backup-strategie-gfs.md)
 
 Diese Datei erklärt ausführlich:
 
@@ -1972,7 +1972,7 @@ Eine produktionsnähere Backup-Strategie würde zusätzlich GFS, externe Speiche
 Direkter Pfad im Repository:
 
 ```text
-docs/backup-strategie-gfs.md
+docs/operations/backup-strategie-gfs.md
 ```
 
 Merksatz:
@@ -1988,7 +1988,7 @@ Diese Trennung ist bewusst gewählt:
 
 ```text
 README.md = Einstieg und Projektübersicht
-docs/backup-strategie-gfs.md = fachliche Vertiefung zur Backup-Strategie
+docs/operations/backup-strategie-gfs.md = fachliche Vertiefung zur Backup-Strategie
 ```
 
 Dadurch bleibt die README besser lesbar, während komplexere Themen in eigene Dokumentationsdateien ausgelagert werden.
@@ -2001,7 +2001,7 @@ Zusätzlich zur einfachen Retention Policy enthält dieses Projekt eine sichere 
 Die Datei lautet:
 
 ```text
-scripts/simulate-gfs-retention.ps1
+scripts/retention/simulate-gfs-retention.ps1
 ```
 
 GFS bedeutet:
@@ -2066,7 +2066,7 @@ Dadurch entstehen unterschiedliche Wiederherstellungspunkte für unterschiedlich
 Standardlauf:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\simulate-gfs-retention.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\retention\simulate-gfs-retention.ps1
 ```
 
 Dabei werden standardmäßig 420 fiktive Tagesbackups simuliert.
@@ -2087,7 +2087,7 @@ Yearly:  5 Jahresstände, jeweils Jahresanfang
 Beispiel mit kürzeren Aufbewahrungsregeln:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\simulate-gfs-retention.ps1 -DaysToSimulate 180 -DailyRetentionDays 7 -WeeklyRetentionWeeks 4 -MonthlyRetentionMonths 6 -YearlyRetentionYears 2
+powershell -ExecutionPolicy Bypass -File .\scripts\retention\simulate-gfs-retention.ps1 -DaysToSimulate 180 -DailyRetentionDays 7 -WeeklyRetentionWeeks 4 -MonthlyRetentionMonths 6 -YearlyRetentionYears 2
 ```
 
 Dabei wird simuliert:
@@ -2246,7 +2246,7 @@ Das Projekt enthält inzwischen eine einfache lokale Protokollierung für den Ba
 Die Protokollierung wurde im Master-Skript ergänzt:
 
 ```text
-scripts/backup-and-test-redis.ps1
+scripts/backup/backup-and-test-redis.ps1
 ```
 
 Beim Ausführen des Skripts wird eine lokale Logdatei erstellt:
@@ -2400,7 +2400,7 @@ Der Backup-und-Restore-Gesamtprozess läuft jetzt so:
 Ausführen:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\backup-and-test-redis.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\backup\backup-and-test-redis.ps1
 ```
 
 Logdatei anzeigen:
@@ -2465,7 +2465,7 @@ Logs sind Betriebsnachweise, gehören aber nicht unkontrolliert in ein öffentli
 
 Für typische Fehlerbilder beim Docker-Volume-Backup, Restore-Test, Redis-Prüfung und Logging wurde eine eigene Troubleshooting-Dokumentation erstellt:
 
-[docs/troubleshooting-backup-restore.md](docs/troubleshooting-backup-restore.md)
+[docs/troubleshooting/troubleshooting-backup-restore.md](docs/troubleshooting/troubleshooting-backup-restore.md)
 
 Diese Datei erklärt typische Probleme wie:
 
@@ -2491,7 +2491,7 @@ Das Projekt enthält zusätzlich eine realistische Fehlerübung für den Restore
 Die Datei lautet:
 
 ```text
-scripts/simulate-restore-value-mismatch.ps1
+scripts/incidents/simulate-restore-value-mismatch.ps1
 ```
 
 Diese Übung simuliert keinen frei erfundenen Fehlertext, sondern einen praxisnahen Fall:
@@ -2544,7 +2544,7 @@ Ist der erwartete Redis-Wert nach dem Restore vorhanden?
 Die Übung wird mit folgendem Befehl gestartet:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\simulate-restore-value-mismatch.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\incidents\simulate-restore-value-mismatch.ps1
 ```
 
 Standardmäßig erwartet das Skript absichtlich diesen falschen Wert:
@@ -2748,7 +2748,7 @@ Das Skript ist als neue Git-Datei sichtbar oder bereits committed.
 Die realistische Restore-Fehlerübung passt zur weiterführenden Troubleshooting-Dokumentation:
 
 ```text
-docs/troubleshooting-backup-restore.md
+docs/troubleshooting/troubleshooting-backup-restore.md
 ```
 
 Dort werden typische Fehlerbilder, Ursachen, erste Prüfungen, Risiken und sichere Lösungen gesammelt.

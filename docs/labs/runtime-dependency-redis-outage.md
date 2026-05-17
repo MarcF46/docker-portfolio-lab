@@ -246,13 +246,13 @@ docker compose -f compose.prod.yml up -d --build
 Empfohlene neue Datei im Repository:
 
 ```text
-docs/runtime-dependency-redis-outage.md
+docs/labs/runtime-dependency-redis-outage.md
 ```
 
 Empfohlener Commit:
 
 ```powershell
-git add docs/runtime-dependency-redis-outage.md
+git add docs/labs/runtime-dependency-redis-outage.md
 git commit -m "Dokumentiere Redis-Laufzeitausfall und Diagnoseweg"
 git push
 ```

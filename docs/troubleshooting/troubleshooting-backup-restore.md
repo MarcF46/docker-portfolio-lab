@@ -788,7 +788,7 @@ Ein Skript ist erst robust, wenn es Fehler nicht nur anzeigt, sondern korrekt be
 ## Typische Fehlermeldungen
 
 ```text
-The argument '.\scripts\backup-and-test-redis.ps1' is not recognized
+The argument '.\scripts\backup\backup-and-test-redis.ps1' is not recognized
 Cannot find path '.\scripts\...'
 dir backups zeigt nichts
 ```
@@ -956,7 +956,7 @@ Beispiel:
 ```text
 Datum/Uhrzeit: 2026-05-15 22:18
 Betroffener Prozess: Redis Restore-Test
-Befehl: powershell -ExecutionPolicy Bypass -File .\scripts\backup-and-test-redis.ps1
+Befehl: powershell -ExecutionPolicy Bypass -File .\scripts\backup\backup-and-test-redis.ps1
 Fehlermeldung: GET training_status liefert nil
 Vermutete Ursache: falsches Backup oder falsches Volume
 Erste Prüfung: docker volume ls, dir backups, Redis GET
