@@ -420,8 +420,48 @@ docker compose -f compose.prod.yml build web
 
 ---
 
-## Dokumentation
 
+## GitHub Actions CI
+
+Das Repository enthält eine erste GitHub-Actions-CI-Pipeline:
+
+```text
+.github/workflows/docker-lab-ci.yml
+```
+
+Die Pipeline läuft automatisch bei Push auf `main` und bei Pull Requests.
+
+Sie prüft:
+
+```text
+Docker-Versionen anzeigen
+lokale CI-Secret-Datei im Runner erzeugen
+docker compose config ausführen
+Web-Image bauen
+Stack starten
+Web per HTTP prüfen
+Redis per PING/PONG prüfen
+bei Fehlern Logs anzeigen
+Stack aufräumen
+```
+
+Damit wird nicht nur die Compose-Datei geprüft, sondern der Stack im GitHub-Actions-Runner tatsächlich gestartet und getestet.
+
+Security-Hinweis:
+
+```text
+Das CI-Secret wird nur im kurzlebigen GitHub-Actions-Runner erzeugt.
+Es wird nicht committed und nicht im Workflow ausgegeben.
+Für echte produktive Secrets wären GitHub Actions Secrets, Vault oder ein Cloud Secret Manager nötig.
+```
+
+Dokumentation:
+
+```text
+docs/operations/github-actions-ci.md
+```
+
+## Dokumentation
 Wichtige Dokumentationsdateien:
 
 ```text
@@ -449,7 +489,8 @@ Dieses Projekt ist bewusst ein Lern- und Portfolio-Lab.
 | Backup | lokale TAR/GZ-Dateien | externe Speicherung, Verschlüsselung, Retention, Restore-Tests |
 | Readiness | PowerShell-Skript | Load Balancer, Readiness Probe, Monitoring |
 | Logging | lokale Logs und Transcripts | zentrale Logplattform, Zugriffsschutz, Retention |
-| CI/CD | noch nicht vollständig umgesetzt | Pipeline mit Tests, Build, Security Checks |
+| CI | GitHub Actions CI vorhanden: Compose prüfen, Web-Image bauen, Stack starten, Web + Redis testen | Pipeline mit Tests, Build, Security Checks, Quality Gates |
+| CD/Deployment | noch nicht umgesetzt | Staging-/Production-Deployment mit Freigaben, Rollback und Monitoring |
 
 Das Ziel ist nicht, Production vorzutäuschen, sondern wichtige Betriebsprinzipien praktisch zu trainieren.
 
@@ -512,8 +553,8 @@ Dokumentation und Troubleshooting
 Mögliche nächste Schritte:
 
 ```text
-GitHub Actions / CI-Prüfungen
-automatischer Compose-Config-Check bei Push
+CI-Fehlerübungen und GitHub-Actions-Log-Diagnose
+erweiterte CI-Prüfungen, z. B. Script-Checks, Security-Checks und Build-Fehler-Simulationen
 einfaches Monitoring mit Prometheus/Grafana
 strukturierte Application Logs
 Reverse Proxy
@@ -545,3 +586,4 @@ Ich beachte Security- und Secret-Handling.
 Ich kann eine Repository-Struktur nachvollziehbar aufbauen.
 Ich kann technische Änderungen mit Git sauber versionieren.
 ```
+
