@@ -1,0 +1,15 @@
+# Grafana Dashboard Provisioning
+# Zweck:
+# - Grafana lädt JSON-Dashboards automatisch aus /var/lib/grafana/dashboards
+
+apiVersion: 1
+
+providers:
+  - name: Docker Lab Dashboards
+    orgId: 1
+    folder: Docker Portfolio Lab
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards

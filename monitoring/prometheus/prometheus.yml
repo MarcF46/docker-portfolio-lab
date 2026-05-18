@@ -1,0 +1,31 @@
+# Prometheus-Konfiguration für das Docker Portfolio Lab
+# Zweck:
+# - Prometheus sammelt Metriken von sich selbst
+# - Prometheus sammelt Container-Metriken von cAdvisor
+# - Die Targets laufen im selben Docker-Compose-Netzwerk
+
+global:
+  # scrape_interval:
+  # Wie oft Prometheus Metriken abfragt.
+  # Für ein Lab sind 15 Sekunden gut sichtbar.
+  scrape_interval: 15s
+
+  # evaluation_interval:
+  # Wie oft Prometheus Regeln auswerten würde.
+  # Wir nutzen in diesem Mini-Lab noch keine Alert-Regeln.
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Prometheus überwacht sich selbst.
+  # Das ist ein guter erster Funktionstest.
+  - job_name: "prometheus"
+    static_configs:
+      - targets:
+          - "prometheus:9090"
+
+  # cAdvisor stellt Container-Metriken bereit.
+  # Prometheus ruft diese Metriken regelmäßig ab.
+  - job_name: "cadvisor"
+    static_configs:
+      - targets:
+          - "cadvisor:8080"

@@ -1,0 +1,141 @@
+# Docker Compose Monitoring-Datei
+# Zweck:
+# - ergänzt den bestehenden produktionsnahen Stack um Monitoring
+# - startet Prometheus, Grafana und cAdvisor
+# - Prometheus sammelt Metriken
+# - Grafana visualisiert Metriken
+# - cAdvisor stellt Container-Metriken für Prometheus bereit
+#
+# Start zusammen mit dem produktionsnahen Stack:
+# docker compose -f compose.prod.yml -f compose.monitoring.yml up -d --build
+
+services:
+  # Prometheus:
+  # Sammelt Metriken von konfigurierten Targets.
+  prometheus:
+    image: prom/prometheus:latest
+
+    # Prometheus liest seine Konfiguration aus monitoring/prometheus/prometheus.yml.
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+      # Persistentes Volume für Prometheus-Daten.
+      # Dadurch bleiben Metriken bei Container-Neustarts im Lab erhalten.
+      - prometheus_data:/prometheus
+
+    # Port 9090 wird lokal veröffentlicht.
+    # Browser: http://localhost:9090
+    ports:
+      - "9090:9090"
+
+    # Prometheus soll automatisch wieder starten, wenn der Container abstürzt.
+    restart: unless-stopped
+
+    # Einfacher Healthcheck:
+    # Prometheus stellt unter /-/ready einen Readiness-Endpunkt bereit.
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://127.0.0.1:9090/-/ready || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # Grafana:
+  # Weboberfläche für Dashboards und Visualisierung.
+  grafana:
+    image: grafana/grafana-oss:latest
+
+    # Grafana wartet darauf, dass Prometheus bereit ist.
+    # Grund: Grafana soll direkt beim Start eine erreichbare Datenquelle haben.
+    depends_on:
+      prometheus:
+        condition: service_healthy
+
+    # Lokales Secret für das Grafana-Admin-Passwort.
+    # Die echte Passwortdatei wird NICHT committed.
+    secrets:
+      - grafana_admin_password
+
+    # Grafana-Konfiguration über Umgebungsvariablen.
+    environment:
+      # Admin-Benutzer für das lokale Lab.
+      GF_SECURITY_ADMIN_USER: admin
+
+      # Passwort wird aus Docker-Secret-Datei gelesen.
+      # SECURITY: Das Passwort steht dadurch nicht direkt in der Compose-Datei.
+      GF_SECURITY_ADMIN_PASSWORD__FILE: /run/secrets/grafana_admin_password
+
+      # Für ein lokales Lab okay.
+      # In Produktion wären Domain, HTTPS, Auth und Rechtekonzepte sauber zu planen.
+      GF_USERS_ALLOW_SIGN_UP: "false"
+
+    volumes:
+      # Persistentes Grafana-Datenvolume.
+      - grafana_data:/var/lib/grafana
+
+      # Provisioning: Datenquelle Prometheus wird automatisch angelegt.
+      - ./monitoring/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+
+      # Provisioning: Dashboard-Provider wird automatisch geladen.
+      - ./monitoring/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+
+      # Beispiel-Dashboard.
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+
+    # Port 3000 wird lokal veröffentlicht.
+    # Browser: http://localhost:3000
+    ports:
+      - "3000:3000"
+
+    restart: unless-stopped
+
+    # Einfacher Healthcheck:
+    # Grafana stellt unter /api/health einen Status-Endpunkt bereit.
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://127.0.0.1:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # cAdvisor:
+  # Stellt Container-Metriken als Prometheus-Metriken bereit.
+  # Hinweis:
+  # Auf Docker Desktop unter Windows/Mac kann cAdvisor je nach Umgebung eingeschränkt sein.
+  # Für dieses Lab ist das ein bewusst kleiner Monitoring-Einstieg.
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+
+    # cAdvisor braucht Zugriff auf Docker-/Container-Informationen.
+    # Diese Mounts sind für Container-Metriken üblich, aber nicht "harmlos".
+    # SECURITY: In Produktion sehr genau prüfen, wer solche Zugriffe bekommt.
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+
+    # Lokaler Zugriff auf cAdvisor-Weboberfläche.
+    # Browser: http://localhost:8085
+    ports:
+      - "8085:8080"
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://127.0.0.1:8080/metrics || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+# Lokales Secret für Grafana.
+# Die Datei secrets/grafana_admin_password.txt bleibt lokal und wird durch .gitignore geschützt.
+secrets:
+  grafana_admin_password:
+    file: ./secrets/grafana_admin_password.txt
+
+# Persistente Volumes für Monitoring-Daten.
+volumes:
+  prometheus_data:
+  grafana_data:

@@ -50,6 +50,10 @@ docs/
 scripts/
 archive/
 
+# Monitoring-Konfigurationsdateien werden nicht für den Web-Image-Build benötigt.
+# Sie werden zur Laufzeit als Volumes in Prometheus/Grafana gemountet.
+monitoring/
+
 # Systemdateien
 Thumbs.db
 Desktop.ini

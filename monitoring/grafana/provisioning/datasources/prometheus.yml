@@ -1,0 +1,18 @@
+# Grafana Datasource Provisioning
+# Zweck:
+# - Grafana bekommt Prometheus automatisch als Datenquelle
+# - keine manuelle Einrichtung im Browser nötig
+
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+
+    # Prometheus läuft im selben Compose-Netzwerk.
+    # Grafana erreicht Prometheus über den Servicenamen "prometheus".
+    url: http://prometheus:9090
+
+    access: proxy
+    isDefault: true
+    editable: true
