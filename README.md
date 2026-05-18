@@ -51,6 +51,7 @@ Ist der Stack aus Betriebssicht bereit?
 | Stack-Readiness-Check | vorhanden |
 | Terminal-Session-Logging-Dokumentation | vorhanden |
 | Monitoring-Lab mit Prometheus, Grafana und cAdvisor | vorhanden |
+| Logging-Grundlagen mit Docker Compose | vorhanden |
 | Secret-Handling über lokale Secret-Datei | vorhanden |
 | `.gitignore`, `.dockerignore`, `.gitattributes` | vorhanden |
 | strukturierte Dokumentation | vorhanden |
@@ -423,8 +424,62 @@ docker compose -f compose.prod.yml build web
 
 
 
-## Monitoring mit Prometheus und Grafana
 
+## Logging-Grundlagen
+
+Das Projekt dokumentiert grundlegende Log-Diagnose mit Docker Compose:
+
+```text
+docs/operations/logging-basics.md
+```
+
+Ziel der Logging-Einheit:
+
+```text
+Logs gezielt abrufen
+Logs pro Service lesen
+Logs zeitlich eingrenzen
+Live-Logs beobachten
+Warnungen von echten Fehlern unterscheiden
+```
+
+Wichtige Befehle:
+
+```powershell
+docker compose -f compose.prod.yml -f compose.monitoring.yml logs --tail=20 web
+docker compose -f compose.prod.yml -f compose.monitoring.yml logs --since=10m grafana
+docker compose -f compose.prod.yml -f compose.monitoring.yml logs --follow --tail=5 web
+```
+
+Im Lab wurde ein Browserzugriff gezielt sichtbar gemacht:
+
+```text
+http://localhost:8082/?test=logcheck
+```
+
+Dadurch konnte im Webcontainer nachvollzogen werden:
+
+```text
+Browseraktion → Webcontainer → Logzeile erscheint live im Terminal
+```
+
+Fachliche Einordnung:
+
+| Logtyp | Beispiel | Bedeutung |
+|---|---|---|
+| Healthcheck-Zugriff | `Wget` mit HTTP 200 | normaler automatischer Healthcheck |
+| Browserzugriff | `Mozilla/5.0` und `?test=logcheck` | bewusst ausgelöster Zugriff |
+| cAdvisor-Warnung | fehlende `machine-id` / `system UUID` | Docker-Desktop-/WSL2-Hinweis, im Lab nicht fatal |
+
+Security-Hinweis:
+
+```text
+Logs können sensible Informationen enthalten.
+Terminal-Ausgaben und Screenshots müssen vor öffentlicher Nutzung geprüft werden.
+Secrets, Tokens und personenbezogene Daten dürfen nicht in öffentliche Logs oder Screenshots gelangen.
+```
+
+## Monitoring mit Prometheus und Grafana
 Das Projekt enthält ein kleines, bewusst begrenztes Monitoring-Lab:
 
 ```text
@@ -661,5 +716,6 @@ Ich beachte Security- und Secret-Handling.
 Ich kann eine Repository-Struktur nachvollziehbar aufbauen.
 Ich kann technische Änderungen mit Git sauber versionieren.
 ```
+
 
 
