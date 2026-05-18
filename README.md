@@ -50,6 +50,7 @@ Ist der Stack aus Betriebssicht bereit?
 | Redis-Ausfallsimulation | vorhanden |
 | Stack-Readiness-Check | vorhanden |
 | Terminal-Session-Logging-Dokumentation | vorhanden |
+| Monitoring-Lab mit Prometheus, Grafana und cAdvisor | vorhanden |
 | Secret-Handling über lokale Secret-Datei | vorhanden |
 | `.gitignore`, `.dockerignore`, `.gitattributes` | vorhanden |
 | strukturierte Dokumentation | vorhanden |
@@ -421,8 +422,82 @@ docker compose -f compose.prod.yml build web
 ---
 
 
-## GitHub Actions CI
 
+## Monitoring mit Prometheus und Grafana
+
+Das Projekt enthält ein kleines, bewusst begrenztes Monitoring-Lab:
+
+```text
+compose.monitoring.yml
+```
+
+Es ergänzt den produktionsnahen Stack um:
+
+```text
+Prometheus
+Grafana
+cAdvisor
+```
+
+Die Aufgabe der Komponenten:
+
+| Komponente | Aufgabe im Lab |
+|---|---|
+| Prometheus | sammelt Metriken |
+| Grafana | visualisiert Metriken in Dashboards |
+| cAdvisor | stellt Container-Metriken bereit |
+
+Lokale Weboberflächen:
+
+| Tool | URL |
+|---|---|
+| Prometheus | http://localhost:9090 |
+| Grafana | http://localhost:3000 |
+| cAdvisor | http://localhost:8085 |
+
+Der Monitoring-Stack wird zusammen mit dem produktionsnahen Stack gestartet:
+
+```powershell
+docker compose -f compose.prod.yml -f compose.monitoring.yml up -d --build
+```
+
+Verifikation:
+
+```powershell
+docker compose -f compose.prod.yml -f compose.monitoring.yml ps
+Invoke-WebRequest -Uri http://localhost:9090/-/ready -UseBasicParsing
+Invoke-WebRequest -Uri http://localhost:3000/api/health -UseBasicParsing
+Invoke-WebRequest -Uri http://localhost:8085/metrics -UseBasicParsing
+```
+
+Im lokalen Lab wurden Prometheus und cAdvisor als `UP` erkannt. Grafana konnte das automatisch provisionierte Dashboard `Docker Portfolio Lab Overview` anzeigen.
+
+Wichtige Einordnung:
+
+```text
+Das Monitoring-Lab zeigt die Grundidee von Metriken, Targets und Dashboards.
+Es ist keine vollständige produktionsreife Observability-Plattform.
+```
+
+In Produktion wären zusätzlich nötig:
+
+```text
+Authentifizierung
+TLS/HTTPS
+Rollen- und Rechtekonzept
+Alerting
+Retention-Konzept
+zentrale oder hochverfügbare Speicherung
+sichere Netzwerkfreigaben
+```
+
+Dokumentation:
+
+```text
+docs/operations/monitoring-prometheus-grafana.md
+```
+
+## GitHub Actions CI
 Das Repository enthält eine erste GitHub-Actions-CI-Pipeline:
 
 ```text
@@ -555,7 +630,7 @@ Mögliche nächste Schritte:
 ```text
 CI-Fehlerübungen und GitHub-Actions-Log-Diagnose
 erweiterte CI-Prüfungen, z. B. Script-Checks, Security-Checks und Build-Fehler-Simulationen
-einfaches Monitoring mit Prometheus/Grafana
+Monitoring-Fehlerübungen und erste Alerting-Grundlagen
 strukturierte Application Logs
 Reverse Proxy
 HTTPS im Lab
@@ -586,4 +661,5 @@ Ich beachte Security- und Secret-Handling.
 Ich kann eine Repository-Struktur nachvollziehbar aufbauen.
 Ich kann technische Änderungen mit Git sauber versionieren.
 ```
+
 
