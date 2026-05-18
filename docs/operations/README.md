@@ -211,8 +211,36 @@ Für echten Betrieb braucht man beides.
 
 ---
 
-### Terminal-Session-Logging
 
+### Daily Operations Runbook
+
+Relevantes Dokument:
+
+```text
+daily-operations-runbook.md
+```
+
+Gezeigte Fähigkeiten:
+
+```text
+Stack reproduzierbar starten
+Stackstatus prüfen
+Readiness Check ausführen
+Logs und Monitoring prüfen
+Secrets kontrollieren
+Git-Zustand prüfen
+Monitoring ohne Datenverlust stoppen
+Screenshots bewusst und sicher verwenden
+```
+
+Einordnung:
+
+```text
+Das Runbook bündelt wiederkehrende Betriebsabläufe.
+Es hilft dabei, den Stack nicht nur aufzubauen, sondern auch nachvollziehbar zu betreiben.
+```
+
+### Terminal-Session-Logging
 Relevantes Dokument:
 
 ```text
@@ -252,6 +280,7 @@ Wie wird CI genutzt?
 Wie werden Metriken sichtbar gemacht?
 Wie liest man Logs?
 Wie ordnet man Warnungen ein?
+Wie wird ein wiederholbarer Daily-Operations-Ablauf dokumentiert?
 ```
 
 Das ist besonders relevant für:
@@ -297,7 +326,7 @@ Kurzfristig sinnvoll:
 README weiter schlank und recruiter-tauglich halten
 Screenshots für Praxisarbeiten zuschneiden
 Monitoring-/Logging-Praxisarbeit erstellen
-praktisches Befehlstraining vorbereiten
+praktisches Befehlstraining und Simulationen vorbereiten
 ```
 
 Später sinnvoll:
@@ -318,3 +347,4 @@ persönliche Motivation
 emotionale Notizen
 vollständige Enterprise-Architektur behaupten
 ```
+
