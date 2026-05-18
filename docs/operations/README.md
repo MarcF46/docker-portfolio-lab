@@ -37,6 +37,7 @@ Das Ziel ist ein nachvollziehbares Portfolio für einen Junior Cloud-/DevOps-Eng
 | `github-actions-ci.md` | GitHub Actions CI | automatische Prüfung von Compose, Build, Stack, Web und Redis |
 | `monitoring-prometheus-grafana.md` | Prometheus, Grafana, cAdvisor | Metriken sammeln, visualisieren, Targets prüfen |
 | `logging-basics.md` | Docker Compose Logs | Logs mit `--tail`, `--since`, `--follow` lesen und einordnen |
+| daily-operations-runbook.md | Daily Operations Runbook | wiederholbarer Betriebsablauf für Start, Checks, Logs, Monitoring, Secrets und Stoppen |
 
 ---
 
@@ -347,4 +348,5 @@ persönliche Motivation
 emotionale Notizen
 vollständige Enterprise-Architektur behaupten
 ```
+
 
