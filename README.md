@@ -425,8 +425,31 @@ docker compose -f compose.prod.yml build web
 
 
 
-## Logging-Grundlagen
 
+## Operations-Dokumentation
+
+Die betriebsnahen Dokumente sind in einer eigenen Übersicht zusammengefasst:
+
+```text
+docs/operations/README.md
+```
+
+Dort sind die wichtigsten Betriebsbereiche des Labs gebündelt:
+
+```text
+Backup und Restore
+Troubleshooting
+Runtime Dependencies
+Secret Handling
+GitHub Actions CI
+Monitoring
+Logging
+Lab vs. Produktion
+```
+
+Diese Übersicht erleichtert das Lesen des Projekts und zeigt, welche praktischen Cloud-/DevOps-Grundlagen im Lab nachgewiesen werden.
+
+## Logging-Grundlagen
 Das Projekt dokumentiert grundlegende Log-Diagnose mit Docker Compose:
 
 ```text
@@ -716,6 +739,7 @@ Ich beachte Security- und Secret-Handling.
 Ich kann eine Repository-Struktur nachvollziehbar aufbauen.
 Ich kann technische Änderungen mit Git sauber versionieren.
 ```
+
 
 
 
