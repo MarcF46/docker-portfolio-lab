@@ -37,6 +37,7 @@ Das Ziel ist ein nachvollziehbares Portfolio für einen Junior Cloud-/DevOps-Eng
 | `github-actions-ci.md` | GitHub Actions CI | automatische Prüfung von Compose, Build, Stack, Web und Redis |
 | `monitoring-prometheus-grafana.md` | Prometheus, Grafana, cAdvisor | Metriken sammeln, visualisieren, Targets prüfen |
 | `logging-basics.md` | Docker Compose Logs | Logs mit `--tail`, `--since`, `--follow` lesen und einordnen |
+| incident-simulation-redis-stopped.md | Redis-Stopp Incident-Simulation | kontrollierter Redis-Ausfall, Erkennung, Behebung und Verifikation |
 | daily-operations-runbook.md | Daily Operations Runbook | wiederholbarer Betriebsablauf für Start, Checks, Logs, Monitoring, Secrets und Stoppen |
 
 ---
@@ -213,8 +214,35 @@ Für echten Betrieb braucht man beides.
 ---
 
 
-### Daily Operations Runbook
 
+### Incident-Simulation: Redis gestoppt
+
+Relevantes Dokument:
+
+```text
+incident-simulation-redis-stopped.md
+```
+
+Gezeigte Fähigkeiten:
+
+```text
+kontrollierten Fehler auslösen
+Redis-Ausfall erkennen
+Daily-Operations-Check auswerten
+Readiness-Fehler fachlich einordnen
+Redis wiederherstellen
+Fix verifizieren
+kurze Statusmeldung und Ticket-Kommentar formulieren
+```
+
+Einordnung:
+
+```text
+Die Simulation zeigt, dass ein teilweise laufender Stack nicht automatisch fachlich bereit ist.
+Web, Prometheus, Grafana und cAdvisor können weiter laufen, während Redis als Laufzeitabhängigkeit fehlt.
+```
+
+### Daily Operations Runbook
 Relevantes Dokument:
 
 ```text
@@ -282,6 +310,7 @@ Wie werden Metriken sichtbar gemacht?
 Wie liest man Logs?
 Wie ordnet man Warnungen ein?
 Wie wird ein wiederholbarer Daily-Operations-Ablauf dokumentiert?
+Wie wird ein kontrollierter Fehler erkannt, behoben und verifiziert?
 ```
 
 Das ist besonders relevant für:
@@ -348,5 +377,6 @@ persönliche Motivation
 emotionale Notizen
 vollständige Enterprise-Architektur behaupten
 ```
+
 
 
