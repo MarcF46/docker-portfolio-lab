@@ -220,8 +220,93 @@ falls Panels sichtbar keine aktuellen Containerdaten mehr erhalten.
 
 ---
 
-## Mustererkennung
 
+## Grafana-Sicht auf den cAdvisor-Ausfall
+
+Zusätzlich zur Prometheus-Sicht wurde das Grafana-Dashboard geprüft.
+
+Dabei wurde sichtbar:
+
+```text
+Grafana selbst läuft weiter.
+Prometheus läuft weiter.
+Die Anwendung läuft weiter.
+Aber cAdvisor liefert keine aktuellen Container-Metriken mehr.
+```
+
+Im Grafana-Dashboard kann sich das so zeigen:
+
+```text
+Prometheus Targets Up fällt von 2 auf 1.
+Scrape Samples für cadvisor fallen aus oder gehen auf 0.
+Container-CPU- oder Container-Memory-Zeitreihen bekommen Lücken oder laufen nicht weiter.
+Nach dem Neustart von cAdvisor kommen neue Messpunkte wieder sichtbar rein.
+```
+
+Wichtige Einordnung:
+
+```text
+Grafana ist in diesem Szenario nicht die eigentliche Fehlerursache.
+Grafana zeigt nur das Symptom.
+Die technische Ursache liegt weiter vorne in der Monitoring-Kette:
+cAdvisor liefert keine Container-Metriken mehr.
+```
+
+Diagnosekette:
+
+```text
+Symptom in Grafana:
+Dashboard zeigt fehlende oder unterbrochene Container-Metriken.
+
+Nächster Prüfschritt:
+Prometheus Targets prüfen.
+
+Bestätigung:
+Query up ausführen.
+
+Ursache:
+cAdvisor ist DOWN oder nicht erreichbar.
+
+Maßnahme:
+cAdvisor wieder starten oder Ursache prüfen.
+
+Verifikation:
+Prometheus Target cadvisor wieder UP.
+Query up zeigt cadvisor = 1.
+Grafana zeigt wieder neue Container-Metriken.
+Daily-Operations-Check meldet ERROR: 0.
+```
+
+Support-Szenario:
+
+```text
+Meldung aus einer Fachabteilung oder vom Monitoring-Bildschirm:
+"Im Grafana-Dashboard kommen keine aktuellen Containerdaten mehr an."
+
+Professionelle Einordnung:
+Nicht sofort Grafana neu starten.
+Zuerst prüfen, ob die Datenquelle und die Metrikquelle funktionieren.
+```
+
+Screenshot-Hinweis:
+
+```text
+Sinnvolle Screenshots für private Lernunterlagen:
+1. Grafana während cAdvisor-Ausfall: Prometheus Targets Up fällt auf 1
+2. Grafana nach cAdvisor-Neustart: Prometheus Targets Up geht wieder auf 2
+3. Prometheus Targets: cadvisor DOWN
+4. Prometheus Query up: cadvisor = 0
+```
+
+Merksatz:
+
+```text
+Grafana zeigt Symptome.
+Prometheus zeigt Target-Zustände.
+cAdvisor ist die eigentliche Container-Metrikquelle.
+```
+
+## Mustererkennung
 ```text
 Symptom:
 Prometheus Target cadvisor ist DOWN
@@ -285,3 +370,4 @@ Prometheus zeigte das cAdvisor-Target als DOWN, während Web, Redis, Prometheus 
 - Ein cAdvisor-Ausfall betrifft die Container-Metrikquelle, nicht automatisch die Anwendung.
 - Grafana kann nur visualisieren, was Prometheus als Datenquelle bereitstellt.
 - Bei fehlenden Dashboard-Daten sollte nicht nur Grafana geprüft werden, sondern auch Prometheus Targets und die eigentliche Metrikquelle.
+
