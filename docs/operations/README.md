@@ -39,6 +39,7 @@ Das Ziel ist ein nachvollziehbares Portfolio für einen Junior Cloud-/DevOps-Eng
 | `logging-basics.md` | Docker Compose Logs | Logs mit `--tail`, `--since`, `--follow` lesen und einordnen |
 | incident-simulation-redis-stopped.md | Redis-Stopp Incident-Simulation | kontrollierter Redis-Ausfall, Erkennung, Behebung und Verifikation |
 | incident-simulation-prometheus-stopped.md | Prometheus-Stopp Incident-Simulation | Monitoring-Ausfall, App-Readiness vs. Operations-Readiness |
+| incident-simulation-grafana-stopped.md | Grafana-Stopp Incident-Simulation | Ausfall der Monitoring-Visualisierung bei weiterhin laufender App und Metrikerfassung |
 | daily-operations-runbook.md | Daily Operations Runbook | wiederholbarer Betriebsablauf für Start, Checks, Logs, Monitoring, Secrets und Stoppen |
 
 ---
@@ -217,8 +218,42 @@ Für echten Betrieb braucht man beides.
 
 
 
-### Incident-Simulation: Prometheus gestoppt
 
+### Incident-Simulation: Grafana gestoppt
+
+Relevantes Dokument:
+
+```text
+incident-simulation-grafana-stopped.md
+```
+
+Gezeigte Fähigkeiten:
+
+```text
+Grafana-Ausfall kontrolliert auslösen
+Visualisierungsausfall erkennen
+Daily-Operations-Check auswerten
+App-Readiness und Monitoring-Visualisierung unterscheiden
+Grafana wiederherstellen
+Fix verifizieren
+kurze Statusmeldung und Ticket-Kommentar formulieren
+```
+
+Einordnung:
+
+```text
+Die Simulation zeigt, dass Web und Redis fachlich bereit bleiben können,
+während Grafana als Dashboard- und Visualisierungsschicht nicht verfügbar ist.
+```
+
+Wichtige Erkenntnis:
+
+```text
+Monitoring-Daten können weiterhin gesammelt werden,
+auch wenn die grafische Visualisierung über Grafana gestört ist.
+```
+
+### Incident-Simulation: Prometheus gestoppt
 Relevantes Dokument:
 
 ```text
@@ -411,6 +446,7 @@ persönliche Motivation
 emotionale Notizen
 vollständige Enterprise-Architektur behaupten
 ```
+
 
 
 
