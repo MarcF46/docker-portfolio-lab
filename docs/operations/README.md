@@ -42,6 +42,7 @@ Das Ziel ist ein nachvollziehbares Portfolio für einen Junior Cloud-/DevOps-Eng
 | incident-simulation-grafana-stopped.md | Grafana-Stopp Incident-Simulation | Ausfall der Monitoring-Visualisierung bei weiterhin laufender App und Metrikerfassung |
 | incident-simulation-cadvisor-stopped.md | cAdvisor-Stopp Incident-Simulation | Ausfall der Container-Metrikquelle bei weiterhin laufender App |
 | prometheus-target-health-cadvisor.md | Prometheus Target Health: cAdvisor | Prometheus Targets, Query up, cAdvisor UP/DOWN einordnen |
+| monitoring-incident-patterns.md | Monitoring Incident Patterns | Vergleich Redis-, Prometheus-, Grafana- und cAdvisor-Ausfall |
 | daily-operations-runbook.md | Daily Operations Runbook | wiederholbarer Betriebsablauf für Start, Checks, Logs, Monitoring, Secrets und Stoppen |
 
 ---
@@ -222,8 +223,43 @@ Für echten Betrieb braucht man beides.
 
 
 
-### Incident-Simulation: cAdvisor gestoppt
 
+### Monitoring Incident Patterns
+
+Relevantes Dokument:
+
+```text
+monitoring-incident-patterns.md
+```
+
+Gezeigte Fähigkeiten:
+
+```text
+Fehlerbilder vergleichen
+Redis-, Prometheus-, Grafana- und cAdvisor-Ausfall unterscheiden
+betroffenen Bereich erkennen
+Diagnosekette anwenden
+Fix und Verifikation ableiten
+kurze Statusmeldung und Ticket-Kommentar formulieren
+```
+
+Einordnung:
+
+```text
+Diese Doku fasst die bisher trainierten Betriebsfehler zusammen.
+Sie hilft bei der Mustererkennung:
+Symptom → betroffener Service → betroffener Bereich → Diagnose → Maßnahme → Verifikation.
+```
+
+Wichtige Erkenntnis:
+
+```text
+Nicht jedes sichtbare Symptom zeigt direkt die Ursache.
+Grafana kann fehlende Daten anzeigen,
+obwohl die Ursache bei Prometheus oder cAdvisor liegt.
+```
+
+### Incident-Simulation: cAdvisor gestoppt
 Relevantes Dokument:
 
 ```text
@@ -482,6 +518,7 @@ persönliche Motivation
 emotionale Notizen
 vollständige Enterprise-Architektur behaupten
 ```
+
 
 
 
