@@ -38,6 +38,7 @@ Das Ziel ist ein nachvollziehbares Portfolio für einen Junior Cloud-/DevOps-Eng
 | `monitoring-prometheus-grafana.md` | Prometheus, Grafana, cAdvisor | Metriken sammeln, visualisieren, Targets prüfen |
 | `logging-basics.md` | Docker Compose Logs | Logs mit `--tail`, `--since`, `--follow` lesen und einordnen |
 | incident-simulation-redis-stopped.md | Redis-Stopp Incident-Simulation | kontrollierter Redis-Ausfall, Erkennung, Behebung und Verifikation |
+| incident-simulation-prometheus-stopped.md | Prometheus-Stopp Incident-Simulation | Monitoring-Ausfall, App-Readiness vs. Operations-Readiness |
 | daily-operations-runbook.md | Daily Operations Runbook | wiederholbarer Betriebsablauf für Start, Checks, Logs, Monitoring, Secrets und Stoppen |
 
 ---
@@ -410,6 +411,7 @@ persönliche Motivation
 emotionale Notizen
 vollständige Enterprise-Architektur behaupten
 ```
+
 
 
 
