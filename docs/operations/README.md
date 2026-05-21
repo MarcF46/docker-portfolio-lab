@@ -215,8 +215,41 @@ Für echten Betrieb braucht man beides.
 
 
 
-### Incident-Simulation: Redis gestoppt
 
+### Incident-Simulation: Prometheus gestoppt
+
+Relevantes Dokument:
+
+```text
+incident-simulation-prometheus-stopped.md
+```
+
+Gezeigte Fähigkeiten:
+
+```text
+Monitoring-Ausfall kontrolliert auslösen
+Prometheus-Ausfall erkennen
+Daily-Operations-Check auswerten
+App-Readiness und Operations-Readiness unterscheiden
+Prometheus wiederherstellen
+Fix verifizieren
+kurze Statusmeldung und Ticket-Kommentar formulieren
+```
+
+Einordnung:
+
+```text
+Die Simulation zeigt, dass Web und Redis fachlich bereit bleiben können,
+während die Beobachtbarkeit durch einen Prometheus-Ausfall beschädigt ist.
+```
+
+Wichtige Erkenntnis:
+
+```text
+App-Stack bereit ist nicht automatisch gleich Operations-Stack vollständig bereit.
+```
+
+### Incident-Simulation: Redis gestoppt
 Relevantes Dokument:
 
 ```text
@@ -377,6 +410,7 @@ persönliche Motivation
 emotionale Notizen
 vollständige Enterprise-Architektur behaupten
 ```
+
 
 
 
