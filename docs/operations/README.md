@@ -40,6 +40,7 @@ Das Ziel ist ein nachvollziehbares Portfolio für einen Junior Cloud-/DevOps-Eng
 | incident-simulation-redis-stopped.md | Redis-Stopp Incident-Simulation | kontrollierter Redis-Ausfall, Erkennung, Behebung und Verifikation |
 | incident-simulation-prometheus-stopped.md | Prometheus-Stopp Incident-Simulation | Monitoring-Ausfall, App-Readiness vs. Operations-Readiness |
 | incident-simulation-grafana-stopped.md | Grafana-Stopp Incident-Simulation | Ausfall der Monitoring-Visualisierung bei weiterhin laufender App und Metrikerfassung |
+| incident-simulation-cadvisor-stopped.md | cAdvisor-Stopp Incident-Simulation | Ausfall der Container-Metrikquelle bei weiterhin laufender App |
 | daily-operations-runbook.md | Daily Operations Runbook | wiederholbarer Betriebsablauf für Start, Checks, Logs, Monitoring, Secrets und Stoppen |
 
 ---
@@ -219,8 +220,42 @@ Für echten Betrieb braucht man beides.
 
 
 
-### Incident-Simulation: Grafana gestoppt
 
+### Incident-Simulation: cAdvisor gestoppt
+
+Relevantes Dokument:
+
+```text
+incident-simulation-cadvisor-stopped.md
+```
+
+Gezeigte Fähigkeiten:
+
+```text
+cAdvisor-Ausfall kontrolliert auslösen
+Container-Metrikquelle als betroffenen Bereich erkennen
+Daily-Operations-Check auswerten
+App-Readiness und Container-Metrikerfassung unterscheiden
+cAdvisor wiederherstellen
+Fix verifizieren
+kurze Statusmeldung und Ticket-Kommentar formulieren
+```
+
+Einordnung:
+
+```text
+Die Simulation zeigt, dass Web und Redis fachlich bereit bleiben können,
+während cAdvisor als Container-Metrikquelle nicht verfügbar ist.
+```
+
+Wichtige Erkenntnis:
+
+```text
+Ohne cAdvisor fehlen Container-Metriken,
+obwohl Web, Redis, Prometheus und Grafana weiter laufen können.
+```
+
+### Incident-Simulation: Grafana gestoppt
 Relevantes Dokument:
 
 ```text
@@ -446,6 +481,7 @@ persönliche Motivation
 emotionale Notizen
 vollständige Enterprise-Architektur behaupten
 ```
+
 
 
 
