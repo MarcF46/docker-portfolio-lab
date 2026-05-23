@@ -1,0 +1,35 @@
+# compose.registry-test.yml
+#
+# Zweck:
+# Diese Datei testet, ob ein bereits gebautes Image aus einer Registry verwendet werden kann.
+#
+# Unterschied zu compose.prod.yml:
+# - compose.prod.yml baut den Web-Service aus Dockerfile + Build-Kontext.
+# - diese Datei baut NICHTS, sondern nutzt ein fertiges Image aus der lokalen Registry.
+#
+# Registry in diesem Lab:
+# localhost:5000
+#
+# Image:
+# localhost:5000/handsonlabs/my-web:v1.2
+
+services:
+  web-registry-test:
+    # Dieses Image kommt aus der lokalen Registry.
+    # Es wurde vorher mit docker image push nach localhost:5000 hochgeladen.
+    image: localhost:5000/handsonlabs/my-web:v1.2
+
+    # Der Container lauscht intern auf Port 80.
+    # Auf deinem Windows-Host ist er über http://localhost:8083 erreichbar.
+    ports:
+      - "8083:80"
+
+    # Name nur für bessere Lesbarkeit im Lab.
+    # In großen Produktionsumgebungen wird container_name oft weggelassen,
+    # damit Orchestrierungssysteme Container frei benennen können.
+    container_name: dockerbung-web-registry-test
+
+    # Restart Policy für das lokale Lab:
+    # Wenn der Container abstürzt, wird er nicht automatisch dauerhaft neugestartet.
+    # Für echte Produktion würde man das je nach Umgebung anders bewerten.
+    restart: "no"
