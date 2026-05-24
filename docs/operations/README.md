@@ -43,6 +43,7 @@ Das Ziel ist ein nachvollziehbares Portfolio für einen Junior Cloud-/DevOps-Eng
 | incident-simulation-cadvisor-stopped.md | cAdvisor-Stopp Incident-Simulation | Ausfall der Container-Metrikquelle bei weiterhin laufender App |
 | prometheus-target-health-cadvisor.md | Prometheus Target Health: cAdvisor | Prometheus Targets, Query up, cAdvisor UP/DOWN einordnen |
 | monitoring-incident-patterns.md | Monitoring Incident Patterns | Vergleich Redis-, Prometheus-, Grafana- und cAdvisor-Ausfall |
+| docker-registry-push-pull.md | Docker Registry, Push, Pull und Digest | lokale Registry, Image push/pull, Compose-Registry-Test und Digest-Fehlerbild |
 | daily-operations-runbook.md | Daily Operations Runbook | wiederholbarer Betriebsablauf für Start, Checks, Logs, Monitoring, Secrets und Stoppen |
 
 ---
@@ -224,8 +225,47 @@ Für echten Betrieb braucht man beides.
 
 
 
-### Monitoring Incident Patterns
 
+### Docker Registry, Push, Pull und Digest
+
+Relevantes Dokument:
+
+```text
+docker-registry-push-pull.md
+```
+
+Gezeigte Fähigkeiten:
+
+```text
+lokale Registry starten
+Image für Registry taggen
+Image in Registry pushen
+Image aus Registry pullen
+Registry per API prüfen
+Compose mit fertigem Registry-Image nutzen
+Digest auslesen und einordnen
+Fehler durch fehlende Registry-Adresse erkennen
+```
+
+Einordnung:
+
+```text
+Diese Doku zeigt den Unterschied zwischen lokalem Docker Image Store,
+Docker Build Cache und Registry.
+Sie erklärt außerdem, warum ein Digest genauer ist als ein Tag
+und warum die Registry-Adresse beim Pull entscheidend ist.
+```
+
+Wichtige Erkenntnis:
+
+```text
+Git speichert Code.
+Docker baut daraus Images.
+Die Registry verteilt Images an Server, Cloud oder Kubernetes.
+Der Digest beschreibt einen eindeutigen Image-Inhalt.
+```
+
+### Monitoring Incident Patterns
 Relevantes Dokument:
 
 ```text
@@ -518,6 +558,7 @@ persönliche Motivation
 emotionale Notizen
 vollständige Enterprise-Architektur behaupten
 ```
+
 
 
 
