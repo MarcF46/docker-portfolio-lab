@@ -438,7 +438,7 @@ Deshalb:
 
 ```text
 Grafana nicht ungeschützt öffentlich ins Internet stellen.
-Dashboards vor Screenshots prüfen.
+Screenshots von Dashboards vor Veröffentlichung auf sensible Informationen prüfen.
 Keine Secrets in Labels, Logs oder Dashboard-Texten anzeigen.
 Admin-Passwörter nicht committen.
 Monitoring-Zugriff in Produktion rollenbasiert absichern.
