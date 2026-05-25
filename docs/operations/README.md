@@ -523,60 +523,9 @@ Es ist bewusst nicht gleichzusetzen mit vollständigem produktivem Betrieb.
 
 ---
 
-## Recruiter-taugliche Kurzbeschreibung
+## Projektkurzbeschreibung
 
-> Dieses Projekt dokumentiert ein lokales Docker-/DevOps-Lab mit produktionsnahen Betriebsgrundlagen. Enthalten sind Docker Compose, Redis mit persistentem Volume, Backup-/Restore-Übungen, Healthchecks, Secret Handling, Stack-Readiness-Prüfungen, GitHub Actions CI, Monitoring mit Prometheus/Grafana/cAdvisor sowie grundlegende Log-Diagnose. Die Dokumentation grenzt Lernlabor und produktiven Betrieb bewusst voneinander ab und zeigt typische Diagnose- und Betriebsabläufe.
+> Dieses Projekt dokumentiert ein lokales Docker-/DevOps-Lab mit praxisnahen Betriebsgrundlagen. Enthalten sind Docker Compose, Redis mit persistentem Volume, Backup-/Restore-Übungen, Healthchecks, Secret Handling, Stack-Readiness-Prüfungen, GitHub Actions CI, Monitoring mit Prometheus/Grafana/cAdvisor sowie grundlegende Log-Diagnose. Die Dokumentation grenzt Lernlabor und produktiven Betrieb bewusst voneinander ab und zeigt typische Diagnose- und Betriebsabläufe.
 
 ---
 
-## Nächste sinnvolle Ausbaustufen
-
-Kurzfristig sinnvoll:
-
-```text
-README weiter schlank und recruiter-tauglich halten
-Screenshots für Praxisarbeiten zuschneiden
-Monitoring-/Logging-Praxisarbeit erstellen
-praktisches Befehlstraining und Simulationen vorbereiten
-```
-
-Später sinnvoll:
-
-```text
-CI-Fehlerübungen
-Log-Diagnose-Simulationen
-kleine Alerting-Grundlagen
-Cloud-Grundlagen
-Kubernetes-Grundlagen
-```
-
-Nicht Ziel dieser Datei:
-
-```text
-private Karriereplanung
-persönliche Motivation
-emotionale Notizen
-vollständige Enterprise-Architektur behaupten
-```
-
-
-
-
-
-
-
-
-
-
-
-- [Docker Netzwerk Grundlagen](docker-network-basics.md)
-
-- [Docker Volume Backup und Restore](docker-volume-backup-restore.md)
-
-- [Docker Compose Umgebungen](docker-compose-environments.md)
-
-- [Docker Cleanup sicher bewerten](docker-cleanup-safety.md)
-
-- [Docker Security und Production Readiness](docker-security-readiness.md)
-
-- [Docker Final Readiness Check](docker-final-readiness-check.md)
