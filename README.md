@@ -1,5 +1,38 @@
 # Docker Portfolio Lab
 
+Praxisnahes Docker-/DevOps-Portfolio mit Fokus auf Containerbetrieb, Troubleshooting, Backup/Restore, Healthchecks, Readiness-Checks, Secret-Handling, Logging, Monitoring und sauberer Repository-Struktur.
+
+Dieses Repository ist bewusst kein reines Hello-World-Projekt. Es zeigt anhand eines kleinen containerisierten Stacks, dass Docker-Container nicht nur gestartet, sondern auch geprüft, dokumentiert, abgesichert und in realistischeren Betriebsfällen getestet werden können.
+
+## Kurzüberblick
+
+Dieses Projekt ist ein praxisnahes Docker-/DevOps-Lab für den Einstieg in Cloud-, DevOps-, Plattform- und Systemadministrationsrollen.
+
+Es zeigt unter anderem:
+
+- Aufbau eines containerisierten Web-/Redis-Stacks mit Docker Compose
+- Trennung zwischen Development- und produktionsnaher Compose-Konfiguration
+- persistente Redis-Datenhaltung über Docker Volumes
+- Healthchecks und Stack-Readiness-Checks
+- Backup und getesteter Restore
+- Secret-Handling ohne Commit echter Secrets
+- Logging-Grundlagen und Terminal-Session-Logging
+- Monitoring-Lab mit Prometheus, Grafana und cAdvisor
+- GitHub Actions CI zur automatisierten Prüfung
+- Simulation typischer Betriebs- und Fehlerfälle
+
+## Was dieses Projekt nachweist
+
+Dieses Projekt zeigt praktische Grundlagen für Junior-Rollen im Bereich Cloud, DevOps, Plattformbetrieb und Systemadministration:
+
+- Ich kann Docker-Stacks strukturiert aufbauen, starten und prüfen.
+- Ich kann Container-Zustände, Healthchecks und Readiness nachvollziehbar bewerten.
+- Ich kann Persistenz, Backup und Restore dokumentieren und testen.
+- Ich kann einfache Ausfälle simulieren und das Verhalten des Stacks analysieren.
+- Ich achte auf Secret-Handling, `.gitignore`, `.dockerignore` und saubere Repository-Hygiene.
+- Ich kann technische Arbeit so dokumentieren, dass andere sie nachvollziehen können.
+
+> Hinweis: Dieses Projekt ist ein Lern- und Portfolio-Lab. Es ist bewusst produktionsnah aufgebaut, ersetzt aber keine vollständige Enterprise-Produktionsumgebung.
 Praxisnahes Docker-/DevOps-Lernprojekt mit Fokus auf Betrieb, Troubleshooting, Backup/Restore, Healthchecks, Readiness-Checks, Secret-Handling und sauberer Repository-Struktur.
 
 Dieses Repository ist bewusst **kein reines Hello-World-Projekt**. Es dient als Junior-Portfolio-Projekt, um zu zeigen, dass Docker-Container nicht nur gestartet, sondern auch geprüft, dokumentiert, abgesichert und in realistischeren Betriebsfällen getestet werden können.
