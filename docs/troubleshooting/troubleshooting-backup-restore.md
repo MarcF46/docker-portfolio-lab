@@ -107,7 +107,7 @@ Get-Content .\logs\backup-restore.log
 
 ---
 
-# Troubleshooting-Matrix
+## Troubleshooting-Matrix
 
 | Fehlerklasse | Praxis-Häufigkeit | Risiko | Erste Prüfung |
 |---|---|---|---|
@@ -115,20 +115,20 @@ Get-Content .\logs\backup-restore.log
 | Volume existiert nicht | häufig | hoch | `docker volume ls` |
 | Backup-Ordner fehlt | sehr häufig lokal | mittel | `dir backups` |
 | Backup-Datei beschädigt | gelegentlich | sehr hoch | `tar tzf` |
-| Speicherplatz voll | häufig in Betrieb | hoch | `Get-PSDrive`, `docker system df` |
-| Redis-Passwort falsch | häufig bei Secrets | mittel | `redis-cli PING` |
+| Speicherplatz voll | häufig im Betrieb | hoch | `Get-PSDrive`, `docker system df` |
+| Redis-Passwort falsch | häufig bei Secrets | mittel | Redis `PING` mit Secret |
 | Restore-Container startet nicht | häufig | mittel | `docker ps -a` |
 | Volume ist in Benutzung | gelegentlich | hoch | `docker ps -a` |
-| Restore fachlich falsch | gelegentlich | sehr hoch | `GET training_status` |
+| Restore fachlich falsch | gelegentlich | sehr hoch | Redis `GET training_status` |
 | Logdatei kann nicht geschrieben werden | gelegentlich | mittel | `dir logs` |
 | PowerShell fängt Fehler nicht ab | häufig bei externen Tools | hoch | `$LASTEXITCODE`, `$?` |
 | Falsches Arbeitsverzeichnis | sehr häufig bei Anfängern | niedrig bis mittel | `pwd`, `dir` |
 
 ---
 
-# Fehlerklasse 1: Docker läuft nicht
+## Fehlerklasse 1: Docker läuft nicht
 
-## Typische Fehlermeldungen
+### Typische Fehlermeldungen
 
 ```text
 Cannot connect to the Docker daemon
@@ -136,25 +136,25 @@ docker daemon is not running
 error during connect
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Docker Desktop oder die Docker Engine läuft nicht. Das Skript kann dadurch keine Container starten, keine Volumes einhängen und keine Backup-Container ausführen.
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 häufig in lokalen Lern- und Entwicklungsumgebungen
 gelegentlich auf Servern nach Neustarts oder Docker-Problemen
 ```
 
-## Erste Prüfung
+### Erste Prüfung
 
 ```powershell
 docker version
 docker ps
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
 
 ```text
 Docker Desktop starten
@@ -163,7 +163,7 @@ System neu starten, falls Docker hängt
 danach docker ps erneut testen
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Backup kann nicht erstellt werden.
@@ -173,16 +173,16 @@ Es wurden aber noch keine Docker-Volume-Daten verändert.
 
 ---
 
-# Fehlerklasse 2: Docker Volume existiert nicht
+## Fehlerklasse 2: Docker Volume existiert nicht
 
-## Typische Fehlermeldung
+### Typische Fehlermeldung
 
 ```text
 Error response from daemon: get dockerbung_redis_data_prod: no such volume
 no such volume
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Das erwartete Docker Volume wurde nicht gefunden.
 
@@ -197,21 +197,21 @@ Docker Desktop nutzt anderen Kontext
 Compose-Projektname hat sich geändert
 ```
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 häufig bei Docker Compose und Lernumgebungen
 häufig nach Umbenennungen von Projekten oder Compose-Dateien
 ```
 
-## Erste Prüfung
+### Erste Prüfung
 
 ```powershell
 docker volume ls
 docker volume inspect dockerbung_redis_data_prod
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
 
 ```text
 korrekten Volume-Namen ermitteln
@@ -220,13 +220,13 @@ Projektname prüfen
 nicht blind ein neues Volume erzeugen, bevor klar ist, ob alte Daten noch existieren
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Wenn versehentlich ein neues leeres Volume verwendet wird, können Anwendungen scheinbar starten, aber ohne die erwarteten Daten.
 ```
 
-## Merksatz
+### Merksatz
 
 ```text
 Ein leerer Start ist nicht automatisch ein erfolgreicher Restore.
@@ -234,9 +234,9 @@ Ein leerer Start ist nicht automatisch ein erfolgreicher Restore.
 
 ---
 
-# Fehlerklasse 3: Backup-Ordner fehlt oder Pfad ist falsch
+## Fehlerklasse 3: Backup-Ordner fehlt oder Pfad ist falsch
 
-## Typische Fehlermeldungen
+### Typische Fehlermeldungen
 
 ```text
 Cannot find path
@@ -244,7 +244,7 @@ No such file or directory
 tar: can't open
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Der lokale Ordner `backups/` existiert nicht oder wurde falsch in den temporären Backup-Container eingebunden.
 
@@ -258,26 +258,26 @@ PowerShell-Zeilenumbruch falsch gesetzt
 Backup-Ordner wurde gelöscht
 ```
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 sehr häufig in lokalen Windows-/PowerShell-Umgebungen
 ```
 
-## Erste Prüfung
+### Erste Prüfung
 
 ```powershell
 pwd
 dir backups
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
 
 ```powershell
 New-Item -ItemType Directory -Path backups -Force
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Backup wird nicht geschrieben.
@@ -286,9 +286,9 @@ Wenn das Skript diesen Fehler nicht erkennt, glaubt man eventuell fälschlich, e
 
 ---
 
-# Fehlerklasse 4: Backup-Datei ist leer oder beschädigt
+## Fehlerklasse 4: Backup-Datei ist leer oder beschädigt
 
-## Typische Fehlermeldungen
+### Typische Fehlermeldungen
 
 ```text
 Dateigröße: 0 Bytes
@@ -296,7 +296,7 @@ tar: unexpected EOF
 gzip: stdin: unexpected end of file
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Die Backup-Datei wurde zwar erzeugt, ist aber nicht brauchbar.
 
@@ -310,14 +310,14 @@ tar konnte nicht vollständig schreiben
 Datei wurde beschädigt
 ```
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 gelegentlich
 kritisch, wenn Backups nicht geprüft werden
 ```
 
-## Erste Prüfung
+### Erste Prüfung
 
 ```powershell
 dir backups
@@ -332,7 +332,7 @@ docker run --rm `
   tar tzf /backup/redis_data_prod_backup.tar.gz
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
 
 ```text
 Backup neu erstellen
@@ -342,13 +342,13 @@ Restore-Test durchführen
 beschädigte Datei nicht als gültiges Backup verwenden
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Sehr hoch, wenn der Fehler erst im Ernstfall auffällt.
 ```
 
-## Merksatz
+### Merksatz
 
 ```text
 Eine vorhandene Datei ist noch kein brauchbares Backup.
@@ -356,9 +356,9 @@ Eine vorhandene Datei ist noch kein brauchbares Backup.
 
 ---
 
-# Fehlerklasse 5: Speicherplatz voll
+## Fehlerklasse 5: Speicherplatz voll
 
-## Typische Fehlermeldungen
+### Typische Fehlermeldungen
 
 ```text
 no space left on device
@@ -367,7 +367,7 @@ failed to copy
 not enough space
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Das Backup kann nicht vollständig geschrieben werden, weil ein Speicherbereich voll ist.
 
@@ -382,14 +382,14 @@ NAS oder Backup-Ziel
 temporärer Docker-Speicher
 ```
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 häufig in realen Betriebsumgebungen
 häufig bei fehlender Retention Policy
 ```
 
-## Erste Prüfung
+### Erste Prüfung
 
 ```powershell
 Get-PSDrive
@@ -397,7 +397,7 @@ docker system df
 dir backups
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
 
 ```text
 alte lokale Testbackups prüfen
@@ -414,7 +414,7 @@ Nicht blind docker system prune ausführen.
 Erst prüfen, was gelöscht würde.
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Backup-Datei kann unvollständig sein.
@@ -424,16 +424,16 @@ Restore-Test ist danach Pflicht.
 
 ---
 
-# Fehlerklasse 6: Redis-Passwort falsch
+## Fehlerklasse 6: Redis-Passwort falsch
 
-## Typische Fehlermeldungen
+### Typische Fehlermeldungen
 
 ```text
 WRONGPASS invalid username-password pair or user is disabled
 NOAUTH Authentication required
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Redis läuft, aber die Authentifizierung ist falsch oder fehlt.
 
@@ -441,23 +441,25 @@ Mögliche Gründe:
 
 ```text
 falsches Passwort im Skript
-.env wurde geändert
+Secret-Datei wurde geändert
 dev/prod verwechselt
 Secret falsch eingespielt
 Redis-Konfiguration geändert
-Passwort in Compose-Datei und Skript stimmen nicht überein
+Passwort im Container und Prüfskript stimmen nicht überein
 ```
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 häufig bei Umgebungsvariablen, Secrets und getrennten dev/prod-Konfigurationen
 ```
 
-## Erste Prüfung
+### Erste Prüfung
+
+Das Passwort soll nicht als Klartextargument mit `redis-cli -a ...` im Terminal erscheinen. Im Projekt wird es aus der Secret-Datei im Container gelesen:
 
 ```powershell
-docker exec -it dockerbung-redis-1 redis-cli -a local_redis_password_please_change PING
+docker exec dockerbung-redis-1 sh -c 'export REDISCLI_AUTH=$(cat /run/secrets/redis_password); redis-cli PING'
 ```
 
 Erwartung:
@@ -466,17 +468,17 @@ Erwartung:
 PONG
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
 
 ```text
-Passwortquelle prüfen
-.env prüfen
+Secret-Datei prüfen
+Compose-Secrets prüfen
 compose.dev.yml und compose.prod.yml vergleichen
 Skripte auf hart codierte Werte prüfen
-Secret-Management verbessern
+Secret-Handling vereinheitlichen
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Backup kann technisch vorhanden sein, aber Restore-Prüfung schlägt fehl.
@@ -485,9 +487,9 @@ Ohne korrekte Authentifizierung kann nicht geprüft werden, ob die erwarteten Da
 
 ---
 
-# Fehlerklasse 7: Restore-Testcontainer startet nicht
+## Fehlerklasse 7: Restore-Testcontainer startet nicht
 
-## Typische Fehlermeldungen
+### Typische Fehlermeldungen
 
 ```text
 Conflict. The container name "/redis-restore-test" is already in use
@@ -495,7 +497,7 @@ No such image: redis:alpine
 port is already allocated
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Der Testcontainer kann nicht gestartet werden.
 
@@ -509,21 +511,23 @@ Docker hat keinen Netzwerkzugriff
 Containername ist bereits vergeben
 ```
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 häufig in lokalen Testumgebungen
 gelegentlich in CI/CD-Pipelines
 ```
 
-## Erste Prüfung
+### Erste Prüfung
 
 ```powershell
 docker ps -a
 docker images
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
+
+Nur für den Restore-Testcontainer:
 
 ```powershell
 docker rm -f redis-restore-test
@@ -535,7 +539,7 @@ Falls das Image fehlt:
 docker pull redis:alpine
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Restore-Test kann nicht durchgeführt werden.
@@ -544,34 +548,36 @@ Das Backup darf dadurch nicht automatisch als gültig betrachtet werden.
 
 ---
 
-# Fehlerklasse 8: Restore-Volume ist in Benutzung
+## Fehlerklasse 8: Restore-Volume ist in Benutzung
 
-## Typische Fehlermeldung
+### Typische Fehlermeldung
 
 ```text
 volume is in use
 remove dockerbung_redis_data_restore_test: volume is in use
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Ein Container verwendet das Restore-Test-Volume noch.
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 gelegentlich
 häufig nach abgebrochenen Tests
 ```
 
-## Erste Prüfung
+### Erste Prüfung
 
 ```powershell
 docker ps -a
 docker volume ls
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
+
+Nur für Testressourcen:
 
 ```powershell
 docker rm -f redis-restore-test
@@ -585,7 +591,7 @@ Nur Restore-Test-Volumes löschen.
 Produktions-Volumes nicht blind löschen.
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Bei falschem Volume-Namen kann Datenverlust entstehen.
@@ -593,9 +599,9 @@ Bei falschem Volume-Namen kann Datenverlust entstehen.
 
 ---
 
-# Fehlerklasse 9: Restore fachlich fehlgeschlagen
+## Fehlerklasse 9: Restore fachlich fehlgeschlagen
 
-## Typische Symptome
+### Typische Symptome
 
 ```text
 Redis startet
@@ -605,7 +611,7 @@ erwarteter Wert fehlt
 falscher Wert wird gelesen
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Der Restore war technisch möglich, aber der Dateninhalt entspricht nicht der Erwartung.
 
@@ -620,17 +626,19 @@ Redis-Persistenz war nicht aktiv
 falsche Umgebung wurde getestet
 ```
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 gelegentlich
 besonders gefährlich, weil es auf den ersten Blick erfolgreich wirken kann
 ```
 
-## Erste Prüfung
+### Erste Prüfung
+
+Das Passwort soll auch hier nicht als Klartextargument erscheinen:
 
 ```powershell
-docker exec -it redis-restore-test redis-cli -a local_redis_password_please_change GET training_status
+docker exec redis-restore-test sh -c 'export REDISCLI_AUTH=$(cat /run/secrets/redis_password); redis-cli GET training_status'
 ```
 
 Zusätzlich:
@@ -641,7 +649,7 @@ docker volume inspect dockerbung_redis_data_restore_test
 dir backups
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
 
 ```text
 korrekte Backup-Datei identifizieren
@@ -652,14 +660,14 @@ Backup erneut erstellen
 Restore-Test erneut durchführen
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Sehr hoch.
 Ein technisch erfolgreicher Restore ist wertlos, wenn die fachlich erwarteten Daten fehlen.
 ```
 
-## Merksatz
+### Merksatz
 
 ```text
 Restore erfolgreich heißt nicht nur: Container startet.
@@ -668,9 +676,9 @@ Restore erfolgreich heißt: erwartete Daten sind wieder vorhanden.
 
 ---
 
-# Fehlerklasse 10: Logdatei kann nicht geschrieben werden
+## Fehlerklasse 10: Logdatei kann nicht geschrieben werden
 
-## Typische Fehlermeldungen
+### Typische Fehlermeldungen
 
 ```text
 Access to the path is denied
@@ -678,7 +686,7 @@ Cannot find path
 UnauthorizedAccessException
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Das Skript kann nicht in den Ordner `logs/` oder die Datei `logs/backup-restore.log` schreiben.
 
@@ -693,14 +701,14 @@ Pfad falsch
 Datei ist schreibgeschützt
 ```
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 gelegentlich
 häufiger in eingeschränkten Unternehmensumgebungen
 ```
 
-## Erste Prüfung
+### Erste Prüfung
 
 ```powershell
 dir logs
@@ -713,7 +721,7 @@ Testweise schreiben:
 Add-Content -Path .\logs\backup-restore.log -Value "test"
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
 
 ```text
 logs-Ordner neu erstellen
@@ -722,7 +730,7 @@ Datei schließen, falls sie in einem Editor gesperrt ist
 Pfad im Skript prüfen
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Backup kann eventuell funktionieren, aber es gibt keinen Betriebsnachweis.
@@ -731,9 +739,9 @@ Fehler sind später schwer nachvollziehbar.
 
 ---
 
-# Fehlerklasse 11: PowerShell-Fehler wird nicht abgefangen
+## Fehlerklasse 11: PowerShell-Fehler wird nicht abgefangen
 
-## Typisches Verhalten
+### Typisches Verhalten
 
 ```text
 Fehler erscheint rot im Terminal
@@ -742,26 +750,24 @@ Log enthält keinen ERROR-Eintrag
 $LASTEXITCODE wird nicht geprüft
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
-Nicht jeder externe Befehl erzeugt automatisch einen PowerShell-Fehler, der von `try/catch` abgefangen wird.
+Nicht jeder externe Befehl erzeugt automatisch einen PowerShell-Fehler, der von `try/catch` abgefangen wird. Docker, Redis CLI oder TAR können mit Exitcodes arbeiten.
 
-Docker, Redis CLI oder TAR können mit Exitcodes arbeiten.
-
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 häufig bei Skripten, die externe Programme starten
 ```
 
-## Erste Prüfung
+### Erste Prüfung
 
 ```powershell
 $LASTEXITCODE
 $?
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
 
 ```text
 nach externen Befehlen $LASTEXITCODE prüfen
@@ -769,13 +775,13 @@ bei Fehler explizit throw verwenden
 Fehler mit try/catch protokollieren
 ```
 
-## Risiko
+### Risiko
 
 ```text
 Skript meldet Erfolg, obwohl ein Teilbefehl fehlgeschlagen ist.
 ```
 
-## Merksatz
+### Merksatz
 
 ```text
 Ein Skript ist erst robust, wenn es Fehler nicht nur anzeigt, sondern korrekt bewertet.
@@ -783,9 +789,9 @@ Ein Skript ist erst robust, wenn es Fehler nicht nur anzeigt, sondern korrekt be
 
 ---
 
-# Fehlerklasse 12: Falsches Arbeitsverzeichnis
+## Fehlerklasse 12: Falsches Arbeitsverzeichnis
 
-## Typische Fehlermeldungen
+### Typische Fehlermeldungen
 
 ```text
 The argument '.\scripts\backup\backup-and-test-redis.ps1' is not recognized
@@ -793,18 +799,18 @@ Cannot find path '.\scripts\...'
 dir backups zeigt nichts
 ```
 
-## Wahrscheinliche Ursache
+### Wahrscheinliche Ursache
 
 Der Befehl wurde nicht aus dem Projektordner gestartet.
 
-## Praxis-Häufigkeit
+### Praxis-Häufigkeit
 
 ```text
 sehr häufig bei Anfängern
 häufig nach Neustart von VS Code oder Terminal
 ```
 
-## Erste Prüfung
+### Erste Prüfung
 
 ```powershell
 pwd
@@ -817,7 +823,7 @@ Erwarteter Projektordner:
 C:\Docker Übung
 ```
 
-## Mögliche Lösung
+### Mögliche Lösung
 
 ```powershell
 cd "C:\Docker Übung"
@@ -825,7 +831,7 @@ cd "C:\Docker Übung"
 
 Dann Befehl erneut starten.
 
-## Risiko
+### Risiko
 
 ```text
 Skript findet Dateien nicht oder schreibt Backups/Logs an unerwartete Orte.
@@ -833,7 +839,7 @@ Skript findet Dateien nicht oder schreibt Backups/Logs an unerwartete Orte.
 
 ---
 
-# Realistische Logeinträge
+## Realistische Logeinträge
 
 Gute Logeinträge sollten nicht nur sagen:
 
@@ -868,7 +874,7 @@ Beispiele:
 
 ---
 
-# Sichere Labor-Reproduktion
+## Sichere Labor-Reproduktion
 
 Für das Training sollen Fehler nur dann nachgestellt werden, wenn sie keine produktiven Daten gefährden.
 
@@ -894,7 +900,7 @@ Live-Datenbank beschädigen
 
 ---
 
-# Diagnose-Routine für dieses Projekt
+## Diagnose-Routine für dieses Projekt
 
 Bei Fehlern in diesem Docker-Lab zuerst ausführen:
 
@@ -918,7 +924,7 @@ docker compose -f compose.prod.yml ps
 Redis prüfen:
 
 ```powershell
-docker exec -it dockerbung-redis-1 redis-cli -a local_redis_password_please_change GET training_status
+docker exec dockerbung-redis-1 sh -c 'export REDISCLI_AUTH=$(cat /run/secrets/redis_password); redis-cli GET training_status'
 ```
 
 Backup-Archiv prüfen:
@@ -932,7 +938,7 @@ docker run --rm `
 
 ---
 
-# Dokumentationsschema für Fehlerfälle
+## Dokumentationsschema für Fehlerfälle
 
 Wenn ein Fehler auftritt, sollte er so dokumentiert werden:
 
@@ -970,7 +976,7 @@ Nächste Verbesserung: Backup-Dateinamen und erwarteten Datenstand besser dokume
 
 ---
 
-# Quellenbasis und Einordnung
+## Quellenbasis und Einordnung
 
 Dieses Dokument orientiert sich an folgenden Quellenarten:
 
@@ -978,7 +984,7 @@ Dieses Dokument orientiert sich an folgenden Quellenarten:
 offizielle Docker-Dokumentation zu Volumes, Backup, Restore und Migration
 offizielle Microsoft-Dokumentation zu PowerShell try/catch/finally
 offizielle Redis-Dokumentation zu Persistenz mit RDB und AOF
-praxisnahen Betriebsprinzipien aus Backup, Restore, Logging und Incident Response
+praxisnahe Betriebsprinzipien aus Backup, Restore, Logging und Incident Response
 ```
 
 Fremde Skripte oder Community-Beispiele sollten nie blind übernommen werden.
@@ -996,7 +1002,7 @@ dokumentieren
 
 ---
 
-# Praxis-Fazit
+## Praxis-Fazit
 
 Ein guter Backup-und-Restore-Prozess besteht nicht nur aus einem erfolgreichen Befehl.
 

@@ -2,7 +2,7 @@
 
 ## Ziel dieses Dokuments
 
-Dieses Dokument erklärt, wie eine einfache Backup-Retention-Policy aus dem Lernprojekt später in Richtung einer professionelleren Backup-Strategie erweitert werden kann.
+Dieses Dokument erklärt, wie eine einfache Backup-Retention-Policy aus dem Lernprojekt später in Richtung einer produktionsnäheren Backup-Strategie erweitert werden kann.
 
 Im Projekt wurde bereits umgesetzt:
 
@@ -61,7 +61,7 @@ scripts/retention/cleanup-old-backups.ps1
 
 ## Aktuelle Backup-Aufbewahrung im Lernprojekt
 
-Das aktuelle Retention-Skript arbeitet einfach:
+Das aktuelle Retention-Skript arbeitet mit einer einfachen Aufbewahrungsregel:
 
 ```text
 Behalte mindestens X neueste Backups.
@@ -266,7 +266,7 @@ Bedeutung:
 | 2 | zwei unterschiedliche Speichermedien |
 | 1 | eine Kopie extern/offsite |
 | 1 | eine zusätzliche unveränderbare oder offline Kopie |
-| 0 | null Fehler bei der Wiederherstellungsprüfung |
+| 0 | keine ungeprüften oder unbemerkten Fehler bei der Wiederherstellungsprüfung |
 
 Unveränderbar bedeutet:
 
@@ -279,7 +279,8 @@ Das ist wichtig gegen Ransomware.
 Der Punkt `0` passt besonders gut zu diesem Lernprojekt:
 
 ```text
-0 ungeprüfte Wiederherstellungsfehler
+Backups werden nicht nur erstellt, sondern auch geprüft.
+Ein erfolgreicher Restore-Test ist Teil der Backup-Bewertung.
 ```
 
 Merksatz:
@@ -400,13 +401,13 @@ CI/CD-Pipeline
 CI/CD bedeutet:
 
 ```text
-Continuous Integration / Continuous Deployment
+Continuous Integration / Continuous Delivery oder Continuous Deployment
 ```
 
 Einfach erklärt:
 
 ```text
-Code wird automatisch geprüft, gebaut und verteilt.
+Code wird automatisch geprüft, gebaut und je nach Prozess bereitgestellt oder ausgerollt.
 ```
 
 ---
@@ -613,10 +614,17 @@ Restore-Test-Skript
 Master-Skript
 Retention-Skript mit Dry-Run
 GitHub-Dokumentation
-README-Erweiterung
+Operations-Dokumentation
 ```
 
 Sie ist aber noch keine vollständige produktionsreife Backup-Lösung.
+
+Wichtig für öffentliche Repositories:
+
+```text
+Backup-Dateien können sensible Daten enthalten.
+Backups gehören nicht ungeprüft in ein öffentliches Git-Repository.
+```
 
 ---
 
@@ -661,7 +669,7 @@ RPO/RTO-Definition
 | Restore-Test | manuell oder per Skript lokal | regelmäßig geplant und dokumentiert |
 | Retention | einfache Alter-/Anzahl-Regel | GFS oder vergleichbare Strategie |
 | Schutz | `.gitignore`, lokale Trennung | Verschlüsselung, Rechte, Immutable Storage |
-| Secrets | `.env` lokal | Secret Manager oder Orchestrator-Secrets |
+| Secrets | lokale Secret-/ENV-Dateien, nicht committed | Secret Manager oder Orchestrator-Secrets |
 | Monitoring | manuelle Prüfung | automatische Alarmierung |
 | Dokumentation | README und Praxisarbeit | Betriebsdokumentation, Notfallhandbuch |
 

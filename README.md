@@ -33,6 +33,7 @@ Dieses Projekt zeigt praktische Grundlagen für Junior-Rollen im Bereich Cloud, 
 - Ich kann technische Arbeit so dokumentieren, dass andere sie nachvollziehen können.
 
 > Hinweis: Dieses Projekt ist ein Lern- und Portfolio-Lab. Es ist bewusst produktionsnah aufgebaut, ersetzt aber keine vollständige Enterprise-Produktionsumgebung.
+
 ---
 
 ## Ziel des Projekts
@@ -82,6 +83,10 @@ Im Mittelpunkt stehen typische Betriebsfragen:
 | Secret-Handling über lokale Secret-Datei | vorhanden |
 | `.gitignore`, `.dockerignore`, `.gitattributes` | vorhanden |
 | strukturierte Dokumentation | vorhanden |
+| Docker-Compose-Umgebungsdokumentation | vorhanden |
+| Docker Cleanup Safety | vorhanden |
+| Security-/Readiness-Dokumentation | vorhanden |
+| finaler Daily-Operations-/Readiness-Check | vorhanden |
 
 ---
 
@@ -89,6 +94,8 @@ Im Mittelpunkt stehen typische Betriebsfragen:
 
 ```text
 .
+├── .github/
+│   └── workflows/
 ├── app/
 │   └── index.html
 ├── archive/
@@ -100,6 +107,9 @@ Im Mittelpunkt stehen typische Betriebsfragen:
 │   └── troubleshooting/
 ├── logs/
 │   └── .gitkeep
+├── monitoring/
+│   ├── grafana/
+│   └── prometheus/
 ├── scripts/
 │   ├── backup/
 │   ├── incidents/
@@ -114,8 +124,12 @@ Im Mittelpunkt stehen typische Betriebsfragen:
 ├── .gitattributes
 ├── .gitignore
 ├── compose.dev.yml
+├── compose.monitoring.yml
 ├── compose.prod.yml
+├── compose.registry-test.yml
 ├── Dockerfile
+├── index.html
+├── styles.css
 └── README.md
 ```
 
@@ -125,12 +139,14 @@ Im Mittelpunkt stehen typische Betriebsfragen:
 
 | Ordner | Zweck |
 |---|---|
+| `.github/workflows/` | GitHub-Actions-CI-Pipeline |
 | `app/` | einfache Web-App / HTML-Datei |
 | `docs/architecture/` | Architektur- und Strukturentscheidungen |
 | `docs/labs/` | praktische Übungen und Simulationen |
 | `docs/operations/` | Betriebsdokumentation, Backup, Logging, Readiness, Secrets |
 | `docs/troubleshooting/` | Fehleranalyse und Wiederherstellung |
 | `logs/` | lokale Logdateien; echte Logs werden nicht committed |
+| `monitoring/` | Prometheus- und Grafana-Konfigurationen sowie Provisioning-Dateien |
 | `scripts/backup/` | Backup-Skripte |
 | `scripts/restore/` | Restore-/Testskripte |
 | `scripts/retention/` | Aufbewahrungs-/GFS-Skripte |
@@ -164,31 +180,38 @@ git clone https://github.com/MarcF46/docker-portfolio-lab.git
 cd docker-portfolio-lab
 ```
 
-### 2. Lokale Secret-Datei erstellen
+### 2. Lokale Secret-Dateien erstellen
 
-Redis nutzt im produktionsnahen Compose-Modus ein lokales Secret.
+Redis und Grafana nutzen im Lab lokale Secret-Dateien.
 
 ```powershell
 # Erstellt den lokalen Secret-Ordner.
 New-Item -ItemType Directory -Force -Path .\secrets
 
-# Erstellt eine lokale Redis-Passwortdatei.
+# Erstellt eine lokale Redis-Passwortdatei, falls sie noch nicht existiert.
 # SECURITY: Dies ist ein Lab-Wert. In Produktion würde ein Secret Manager genutzt.
 if (-not (Test-Path .\secrets\redis_password.txt)) {
     Set-Content -Path .\secrets\redis_password.txt -Value "local_redis_password_please_change" -NoNewline
 }
+
+# Erstellt eine lokale Grafana-Admin-Passwortdatei, falls sie noch nicht existiert.
+# SECURITY: Dies ist ein Lab-Wert. In Produktion würde ein Secret Manager genutzt.
+if (-not (Test-Path .\secrets\grafana_admin_password.txt)) {
+    Set-Content -Path .\secrets\grafana_admin_password.txt -Value "local_grafana_admin_password_please_change" -NoNewline
+}
 ```
 
-Prüfen, ob die Secret-Datei ignoriert wird:
+Prüfen, ob die Secret-Dateien ignoriert werden:
 
 ```powershell
 git check-ignore -v secrets/redis_password.txt
+git check-ignore -v secrets/grafana_admin_password.txt
 ```
 
 Erwartung:
 
 ```text
-secrets/redis_password.txt wird durch .gitignore ignoriert
+Die lokalen Secret-Dateien werden durch .gitignore ignoriert.
 ```
 
 ---
@@ -423,6 +446,7 @@ Geschützte lokale Dateien und Ordner:
 .env
 .env.*
 secrets/redis_password.txt
+secrets/grafana_admin_password.txt
 backups/
 logs/
 logs/terminal-sessions/
@@ -449,7 +473,6 @@ docker compose -f compose.prod.yml build web
 
 ---
 
-
 ## Operations-Dokumentation
 
 Die betriebsnahen Dokumente sind in einer eigenen Übersicht zusammengefasst:
@@ -472,6 +495,7 @@ Lab vs. Produktion
 ```
 
 Diese Übersicht erleichtert das Lesen des Projekts und zeigt, welche praktischen Cloud-/DevOps-Grundlagen im Lab nachgewiesen werden.
+
 
 ## Logging-Grundlagen
 Das Projekt dokumentiert grundlegende Log-Diagnose mit Docker Compose:
@@ -525,6 +549,7 @@ Logs können sensible Informationen enthalten.
 Terminal-Ausgaben und Screenshots müssen vor öffentlicher Nutzung geprüft werden.
 Secrets, Tokens und personenbezogene Daten dürfen nicht in öffentliche Logs oder Screenshots gelangen.
 ```
+
 
 ## Monitoring mit Prometheus und Grafana
 Das Projekt enthält ein kleines, bewusst begrenztes Monitoring-Lab:
@@ -599,6 +624,7 @@ Dokumentation:
 docs/operations/monitoring-prometheus-grafana.md
 ```
 
+
 ## GitHub Actions CI
 Das Repository enthält eine erste GitHub-Actions-CI-Pipeline:
 
@@ -638,17 +664,24 @@ Dokumentation:
 docs/operations/github-actions-ci.md
 ```
 
+
 ## Dokumentation
 Wichtige Dokumentationsdateien:
 
 ```text
+docs/operations/README.md
+docs/operations/docker-compose-environments.md
+docs/operations/docker-final-readiness-check.md
+docs/operations/docker-security-readiness.md
+docs/operations/docker-cleanup-safety.md
+docs/operations/docker-volume-backup-restore.md
 docs/operations/backup-strategie-gfs.md
+docs/operations/monitoring-prometheus-grafana.md
+docs/operations/logging-basics.md
+docs/operations/github-actions-ci.md
 docs/operations/redis-secret-handling-healthcheck.md
-docs/operations/stack-readiness-check.md
-docs/operations/terminal-session-logging.md
 docs/troubleshooting/troubleshooting-backup-restore.md
 docs/labs/runtime-dependency-redis-outage.md
-docs/labs/runtime-dependency-redis-outage-enterprise.md
 docs/architecture/projektstruktur-und-aufraeumplan.md
 ```
 
@@ -669,36 +702,36 @@ Dieses Projekt ist bewusst ein Lern- und Portfolio-Lab.
 | CI | GitHub Actions CI vorhanden: Compose prüfen, Web-Image bauen, Stack starten, Web + Redis testen | Pipeline mit Tests, Build, Security Checks, Quality Gates |
 | CD/Deployment | noch nicht umgesetzt | Staging-/Production-Deployment mit Freigaben, Rollback und Monitoring |
 
-Das Ziel ist nicht, Production vorzutäuschen, sondern wichtige Betriebsprinzipien praktisch zu trainieren.
+Das Ziel ist nicht, Produktion vorzutäuschen, sondern wichtige Betriebsprinzipien praktisch zu trainieren.
 
 ---
 
 ## Typische Betriebsbefehle
 
 ```powershell
-# Stack starten
-docker compose -f compose.prod.yml up -d --build
+# Produktionsnahen Stack mit Monitoring starten
+docker compose -f compose.prod.yml -f compose.monitoring.yml up -d --build
 
 # Stack anzeigen
-docker compose -f compose.prod.yml ps
+docker compose -f compose.prod.yml -f compose.monitoring.yml ps
 
 # Compose-Konfiguration prüfen
-docker compose -f compose.prod.yml config
+docker compose -f compose.prod.yml -f compose.monitoring.yml config
 
 # Logs anzeigen
-docker compose -f compose.prod.yml logs --tail=80
+docker compose -f compose.prod.yml -f compose.monitoring.yml logs --tail=80
 
-# Readiness prüfen
-.\scripts\tests\test-stack-readiness.ps1
+# Daily Operations Check ausführen
+powershell -ExecutionPolicy Bypass -File .\scripts\tests\test-daily-operations.ps1
 
 # Redis-Ausfall simulieren
 .\scripts\incidents\simulate-runtime-redis-outage.ps1
 
-# Stack stoppen
-docker compose -f compose.prod.yml down
+# Stack stoppen, ohne Volumes zu löschen
+docker compose -f compose.prod.yml -f compose.monitoring.yml down
 
 # Git-Status prüfen
-git status
+git status --short
 ```
 
 ---
@@ -709,23 +742,26 @@ Dieses Projekt zeigt aktuell:
 
 ```text
 Docker-Grundlagen
-Compose Development/Production
+Compose Development/Production/Monitoring
 Redis mit persistentem Volume
 Backup und Restore
 Retention/GFS-Dokumentation
 Healthchecks
 Restart Policies
 Laufzeitausfall-Simulation
-Readiness-Checks
+Readiness-Checks und Daily-Operations-Check
 Terminal-Session-Logging
 Secret-Handling
+Logging-Grundlagen
+Monitoring mit Prometheus/Grafana/cAdvisor
+GitHub Actions CI
 Repository-Hygiene
 Dokumentation und Troubleshooting
 ```
 
 ---
 
-## Geplanter Ausbau
+## Mögliche spätere Ausbaustufen
 
 Mögliche nächste Schritte:
 
