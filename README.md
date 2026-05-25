@@ -33,35 +33,29 @@ Dieses Projekt zeigt praktische Grundlagen für Junior-Rollen im Bereich Cloud, 
 - Ich kann technische Arbeit so dokumentieren, dass andere sie nachvollziehen können.
 
 > Hinweis: Dieses Projekt ist ein Lern- und Portfolio-Lab. Es ist bewusst produktionsnah aufgebaut, ersetzt aber keine vollständige Enterprise-Produktionsumgebung.
-Praxisnahes Docker-/DevOps-Lernprojekt mit Fokus auf Betrieb, Troubleshooting, Backup/Restore, Healthchecks, Readiness-Checks, Secret-Handling und sauberer Repository-Struktur.
-
-Dieses Repository ist bewusst **kein reines Hello-World-Projekt**. Es dient als Junior-Portfolio-Projekt, um zu zeigen, dass Docker-Container nicht nur gestartet, sondern auch geprüft, dokumentiert, abgesichert und in realistischeren Betriebsfällen getestet werden können.
-
 ---
 
 ## Ziel des Projekts
 
-Dieses Projekt trainiert Grundlagen für einen Einstieg als:
+Ziel dieses Projekts ist es, Docker nicht nur als Startbefehl zu lernen, sondern aus Betriebssicht zu verstehen.
 
-```text
-Junior Cloud Engineer
-Junior DevOps Engineer
-Junior Platform Engineer
-Junior System Engineer mit Cloud-/Container-Fokus
-```
+Das Projekt trainiert Grundlagen für einen Einstieg als:
 
-Im Mittelpunkt stehen nicht nur einzelne Docker-Befehle, sondern typische Betriebsfragen:
+- Junior Cloud Engineer
+- Junior DevOps Engineer
+- Junior Platform Engineer
+- Junior System Engineer mit Cloud-/Container-Fokus
 
-```text
-Startet der Stack sauber?
-Sind die Container wirklich healthy?
-Was passiert, wenn Redis ausfällt?
-Bleiben Daten nach Container-Neustarts erhalten?
-Gibt es Backup und Restore?
-Wird ein Restore wirklich getestet?
-Sind Logs, Backups und Secrets geschützt?
-Ist der Stack aus Betriebssicht bereit?
-```
+Im Mittelpunkt stehen typische Betriebsfragen:
+
+- Startet der Stack sauber?
+- Sind die Container wirklich healthy?
+- Was passiert, wenn Redis ausfällt?
+- Bleiben Daten nach Container-Neustarts erhalten?
+- Gibt es Backup und Restore?
+- Wurde ein Restore erfolgreich getestet?
+- Sind Logs, Backups und Secrets geschützt?
+- Ist der Stack aus Betriebssicht bereit?
 
 ---
 
@@ -456,9 +450,6 @@ docker compose -f compose.prod.yml build web
 ---
 
 
-
-
-
 ## Operations-Dokumentation
 
 Die betriebsnahen Dokumente sind in einer eigenen Übersicht zusammengefasst:
@@ -772,7 +763,3 @@ Ich beachte Security- und Secret-Handling.
 Ich kann eine Repository-Struktur nachvollziehbar aufbauen.
 Ich kann technische Änderungen mit Git sauber versionieren.
 ```
-
-
-
-
