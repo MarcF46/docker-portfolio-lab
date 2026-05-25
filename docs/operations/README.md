@@ -1,531 +1,352 @@
-# Operations-Dokumentation
-
-## Zweck
-
-Dieser Ordner enthält die betriebsnahen Dokumentationen des Docker Portfolio Lab.
-
-Die Dokumente zeigen nicht nur einzelne Docker-Befehle, sondern typische Betriebsaufgaben aus einer Cloud-/DevOps-/Operations-Perspektive:
-
-```text
-Backup und Restore
-Troubleshooting
-Healthchecks
-Readiness Checks
-Secret Handling
-CI-Prüfungen
-Monitoring
-Logging
-Fehleranalyse
-```
-
-Das Ziel ist ein nachvollziehbares Portfolio für einen Junior Cloud-/DevOps-Engineer-Einstieg.
-
----
-
-## Übersicht der Dokumente
-
-| Dokument | Thema | Gezeigte Betriebsfähigkeit |
-|---|---|---|
-| `backup-strategie-gfs.md` | Backup-Strategie, GFS, Retention | Backup-Planung, Aufbewahrung, Restore-Prinzip |
-| `troubleshooting-backup-restore.md` | Backup-/Restore-Fehleranalyse | Warnungen, Fehlerbilder, Diagnosewege |
-| `runtime-dependency-redis-outage.md` | Redis-Laufzeitausfall | Unterschied Startabhängigkeit vs. Laufzeitabhängigkeit |
-| `runtime-dependency-redis-outage-enterprise.md` | Enterprise-Einordnung Redis-Ausfall | Incident-Denken, Diagnose, Rollback, Betriebsbewertung |
-| `simulation-b-kommentierte-befehle.md` | Kommentierte Redis-Ausfallsimulation | Lernfreundliche Befehlsanalyse |
-| `terminal-session-logging.md` | Terminal-Mitschnitt mit PowerShell | Nachvollziehbarkeit, private technische Tagesprotokolle |
-| `stack-readiness-check.md` | Stack-Readiness-Prüfung | Web + Redis fachlich prüfen, nicht nur Containerstatus |
-| `redis-secret-handling-healthcheck.md` | Redis Secret Handling | Secrets nicht in Compose/Logs hardcoden, Healthcheck verbessern |
-| `github-actions-ci.md` | GitHub Actions CI | automatische Prüfung von Compose, Build, Stack, Web und Redis |
-| `monitoring-prometheus-grafana.md` | Prometheus, Grafana, cAdvisor | Metriken sammeln, visualisieren, Targets prüfen |
-| `logging-basics.md` | Docker Compose Logs | Logs mit `--tail`, `--since`, `--follow` lesen und einordnen |
-| incident-simulation-redis-stopped.md | Redis-Stopp Incident-Simulation | kontrollierter Redis-Ausfall, Erkennung, Behebung und Verifikation |
-| incident-simulation-prometheus-stopped.md | Prometheus-Stopp Incident-Simulation | Monitoring-Ausfall, App-Readiness vs. Operations-Readiness |
-| incident-simulation-grafana-stopped.md | Grafana-Stopp Incident-Simulation | Ausfall der Monitoring-Visualisierung bei weiterhin laufender App und Metrikerfassung |
-| incident-simulation-cadvisor-stopped.md | cAdvisor-Stopp Incident-Simulation | Ausfall der Container-Metrikquelle bei weiterhin laufender App |
-| prometheus-target-health-cadvisor.md | Prometheus Target Health: cAdvisor | Prometheus Targets, Query up, cAdvisor UP/DOWN einordnen |
-| monitoring-incident-patterns.md | Monitoring Incident Patterns | Vergleich Redis-, Prometheus-, Grafana- und cAdvisor-Ausfall |
-| docker-registry-push-pull.md | Docker Registry, Push, Pull und Digest | lokale Registry, Image push/pull, Compose-Registry-Test und Digest-Fehlerbild |
-| daily-operations-runbook.md | Daily Operations Runbook | wiederholbarer Betriebsablauf für Start, Checks, Logs, Monitoring, Secrets und Stoppen |
-
----
-
-## Thematische Gruppierung
-
-### Backup und Restore
-
-Relevante Dokumente:
-
-```text
-backup-strategie-gfs.md
-troubleshooting-backup-restore.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-Docker Volume sichern
-Restore-Test durchführen
-Retention Policy verstehen
-GFS-Prinzip einordnen
-Warnungen und Fehler beim Restore unterscheiden
-```
-
-Wichtiger Betriebsgrundsatz:
-
-```text
-Ein Backup ist erst dann zuverlässig, wenn ein Restore erfolgreich getestet wurde.
-```
-
----
-
-### Runtime Dependencies und Incident-Denken
-
-Relevante Dokumente:
-
-```text
-runtime-dependency-redis-outage.md
-runtime-dependency-redis-outage-enterprise.md
-simulation-b-kommentierte-befehle.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-Redis-Ausfall simulieren
-Containerstatus prüfen
-Serviceabhängigkeiten verstehen
-Laufzeitfehler von Startfehlern unterscheiden
-Diagnose und Wiederherstellung durchführen
-```
-
-Wichtige Einordnung:
-
-```text
-depends_on mit service_healthy hilft beim Start.
-Es ersetzt aber keine echte Laufzeitüberwachung, kein Retry-Verhalten und kein vollständiges Incident Handling.
-```
-
----
-
-### Secrets und Security
-
-Relevantes Dokument:
-
-```text
-redis-secret-handling-healthcheck.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-Secrets aus Compose-Dateien herauslösen
-lokale Secret-Dateien per .gitignore schützen
-Healthchecks ohne unsichere Passwortausgabe verbessern
-```
-
-Security-Grundsatz:
-
-```text
-Secrets gehören nicht in Git, nicht in öffentliche Logs und nicht in Screenshots.
-```
-
----
-
-### CI/CD-Grundlagen
-
-Relevantes Dokument:
-
-```text
-github-actions-ci.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-GitHub Actions Workflow erstellen
-Docker Compose Konfiguration automatisch prüfen
-Web-Image in CI bauen
-Stack im GitHub Actions Runner starten
-Web und Redis automatisiert testen
-Logs bei Fehlern anzeigen
-```
-
-Einordnung:
-
-```text
-Dieses Projekt nutzt aktuell CI.
-CD/Deployment ist bewusst noch nicht umgesetzt.
-```
-
----
-
-### Monitoring
-
-Relevantes Dokument:
-
-```text
-monitoring-prometheus-grafana.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-Prometheus starten
-cAdvisor als Metrikquelle nutzen
-Grafana-Dashboard bereitstellen
-Prometheus Targets prüfen
-Metriken und Dashboards einordnen
-Docker Desktop / WSL2 Besonderheiten dokumentieren
-```
-
-Wichtige Begriffe:
-
-```text
-Metric
-Target
-Scrape
-Dashboard
-Exporter
-```
-
----
-
-### Logging
-
-Relevantes Dokument:
-
-```text
-logging-basics.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-docker compose logs nutzen
-Logs pro Service abrufen
-Logs mit --tail begrenzen
-Logs mit --since zeitlich eingrenzen
-Live-Logs mit --follow beobachten
-Healthcheck-Zugriffe und Browserzugriffe unterscheiden
-Warnungen und Fehler einordnen
-```
-
-Wichtige Einordnung:
-
-```text
-Monitoring zeigt Zahlen über Zeit.
-Logging zeigt konkrete Ereignisse.
-Für echten Betrieb braucht man beides.
-```
-
----
-
-
-
-
-
-
-
-
-### Docker Registry, Push, Pull und Digest
-
-Relevantes Dokument:
-
-```text
-docker-registry-push-pull.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-lokale Registry starten
-Image für Registry taggen
-Image in Registry pushen
-Image aus Registry pullen
-Registry per API prüfen
-Compose mit fertigem Registry-Image nutzen
-Digest auslesen und einordnen
-Fehler durch fehlende Registry-Adresse erkennen
-```
-
-Einordnung:
-
-```text
-Diese Doku zeigt den Unterschied zwischen lokalem Docker Image Store,
-Docker Build Cache und Registry.
-Sie erklärt außerdem, warum ein Digest genauer ist als ein Tag
-und warum die Registry-Adresse beim Pull entscheidend ist.
-```
-
-Wichtige Erkenntnis:
-
-```text
-Git speichert Code.
-Docker baut daraus Images.
-Die Registry verteilt Images an Server, Cloud oder Kubernetes.
-Der Digest beschreibt einen eindeutigen Image-Inhalt.
-```
-
-### Monitoring Incident Patterns
-Relevantes Dokument:
-
-```text
-monitoring-incident-patterns.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-Fehlerbilder vergleichen
-Redis-, Prometheus-, Grafana- und cAdvisor-Ausfall unterscheiden
-betroffenen Bereich erkennen
-Diagnosekette anwenden
-Fix und Verifikation ableiten
-kurze Statusmeldung und Ticket-Kommentar formulieren
-```
-
-Einordnung:
-
-```text
-Diese Doku fasst die bisher trainierten Betriebsfehler zusammen.
-Sie hilft bei der Mustererkennung:
-Symptom → betroffener Service → betroffener Bereich → Diagnose → Maßnahme → Verifikation.
-```
-
-Wichtige Erkenntnis:
-
-```text
-Nicht jedes sichtbare Symptom zeigt direkt die Ursache.
-Grafana kann fehlende Daten anzeigen,
-obwohl die Ursache bei Prometheus oder cAdvisor liegt.
-```
-
-### Incident-Simulation: cAdvisor gestoppt
-Relevantes Dokument:
-
-```text
-incident-simulation-cadvisor-stopped.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-cAdvisor-Ausfall kontrolliert auslösen
-Container-Metrikquelle als betroffenen Bereich erkennen
-Daily-Operations-Check auswerten
-App-Readiness und Container-Metrikerfassung unterscheiden
-cAdvisor wiederherstellen
-Fix verifizieren
-kurze Statusmeldung und Ticket-Kommentar formulieren
-```
-
-Einordnung:
-
-```text
-Die Simulation zeigt, dass Web und Redis fachlich bereit bleiben können,
-während cAdvisor als Container-Metrikquelle nicht verfügbar ist.
-```
-
-Wichtige Erkenntnis:
-
-```text
-Ohne cAdvisor fehlen Container-Metriken,
-obwohl Web, Redis, Prometheus und Grafana weiter laufen können.
-```
-
-### Incident-Simulation: Grafana gestoppt
-Relevantes Dokument:
-
-```text
-incident-simulation-grafana-stopped.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-Grafana-Ausfall kontrolliert auslösen
-Visualisierungsausfall erkennen
-Daily-Operations-Check auswerten
-App-Readiness und Monitoring-Visualisierung unterscheiden
-Grafana wiederherstellen
-Fix verifizieren
-kurze Statusmeldung und Ticket-Kommentar formulieren
-```
-
-Einordnung:
-
-```text
-Die Simulation zeigt, dass Web und Redis fachlich bereit bleiben können,
-während Grafana als Dashboard- und Visualisierungsschicht nicht verfügbar ist.
-```
-
-Wichtige Erkenntnis:
-
-```text
-Monitoring-Daten können weiterhin gesammelt werden,
-auch wenn die grafische Visualisierung über Grafana gestört ist.
-```
-
-### Incident-Simulation: Prometheus gestoppt
-Relevantes Dokument:
-
-```text
-incident-simulation-prometheus-stopped.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-Monitoring-Ausfall kontrolliert auslösen
-Prometheus-Ausfall erkennen
-Daily-Operations-Check auswerten
-App-Readiness und Operations-Readiness unterscheiden
-Prometheus wiederherstellen
-Fix verifizieren
-kurze Statusmeldung und Ticket-Kommentar formulieren
-```
-
-Einordnung:
-
-```text
-Die Simulation zeigt, dass Web und Redis fachlich bereit bleiben können,
-während die Beobachtbarkeit durch einen Prometheus-Ausfall beschädigt ist.
-```
-
-Wichtige Erkenntnis:
-
-```text
-App-Stack bereit ist nicht automatisch gleich Operations-Stack vollständig bereit.
-```
-
-### Incident-Simulation: Redis gestoppt
-Relevantes Dokument:
-
-```text
-incident-simulation-redis-stopped.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-kontrollierten Fehler auslösen
-Redis-Ausfall erkennen
-Daily-Operations-Check auswerten
-Readiness-Fehler fachlich einordnen
-Redis wiederherstellen
-Fix verifizieren
-kurze Statusmeldung und Ticket-Kommentar formulieren
-```
-
-Einordnung:
-
-```text
-Die Simulation zeigt, dass ein teilweise laufender Stack nicht automatisch fachlich bereit ist.
-Web, Prometheus, Grafana und cAdvisor können weiter laufen, während Redis als Laufzeitabhängigkeit fehlt.
-```
-
-### Daily Operations Runbook
-Relevantes Dokument:
-
-```text
-daily-operations-runbook.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-Stack reproduzierbar starten
-Stackstatus prüfen
-Readiness Check ausführen
-Logs und Monitoring prüfen
-Secrets kontrollieren
-Git-Zustand prüfen
-Monitoring ohne Datenverlust stoppen
-Screenshots bewusst und sicher verwenden
-```
-
-Einordnung:
-
-```text
-Das Runbook bündelt wiederkehrende Betriebsabläufe.
-Es hilft dabei, den Stack nicht nur aufzubauen, sondern auch nachvollziehbar zu betreiben.
-```
-
-### Terminal-Session-Logging
-Relevantes Dokument:
-
-```text
-terminal-session-logging.md
-```
-
-Gezeigte Fähigkeiten:
-
-```text
-PowerShell-Sitzungen mitschneiden
-Befehle und Ausgaben nachvollziehbar speichern
-Tagesablauf technisch dokumentieren
-```
-
-Einordnung:
-
-```text
-Terminal-Mitschnitte sind für private Unterlagen sinnvoll.
-Sie gehören nicht ungeprüft ins öffentliche Portfolio.
-```
-
----
-
-## Portfolio-Wert
-
-Diese Dokumente zeigen, dass das Projekt nicht nur ein einfacher Containerstart ist.
-
-Es zeigt betriebsnahe Grundlagen:
-
-```text
-Wie wird ein Stack gestartet?
-Wie wird geprüft, ob er wirklich funktioniert?
-Wie werden Daten gesichert?
-Wie wird ein Restore getestet?
-Wie werden Secrets behandelt?
-Wie wird CI genutzt?
-Wie werden Metriken sichtbar gemacht?
-Wie liest man Logs?
-Wie ordnet man Warnungen ein?
-Wie wird ein wiederholbarer Daily-Operations-Ablauf dokumentiert?
-Wie wird ein kontrollierter Fehler erkannt, behoben und verifiziert?
-```
-
-Das ist besonders relevant für:
-
-```text
-Junior Cloud Engineer
-Junior DevOps Engineer
-Platform Engineering Einstieg
-System Engineering mit Cloud-/Container-Fokus
-```
-
----
-
-## Lab vs. Produktion
-
-Dieses Projekt ist ein lokales Lern- und Portfolio-Lab.
-
-Es ist bewusst nicht gleichzusetzen mit vollständigem produktivem Betrieb.
-
-| Thema | Lab | Produktion |
-|---|---|---|
-| Docker Compose | lokaler Stack | meist orchestriert, z. B. Kubernetes oder Managed Services |
-| Secrets | lokale Secret-Dateien | Secret Manager, Vault, Cloud/Kubernetes Secrets |
-| CI | GitHub Actions Grundprüfung | mehrstufige Pipeline mit Tests, Scans, Freigaben |
-| Monitoring | Prometheus/Grafana lokal | zentrale Plattform, Alerting, Retention, Rollen |
-| Logging | `docker compose logs` | zentrale Logplattform, Suche, Retention, Zugriffsschutz |
-| Backup | lokales Volume-Backup | geplante Backups, Restore-Tests, Offsite/Immutable Storage |
-| Security | Grundregeln im Lab | Policies, Audits, IAM, Netzwerksegmentierung, Compliance |
-
----
-
-## Projektkurzbeschreibung
-
-> Dieses Projekt dokumentiert ein lokales Docker-/DevOps-Lab mit praxisnahen Betriebsgrundlagen. Enthalten sind Docker Compose, Redis mit persistentem Volume, Backup-/Restore-Übungen, Healthchecks, Secret Handling, Stack-Readiness-Prüfungen, GitHub Actions CI, Monitoring mit Prometheus/Grafana/cAdvisor sowie grundlegende Log-Diagnose. Die Dokumentation grenzt Lernlabor und produktiven Betrieb bewusst voneinander ab und zeigt typische Diagnose- und Betriebsabläufe.
-
----
-
+PS C:\Docker Übung> docker inspect dockerbung-redis-1 --format '{{range .Mounts}}{{println .Type "|" .Name "|" .Source "|" .Destination}}{{end}}'
+>> docker inspect dockerbung-prometheus-1 --format '{{range .Mounts}}{{println .Type "|" .Name "|" .Source "|" .Destination}}{{end}}'
+>> docker inspect dockerbung-grafana-1 --format '{{range .Mounts}}{{println .Type "|" .Name "|" .Source "|" .Destination}}{{end}}'
+volume | dockerbung_redis_data_prod | /var/lib/docker/volumes/dockerbung_redis_data_prod/_data | /data
+bind |  | C:\Docker Übung\secrets\redis_password.txt | /run/secrets/redis_password
+
+bind |  | C:\Docker Übung\monitoring\prometheus\prometheus.yml | /etc/prometheus/prometheus.yml
+volume | dockerbung_prometheus_data | /var/lib/docker/volumes/dockerbung_prometheus_data/_data | /prometheus
+
+bind |  | C:\Docker Übung\secrets\grafana_admin_password.txt | /run/secrets/grafana_admin_password
+volume | dockerbung_grafana_data | /var/lib/docker/volumes/dockerbung_grafana_data/_data | /var/lib/grafana
+bind |  | /run/desktop/mnt/host/c/Docker Übung/monitoring/grafana/dashboards | /var/lib/grafana/dashboards
+bind |  | /run/desktop/mnt/host/c/Docker Übung/monitoring/grafana/provisioning/dashboards | /etc/grafana/provisioning/dashboards
+bind |  | /run/desktop/mnt/host/c/Docker Übung/monitoring/grafana/provisioning/datasources | /etc/grafana/provisioning/datasources
+
+PS C:\Docker Übung> docker compose -f .\compose.prod.yml config --volumes
+>> docker compose -f .\compose.dev.yml config --volumes
+redis_data_prod
+redis_data_dev
+PS C:\Docker Übung> docker compose -f .\compose.dev.yml config --volumes
+redis_data_dev
+PS C:\Docker Übung> docker inspect dockerbung-redis-1
+[
+    {
+        "Id": "6f3dc2194ea1001ea1c4096b9f72f8fe309d0c4c3f7a082d02280ab5452e6d58",
+        "Created": "2026-05-17T15:00:01.811478043Z",
+        "Path": "docker-entrypoint.sh",
+        "Args": [
+            "sh",
+            "-c",
+            "exec redis-server --appendonly yes --requirepass \"$(cat /run/secrets/redis_password)\""
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 509,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-05-24T08:57:19.092080237Z",
+            "FinishedAt": "2026-05-24T08:45:20.587909473Z",
+            "Health": {
+                "Status": "healthy",
+                "FailingStreak": 0,
+                "Log": [
+                    {
+                        "Start": "2026-05-24T11:40:01.297860703Z",
+                        "End": "2026-05-24T11:40:01.369463416Z",
+                        "ExitCode": 0,
+                        "Output": "PONG\n"
+                    },
+                    {
+                        "Start": "2026-05-24T11:40:11.369866852Z",
+                        "End": "2026-05-24T11:40:11.498758481Z",
+                        "ExitCode": 0,
+                        "Output": "PONG\n"
+                    },
+                    {
+                        "Start": "2026-05-24T11:40:21.497786196Z",
+                        "End": "2026-05-24T11:40:21.577899558Z",
+                        "ExitCode": 0,
+                        "Output": "PONG\n"
+                    },
+                    {
+                        "Start": "2026-05-24T11:40:31.578571408Z",
+                        "End": "2026-05-24T11:40:31.633901796Z",
+                        "ExitCode": 0,
+                        "Output": "PONG\n"
+                    },
+                    {
+                        "Start": "2026-05-24T11:40:41.631842284Z",
+                        "End": "2026-05-24T11:40:41.70943895Z",
+                        "ExitCode": 0,
+                        "Output": "PONG\n"
+                    }
+                ]
+            }
+        },
+        "Image": "sha256:c5e375abb885e6b2021c0377879e4890bf76f9065b8922ffc113f2b226b9fc17",
+        "ResolvConfPath": "/var/lib/docker/containers/6f3dc2194ea1001ea1c4096b9f72f8fe309d0c4c3f7a082d02280ab5452e6d58/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/6f3dc2194ea1001ea1c4096b9f72f8fe309d0c4c3f7a082d02280ab5452e6d58/hostname",
+        "HostsPath": "/var/lib/docker/containers/6f3dc2194ea1001ea1c4096b9f72f8fe309d0c4c3f7a082d02280ab5452e6d58/hosts",
+        "LogPath": "/var/lib/docker/containers/6f3dc2194ea1001ea1c4096b9f72f8fe309d0c4c3f7a082d02280ab5452e6d58/6f3dc2194ea1001ea1c4096b9f72f8fe309d0c4c3f7a082d02280ab5452e6d58-json.log",
+        "Name": "/dockerbung-redis-1",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": [
+                "dockerbung_redis_data_prod:/data:rw"
+            ],
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "dockerbung_default",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "unless-stopped",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": [],
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": null,
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": null,
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "C:\\Docker Übung\\secrets\\redis_password.txt",
+                    "Target": "/run/secrets/redis_password",
+                    "ReadOnly": true,
+                    "BindOptions": {}
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "Storage": {
+            "RootFS": {
+                "Snapshot": {
+                    "Name": "overlayfs"
+                }
+            }
+        },
+        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "dockerbung_redis_data_prod",
+                "Source": "/var/lib/docker/volumes/dockerbung_redis_data_prod/_data",
+                "Destination": "/data",
+                "Driver": "local",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": ""
+            },
+            {
+                "Type": "bind",
+                "Source": "C:\\Docker Übung\\secrets\\redis_password.txt",
+                "Destination": "/run/secrets/redis_password",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "6f3dc2194ea1",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "ExposedPorts": {
+                "6379/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "sh",
+                "-c",
+                "exec redis-server --appendonly yes --requirepass \"$(cat /run/secrets/redis_password)\""
+            ],
+            "Healthcheck": {
+                "Test": [
+                    "CMD-SHELL",
+                    "REDISCLI_AUTH=\"$(cat /run/secrets/redis_password)\" redis-cli ping"
+                ],
+                "Interval": 10000000000,
+                "Timeout": 3000000000,
+                "StartPeriod": 10000000000,
+                "Retries": 5
+            },
+            "Image": "redis:alpine",
+            "Volumes": null,
+            "WorkingDir": "/data",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "Labels": {
+                "com.docker.compose.config-hash": "974ea8109f574bad226e0fd4a99699a2f2d4c0a8abb31a37c3bbae99f8e87cbc",
+                "com.docker.compose.container-number": "1",
+                "com.docker.compose.depends_on": "",
+                "com.docker.compose.image": "sha256:c5e375abb885e6b2021c0377879e4890bf76f9065b8922ffc113f2b226b9fc17",
+                "com.docker.compose.oneoff": "False",
+                "com.docker.compose.project": "dockerbung",
+                "com.docker.compose.project.config_files": "C:\\Docker Übung\\compose.prod.yml",
+                "com.docker.compose.project.working_dir": "C:\\Docker Übung",
+                "com.docker.compose.replace": "redis-1",
+                "com.docker.compose.service": "redis",
+                "com.docker.compose.version": "5.1.3"
+            },
+            "StopTimeout": 1
+        },
+        "NetworkSettings": {
+            "SandboxID": "704e380ef954a81d790715c9516c3590f8509a4022aa28ee4f97b9fe10da89a5",
+            "SandboxKey": "/var/run/docker/netns/704e380ef954",
+            "Ports": {
+                "6379/tcp": null
+            },
+            "Networks": {
+                "dockerbung_default": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": [
+                        "dockerbung-redis-1",
+                        "redis"
+                    ],
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "a0bc341830ddd816092a47a33dbebb95efd8add48a1d65cf146ba491b04e53c3",
+                    "EndpointID": "1f178e42540870687e86d6b4b273f8fc6b39d97c4b259679bccb7ea3427b4b91",
+                    "Gateway": "172.18.0.1",
+                    "IPAddress": "172.18.0.3",
+                    "MacAddress": "d2:cf:c5:b4:0f:8b",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": [
+                        "dockerbung-redis-1",
+                        "redis",
+                        "6f3dc2194ea1"
+                    ]
+                }
+            }
+        },
+        "ImageManifestDescriptor": {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:fa40c1366358040d51a42e40113e78b19dfdd6e0acaae3fa3e9395a173fab2bd",
+            "size": 2288,
+            "annotations": {
+                "com.docker.official-images.bashbrew.arch": "amd64",
+                "org.opencontainers.image.base.digest": "sha256:4d889c14e7d5a73929ab00be2ef8ff22437e7cbc545931e52554a7b00e123d8b",
+                "org.opencontainers.image.base.name": "alpine:3.23",
+                "org.opencontainers.image.created": "2026-04-15T20:21:50Z",
+                "org.opencontainers.image.revision": "8c81e2a44cae9258294718d767ce594e5cbbf20e",
+                "org.opencontainers.image.source": "https://github.com/redis/docker-library-redis.git#8c81e2a44cae9258294718d767ce594e5cbbf20e:alpine",
+                "org.opencontainers.image.url": "https://hub.docker.com/_/redis",
+                "org.opencontainers.image.version": "8.6.2-alpine"
+            },
+            "platform": {
+                "architecture": "amd64",
+                "os": "linux"
+            }
+        }
+    }
+]
+PS C:\Docker Übung> docker inspect dockerbung-redis-1 --format '{{range .Mounts}}{{println .Type "|" .Name "|" .Source "|" .Destination}}{{end}}'
+volume | dockerbung_redis_data_prod | /var/lib/docker/volumes/dockerbung_redis_data_prod/_data | /data
+bind |  | C:\Docker Übung\secrets\redis_password.txt | /run/secrets/redis_password
+
+PS C:\Docker Übung> docker inspect dockerbung-prometheus-1 --format '{{range .Mounts}}{{println .Type "|" .Name "|" .Source "|" .Destination}}{{end}}'
+bind |  | C:\Docker Übung\monitoring\prometheus\prometheus.yml | /etc/prometheus/prometheus.yml
+volume | dockerbung_prometheus_data | /var/lib/docker/volumes/dockerbung_prometheus_data/_data | /prometheus
+
+PS C:\Docker Übung> docker inspect dockerbung-grafana-1 --format '{{range .Mounts}}{{println .Type "|" .Name "|" .Source "|" .Destination}}{{end}}'
+bind |  | /run/desktop/mnt/host/c/Docker Übung/monitoring/grafana/provisioning/dashboards | /etc/grafana/provisioning/dashboards
+bind |  | /run/desktop/mnt/host/c/Docker Übung/monitoring/grafana/provisioning/datasources | /etc/grafana/provisioning/datasources
+bind |  | C:\Docker Übung\secrets\grafana_admin_password.txt | /run/secrets/grafana_admin_password
+volume | dockerbung_grafana_data | /var/lib/docker/volumes/dockerbung_grafana_data/_data | /var/lib/grafana
+bind |  | /run/desktop/mnt/host/c/Docker Übung/monitoring/grafana/dashboards | /var/lib/grafana/dashboards
+
+PS C:\Docker Übung> 
+PS C:\Docker Übung> docker compose -f .\compose.prod.yml config --volumes
+redis_data_prod
+PS C:\Docker Übung> docker compose -f .\compose.dev.yml config --volumes
+redis_data_dev
+PS C:\Docker Übung>

@@ -4,7 +4,7 @@
 
 Diese Lerneinheit ergänzt das Docker Portfolio Lab um ein kleines, bewusst begrenztes Monitoring-Lab.
 
-Ziel ist nicht, ein vollständiges Enterprise-Observability-System aufzubauen, sondern die Grundidee praktisch zu sehen:
+Ziel ist nicht, ein vollständiges produktives Observability-System aufzubauen, sondern die Grundidee praktisch zu sehen:
 
 ```text
 Metriken erfassen → speichern → visualisieren → Betriebszustand besser verstehen
@@ -30,7 +30,7 @@ Ein Teamlead sagt:
 | Grafana-Passwort als lokales Secret | keine Klartext-Passwörter committen |
 | Prometheus-Datenquelle automatisch provisionieren | weniger manuelle Klickarbeit |
 | Beispiel-Dashboard automatisch laden | schneller sichtbarer Lernerfolg |
-| Lab klar von Production abgrenzen | kein Overengineering vortäuschen |
+| Lab klar von Produktion abgrenzen | kein Overengineering vortäuschen |
 
 ---
 
@@ -173,14 +173,14 @@ Grafana Login im Lab:
 
 ```text
 Benutzer: admin
-Passwort: local_grafana_admin_password_please_change
+Passwort: Wert aus `secrets/grafana_admin_password.txt`
 ```
 
 Security-Hinweis:
 
 ```text
-Das ist ein lokaler Lab-Wert.
-In Produktion niemals so verwenden.
+Das Passwort wird lokal aus einer Secret-Datei gelesen.
+Diese Datei wird nicht committed und darf nicht veröffentlicht werden.
 ```
 
 ---
@@ -242,8 +242,8 @@ Im lokalen Lab wurden folgende Ergebnisse beobachtet:
 cAdvisor /metrics       HTTP 200
 Prometheus /-/ready     HTTP 200
 Grafana /api/health     HTTP 200
-Prometheus Target       cadvisor = up
-Prometheus Target       prometheus = up
+Prometheus Target       cadvisor = UP
+Prometheus Target       prometheus = UP
 Grafana Dashboard       Docker Portfolio Lab Overview sichtbar
 ```
 
@@ -267,7 +267,7 @@ cAdvisor liefert Container-Metriken aus der lokalen Docker-Desktop-/WSL2-Umgebun
 
 ---
 
-## 11. Docker Desktop / Windows / WSL2 Hinweis
+## 11. Docker-Desktop-/Windows-/WSL2-Hinweis
 
 Das Lab wurde unter Windows mit Docker Desktop und WSL2 ausgeführt.
 
@@ -389,6 +389,8 @@ Alles stoppen:
 docker compose -f compose.prod.yml -f compose.monitoring.yml down
 ```
 
+NICHT AUSFÜHREN im normalen Betrieb – nur Erklärung:
+
 Volumes entfernen nur bewusst:
 
 ```powershell
@@ -398,8 +400,8 @@ docker compose -f compose.prod.yml -f compose.monitoring.yml down -v
 Warnung:
 
 ```text
-down -v entfernt auch Monitoring- und Redis-Volumes.
-Nur nutzen, wenn Datenverlust im Lab akzeptiert ist.
+`down -v` entfernt auch Monitoring- und Redis-Volumes.
+Nur nutzen, wenn Datenverlust im Lab ausdrücklich beabsichtigt ist oder vorher ein Backup/Restore-Test durchgeführt wurde.
 ```
 
 ---
@@ -410,7 +412,7 @@ Nur nutzen, wenn Datenverlust im Lab akzeptiert ist.
 |---|---|---|
 | Prometheus | lokaler Container | HA-/Managed Monitoring |
 | Grafana | lokaler Container | geschützte Instanz, SSO, Rollen |
-| cAdvisor | lokaler Container unter Docker Desktop/WSL2 | Node Exporter, kube-state-metrics, Cloud Metrics, Kubernetes-Monitoring |
+| cAdvisor | lokaler Container unter Docker Desktop/WSL2 | Node Exporter, kube-state-metrics, Cloud-Metriken, Kubernetes-Monitoring |
 | Secrets | lokale Secret-Datei | Vault, Cloud Secret Manager, Kubernetes Secrets |
 | Dashboards | einfaches Beispiel | standardisierte Dashboards, Review |
 | Alerts | noch nicht enthalten | Alertmanager, On-Call, Eskalation |
@@ -446,13 +448,13 @@ Monitoring-Zugriff in Produktion rollenbasiert absichern.
 
 ---
 
-## 16. Portfolio-Formulierung
+## 16. Projektbeschreibung
 
 > Das Projekt enthält ein kleines Monitoring-Lab mit Prometheus, Grafana und cAdvisor. Prometheus sammelt Metriken, Grafana visualisiert sie über eine automatisch provisionierte Datenquelle und ein Beispiel-Dashboard. Das Lab zeigt die Grundidee von Metriken und Dashboards. In der lokalen Docker-Desktop-/WSL2-Umgebung wurden cAdvisor-Warnungen zu fehlenden Hostinformationen eingeordnet, während die Kernfunktion — Metriken über `/metrics`, Prometheus Targets `UP` und Visualisierung in Grafana — erfolgreich nachgewiesen wurde. Das Projekt grenzt bewusst ab, dass produktionsreifes Monitoring zusätzliche Komponenten wie Authentifizierung, Alerting, Retention, Hochverfügbarkeit und Zugriffsschutz benötigt.
 
 ---
 
-## 17. Architect-Notiz
+## 17. Architektur-Notiz
 
 Die größere Architekturfrage lautet:
 
