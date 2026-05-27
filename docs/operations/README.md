@@ -318,3 +318,5 @@ Es ist bewusst nicht gleichzusetzen mit vollständigem produktivem Betrieb.
 > Dieses Projekt dokumentiert ein lokales Docker-/DevOps-Lab mit praxisnahen Betriebsgrundlagen. Enthalten sind Docker Compose, Redis mit persistentem Volume, Backup-/Restore-Übungen, Healthchecks, Secret Handling, Stack-Readiness-Prüfungen, GitHub Actions CI, Monitoring mit Prometheus/Grafana/cAdvisor, NGINX Reverse Proxy sowie grundlegende Log-Diagnose. Die Dokumentation grenzt Lernlabor und produktiven Betrieb bewusst voneinander ab und zeigt typische Diagnose- und Betriebsabläufe.
 
 - [Lokales HTTPS mit NGINX Reverse Proxy](https-local-nginx.md)
+
+- [Secrets Deep Dive](secrets-deep-dive.md)
