@@ -5,6 +5,7 @@
 # - nutzt ein persistentes Docker Volume für Redis-Daten
 # - nutzt ein lokales Docker-Compose-Secret für das Redis-Passwort
 # - prüft per Health Check, ob die Dienste wirklich funktionieren
+# - begrenzt Container-Logs per Log Rotation
 
 services:
   # Web-Service:
@@ -30,6 +31,15 @@ services:
     # Docker startet den Container nach Absturz oder Docker-Neustart erneut,
     # außer du hast ihn bewusst gestoppt.
     restart: unless-stopped
+
+    # Log Rotation:
+    # Docker begrenzt die Logdateien dieses Containers.
+    # Ohne Begrenzung können Container-Logs dauerhaft wachsen und Speicherplatz füllen.
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
     # Start-Abhängigkeit:
     # web soll erst starten, wenn redis als healthy gilt.
@@ -76,11 +86,22 @@ services:
     # außer er wurde bewusst gestoppt.
     restart: unless-stopped
 
+    # Log Rotation:
+    # Redis kann im Betrieb regelmäßig Logs schreiben.
+    # Die Begrenzung verhindert, dass lokale Container-Logs unkontrolliert wachsen.
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
     # Redis-Healthcheck.
     # Bisher wurde redis-cli -a verwendet; das erzeugt eine Security-Warnung.
     # Jetzt liest REDISCLI_AUTH das Passwort aus der Secret-Datei.
     healthcheck:
-      test: ["CMD-SHELL", "REDISCLI_AUTH=\"$$(cat /run/secrets/redis_password)\" redis-cli ping"]
+      test:
+        - CMD-SHELL
+        - REDISCLI_AUTH="$$(cat /run/secrets/redis_password)" redis-cli ping
       interval: 10s
       timeout: 3s
       retries: 5

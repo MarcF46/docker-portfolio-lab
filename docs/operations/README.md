@@ -320,3 +320,5 @@ Es ist bewusst nicht gleichzusetzen mit vollständigem produktivem Betrieb.
 - [Lokales HTTPS mit NGINX Reverse Proxy](https-local-nginx.md)
 
 - [Secrets Deep Dive](secrets-deep-dive.md)
+
+- [Docker Log Rotation](docker-log-rotation.md)
