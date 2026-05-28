@@ -330,3 +330,5 @@ Es ist bewusst nicht gleichzusetzen mit vollständigem produktivem Betrieb.
 - [Image Scanning mit Docker Scout](image-scanning-docker-scout.md)
 
 - [Registry Deep Dive](registry-deep-dive.md)
+
+- [CI/CD Build Pipeline](cicd-build-pipeline.md)
