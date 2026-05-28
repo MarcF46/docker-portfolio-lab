@@ -326,3 +326,5 @@ Es ist bewusst nicht gleichzusetzen mit vollständigem produktivem Betrieb.
 - [Prometheus Target API Check](prometheus-target-api-check.md)
 
 - [Container Security Stage 1](container-security-stage-1.md)
+
+- [Image Scanning mit Docker Scout](image-scanning-docker-scout.md)
