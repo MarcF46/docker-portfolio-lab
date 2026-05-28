@@ -1,38 +1,46 @@
-# Docker Portfolio Lab
+﻿# Docker Portfolio Lab
 
-Praxisnahes Docker-/DevOps-Portfolio mit Fokus auf Containerbetrieb, Troubleshooting, Backup/Restore, Healthchecks, Readiness-Checks, Secret-Handling, Logging, Monitoring und sauberer Repository-Struktur.
+Praxisnahes Docker-/DevOps-Portfolio mit Fokus auf Containerbetrieb, Troubleshooting, Backup/Restore, Healthchecks, Readiness-Checks, Reverse Proxy, HTTPS, Secret-Handling, Logging, Monitoring, Container Security, Image Scanning, Registry-Grundlagen, CI/CD und sauberer Repository-Struktur.
 
-Dieses Repository ist bewusst kein reines Hello-World-Projekt. Es zeigt anhand eines kleinen containerisierten Stacks, dass Docker-Container nicht nur gestartet, sondern auch geprüft, dokumentiert, abgesichert und in realistischeren Betriebsfällen getestet werden können.
+Dieses Repository ist bewusst kein reines Startbeispiel. Es zeigt anhand eines kleinen containerisierten Stacks, dass Docker-Container nicht nur gestartet, sondern auch geprÃ¼ft, dokumentiert, abgesichert, Ã¼ber Reverse Proxy/HTTPS bereitgestellt, gescannt und in realistischeren BetriebsfÃ¤llen getestet werden kÃ¶nnen.
 
-## Kurzüberblick
+## KurzÃ¼berblick
 
-Dieses Projekt ist ein praxisnahes Docker-/DevOps-Lab für den Einstieg in Cloud-, DevOps-, Plattform- und Systemadministrationsrollen.
+Dieses Projekt ist ein praxisnahes Docker-/DevOps-Lab fÃ¼r den Einstieg in Cloud-, DevOps-, Plattform- und Systemadministrationsrollen.
 
 Es zeigt unter anderem:
 
 - Aufbau eines containerisierten Web-/Redis-Stacks mit Docker Compose
 - Trennung zwischen Development- und produktionsnaher Compose-Konfiguration
-- persistente Redis-Datenhaltung über Docker Volumes
+- persistente Redis-Datenhaltung Ã¼ber Docker Volumes
 - Healthchecks und Stack-Readiness-Checks
 - Backup und getesteter Restore
+- NGINX Reverse Proxy mit lokalem HTTPS/TLS
 - Secret-Handling ohne Commit echter Secrets
-- Logging-Grundlagen und Terminal-Session-Logging
-- Monitoring-Lab mit Prometheus, Grafana und cAdvisor
-- GitHub Actions CI zur automatisierten Prüfung
-- Simulation typischer Betriebs- und Fehlerfälle
+- Docker Log Rotation und Logging-Grundlagen
+- Monitoring-Lab mit Prometheus, Grafana, cAdvisor und Target-API-PrÃ¼fung
+- Container Security Stage 1 mit `no-new-privileges`
+- Image Scanning mit Docker Scout und Wechsel auf `nginx:alpine-slim`
+- lokale Registry mit Tag-/Digest-Grundlagen
+- GitHub Actions CI und separate Docker Image Pipeline
+- Simulation typischer Betriebs- und FehlerfÃ¤lle
 
 ## Was dieses Projekt nachweist
 
-Dieses Projekt zeigt praktische Grundlagen für Junior-Rollen im Bereich Cloud, DevOps, Plattformbetrieb und Systemadministration:
+Dieses Projekt zeigt praktische Grundlagen fÃ¼r Junior-Rollen im Bereich Cloud, DevOps, Plattformbetrieb und Systemadministration:
 
-- Ich kann Docker-Stacks strukturiert aufbauen, starten und prüfen.
-- Ich kann Container-Zustände, Healthchecks und Readiness nachvollziehbar bewerten.
+- Ich kann Docker-Stacks strukturiert aufbauen, starten und prÃ¼fen.
+- Ich kann Container-ZustÃ¤nde, Healthchecks und Readiness nachvollziehbar bewerten.
 - Ich kann Persistenz, Backup und Restore dokumentieren und testen.
-- Ich kann einfache Ausfälle simulieren und das Verhalten des Stacks analysieren.
+- Ich kann Reverse Proxy, lokales HTTPS/TLS und interne Service-Kommunikation einordnen.
+- Ich kann einfache AusfÃ¤lle simulieren und das Verhalten des Stacks analysieren.
 - Ich achte auf Secret-Handling, `.gitignore`, `.dockerignore` und saubere Repository-Hygiene.
-- Ich kann technische Arbeit so dokumentieren, dass andere sie nachvollziehen können.
+- Ich kann Container-Security-Grundlagen wie `no-new-privileges`, Capabilities und Log Rotation erklÃ¤ren.
+- Ich kann Image-Scanning-Ergebnisse bewerten und ein schlankeres Basis-Image kontrolliert testen.
+- Ich kann Registry-Grundlagen wie Tag, Push, Pull und Digest praktisch nachweisen.
+- Ich kann technische Arbeit so dokumentieren, dass andere sie nachvollziehen kÃ¶nnen.
 
-> Hinweis: Dieses Projekt ist ein Lern- und Portfolio-Lab. Es ist bewusst produktionsnah aufgebaut, ersetzt aber keine vollständige Enterprise-Produktionsumgebung.
+> Hinweis: Dieses Projekt ist ein Lern- und Portfolio-Lab. Es ist bewusst produktionsnah aufgebaut, ersetzt aber keine vollstÃ¤ndige Enterprise-Produktionsumgebung.
 
 ---
 
@@ -40,7 +48,7 @@ Dieses Projekt zeigt praktische Grundlagen für Junior-Rollen im Bereich Cloud, 
 
 Ziel dieses Projekts ist es, Docker nicht nur als Startbefehl zu lernen, sondern aus Betriebssicht zu verstehen.
 
-Das Projekt trainiert Grundlagen für einen Einstieg als:
+Das Projekt trainiert Grundlagen fÃ¼r einen Einstieg als:
 
 - Junior Cloud Engineer
 - Junior DevOps Engineer
@@ -51,11 +59,14 @@ Im Mittelpunkt stehen typische Betriebsfragen:
 
 - Startet der Stack sauber?
 - Sind die Container wirklich healthy?
-- Was passiert, wenn Redis ausfällt?
+- Funktioniert HTTPS Ã¼ber den Reverse Proxy?
+- Was passiert, wenn Redis oder Monitoring-Komponenten ausfallen?
 - Bleiben Daten nach Container-Neustarts erhalten?
 - Gibt es Backup und Restore?
 - Wurde ein Restore erfolgreich getestet?
-- Sind Logs, Backups und Secrets geschützt?
+- Sind Logs, Backups, Zertifikate und Secrets geschÃ¼tzt?
+- Welche bekannten Schwachstellen enthÃ¤lt das Image?
+- Kann das Image aus einer Registry genutzt werden?
 - Ist der Stack aus Betriebssicht bereit?
 
 ---
@@ -64,7 +75,7 @@ Im Mittelpunkt stehen typische Betriebsfragen:
 
 | Bereich | Status |
 |---|---|
-| Dockerfile für Webcontainer | vorhanden |
+| Dockerfile fÃ¼r Webcontainer | vorhanden |
 | Development-Compose-Datei | vorhanden |
 | produktionsnahe Compose-Datei | vorhanden |
 | Redis mit persistentem Docker Volume | vorhanden |
@@ -72,65 +83,73 @@ Im Mittelpunkt stehen typische Betriebsfragen:
 | Backup-Skripte | vorhanden |
 | Restore-Test | vorhanden |
 | Retention-/GFS-Dokumentation | vorhanden |
-| Healthchecks für Web und Redis | vorhanden |
-| Start-Abhängigkeit `web -> redis healthy` | vorhanden |
+| Healthchecks fÃ¼r Web und Redis | vorhanden |
+| Start-AbhÃ¤ngigkeit `web -> redis healthy` | vorhanden |
 | Restart Policy | vorhanden |
 | Redis-Ausfallsimulation | vorhanden |
 | Stack-Readiness-Check | vorhanden |
 | Terminal-Session-Logging-Dokumentation | vorhanden |
 | Monitoring-Lab mit Prometheus, Grafana und cAdvisor | vorhanden |
 | Logging-Grundlagen mit Docker Compose | vorhanden |
-| Secret-Handling über lokale Secret-Datei | vorhanden |
+| Secret-Handling Ã¼ber lokale Secret-Datei | vorhanden |
 | `.gitignore`, `.dockerignore`, `.gitattributes` | vorhanden |
 | strukturierte Dokumentation | vorhanden |
 | Docker-Compose-Umgebungsdokumentation | vorhanden |
 | Docker Cleanup Safety | vorhanden |
 | Security-/Readiness-Dokumentation | vorhanden |
 | finaler Daily-Operations-/Readiness-Check | vorhanden |
-
+| NGINX Reverse Proxy | vorhanden |
+| lokales HTTPS/TLS | vorhanden |
+| Docker Log Rotation | vorhanden |
+| Prometheus Target API Check | vorhanden |
+| Container Security Stage 1 | vorhanden |
+| Image Scanning mit Docker Scout | vorhanden |
+| schlankeres NGINX-Basis-Image | vorhanden |
+| lokale Registry mit Image v1.4 | vorhanden |
+| Docker Image Pipeline mit GitHub Actions | vorhanden |
 ---
 
 ## Projektstruktur
 
 ```text
 .
-├── .github/
-│   └── workflows/
-├── app/
-│   └── index.html
-├── archive/
-├── backups/
-├── docs/
-│   ├── architecture/
-│   ├── labs/
-│   ├── operations/
-│   └── troubleshooting/
-├── logs/
-│   └── .gitkeep
-├── monitoring/
-│   ├── grafana/
-│   └── prometheus/
-├── scripts/
-│   ├── backup/
-│   ├── incidents/
-│   ├── maintenance/
-│   ├── restore/
-│   ├── retention/
-│   └── tests/
-├── secrets/
-│   └── .gitkeep
-├── .dockerignore
-├── .env.example
-├── .gitattributes
-├── .gitignore
-├── compose.dev.yml
-├── compose.monitoring.yml
-├── compose.prod.yml
-├── compose.registry-test.yml
-├── Dockerfile
-├── index.html
-├── styles.css
-└── README.md
+â”œâ”€â”€ .github/
+â”‚   â””â”€â”€ workflows/
+â”œâ”€â”€ app/
+â”‚   â””â”€â”€ index.html
+â”œâ”€â”€ archive/
+â”œâ”€â”€ backups/
+â”œâ”€â”€ docs/
+â”‚   â”œâ”€â”€ architecture/
+â”‚   â”œâ”€â”€ labs/
+â”‚   â”œâ”€â”€ operations/
+â”‚   â””â”€â”€ troubleshooting/
+â”œâ”€â”€ logs/
+â”‚   â””â”€â”€ .gitkeep
+â”œâ”€â”€ monitoring/
+â”‚   â”œâ”€â”€ grafana/
+â”‚   â””â”€â”€ prometheus/
+â”œâ”€â”€ scripts/
+â”‚   â”œâ”€â”€ backup/
+â”‚   â”œâ”€â”€ incidents/
+â”‚   â”œâ”€â”€ maintenance/
+â”‚   â”œâ”€â”€ restore/
+â”‚   â”œâ”€â”€ retention/
+â”‚   â””â”€â”€ tests/
+â”œâ”€â”€ secrets/
+â”‚   â””â”€â”€ .gitkeep
+â”œâ”€â”€ .dockerignore
+â”œâ”€â”€ .env.example
+â”œâ”€â”€ .gitattributes
+â”œâ”€â”€ .gitignore
+â”œâ”€â”€ compose.dev.yml
+â”œâ”€â”€ compose.monitoring.yml
+â”œâ”€â”€ compose.prod.yml
+â”œâ”€â”€ compose.registry-test.yml
+â”œâ”€â”€ Dockerfile
+â”œâ”€â”€ index.html
+â”œâ”€â”€ styles.css
+â””â”€â”€ README.md
 ```
 
 ---
@@ -142,7 +161,7 @@ Im Mittelpunkt stehen typische Betriebsfragen:
 | `.github/workflows/` | GitHub-Actions-CI-Pipeline |
 | `app/` | einfache Web-App / HTML-Datei |
 | `docs/architecture/` | Architektur- und Strukturentscheidungen |
-| `docs/labs/` | praktische Übungen und Simulationen |
+| `docs/labs/` | praktische Ãœbungen und Simulationen |
 | `docs/operations/` | Betriebsdokumentation, Backup, Logging, Readiness, Secrets |
 | `docs/troubleshooting/` | Fehleranalyse und Wiederherstellung |
 | `logs/` | lokale Logdateien; echte Logs werden nicht committed |
@@ -151,14 +170,14 @@ Im Mittelpunkt stehen typische Betriebsfragen:
 | `scripts/restore/` | Restore-/Testskripte |
 | `scripts/retention/` | Aufbewahrungs-/GFS-Skripte |
 | `scripts/incidents/` | Fehler- und Ausfallsimulationen |
-| `scripts/tests/` | Betriebs- und Readiness-Prüfungen |
+| `scripts/tests/` | Betriebs- und Readiness-PrÃ¼fungen |
 | `secrets/` | lokale Secret-Dateien; echte Secrets werden nicht committed |
 
 ---
 
 ## Voraussetzungen
 
-Auf dem lokalen System werden benötigt:
+Auf dem lokalen System werden benÃ¶tigt:
 
 ```text
 Docker Desktop
@@ -167,7 +186,7 @@ PowerShell
 Git
 ```
 
-Das Projekt wurde unter Windows mit PowerShell entwickelt. Viele Konzepte sind aber auf Linux/macOS übertragbar.
+Das Projekt wurde unter Windows mit PowerShell entwickelt. Viele Konzepte sind aber auf Linux/macOS Ã¼bertragbar.
 
 ---
 
@@ -189,19 +208,19 @@ Redis und Grafana nutzen im Lab lokale Secret-Dateien.
 New-Item -ItemType Directory -Force -Path .\secrets
 
 # Erstellt eine lokale Redis-Passwortdatei, falls sie noch nicht existiert.
-# SECURITY: Dies ist ein Lab-Wert. In Produktion würde ein Secret Manager genutzt.
+# SECURITY: Dies ist ein Lab-Wert. In Produktion wÃ¼rde ein Secret Manager genutzt.
 if (-not (Test-Path .\secrets\redis_password.txt)) {
     Set-Content -Path .\secrets\redis_password.txt -Value "local_redis_password_please_change" -NoNewline
 }
 
 # Erstellt eine lokale Grafana-Admin-Passwortdatei, falls sie noch nicht existiert.
-# SECURITY: Dies ist ein Lab-Wert. In Produktion würde ein Secret Manager genutzt.
+# SECURITY: Dies ist ein Lab-Wert. In Produktion wÃ¼rde ein Secret Manager genutzt.
 if (-not (Test-Path .\secrets\grafana_admin_password.txt)) {
     Set-Content -Path .\secrets\grafana_admin_password.txt -Value "local_grafana_admin_password_please_change" -NoNewline
 }
 ```
 
-Prüfen, ob die Secret-Dateien ignoriert werden:
+PrÃ¼fen, ob die Secret-Dateien ignoriert werden:
 
 ```powershell
 git check-ignore -v secrets/redis_password.txt
@@ -222,7 +241,7 @@ Die lokalen Secret-Dateien werden durch .gitignore ignoriert.
 docker compose -f compose.dev.yml up -d --build
 ```
 
-Status prüfen:
+Status prÃ¼fen:
 
 ```powershell
 docker compose -f compose.dev.yml ps
@@ -242,13 +261,13 @@ docker compose -f compose.dev.yml down
 docker compose -f compose.prod.yml up -d --build
 ```
 
-Status prüfen:
+Status prÃ¼fen:
 
 ```powershell
 docker compose -f compose.prod.yml ps
 ```
 
-Die Web-App ist im produktionsnahen Modus über folgenden lokalen Port erreichbar:
+Die Web-App ist im produktionsnahen Modus Ã¼ber folgenden lokalen Port erreichbar:
 
 ```text
 http://localhost:8082
@@ -262,59 +281,59 @@ docker compose -f compose.prod.yml down
 
 ---
 
-## Compose-Konfiguration prüfen
+## Compose-Konfiguration prÃ¼fen
 
-Vor wichtigen Änderungen wird die finale Compose-Konfiguration geprüft:
+Vor wichtigen Ã„nderungen wird die finale Compose-Konfiguration geprÃ¼ft:
 
 ```powershell
 docker compose -f compose.prod.yml config
 ```
 
-Dieser Befehl zeigt die von Docker Compose ausgewertete Konfiguration. Dadurch werden Syntaxfehler, Pfadfehler und aufgelöste Variablen sichtbar.
+Dieser Befehl zeigt die von Docker Compose ausgewertete Konfiguration. Dadurch werden Syntaxfehler, Pfadfehler und aufgelÃ¶ste Variablen sichtbar.
 
 Security-Hinweis:
 
 ```text
-docker compose config kann aufgelöste Secrets oder lokale Pfade sichtbar machen.
-Ausgaben nicht ungeprüft teilen oder committen.
+docker compose config kann aufgelÃ¶ste Secrets oder lokale Pfade sichtbar machen.
+Ausgaben nicht ungeprÃ¼ft teilen oder committen.
 ```
 
 ---
 
 ## Healthchecks
 
-Der produktionsnahe Stack enthält Healthchecks für:
+Der produktionsnahe Stack enthÃ¤lt Healthchecks fÃ¼r:
 
 ```text
 web
 redis
 ```
 
-Web prüft, ob Nginx lokal im Container antwortet.
+Web prÃ¼ft, ob Nginx lokal im Container antwortet.
 
-Redis prüft, ob Redis mit `PONG` antwortet. Der Redis-Healthcheck nutzt `REDISCLI_AUTH` und liest das Passwort aus der Secret-Datei im Container:
+Redis prÃ¼ft, ob Redis mit `PONG` antwortet. Der Redis-Healthcheck nutzt `REDISCLI_AUTH` und liest das Passwort aus der Secret-Datei im Container:
 
 ```text
 /run/secrets/redis_password
 ```
 
-Dadurch wird die unsaubere Passwortübergabe über `redis-cli -a` vermieden.
+Dadurch wird die unsaubere PasswortÃ¼bergabe Ã¼ber `redis-cli -a` vermieden.
 
 ---
 
 ## Stack-Readiness-Check
 
-Zusätzlich zu Docker-Healthchecks gibt es einen externen Readiness-Check:
+ZusÃ¤tzlich zu Docker-Healthchecks gibt es einen externen Readiness-Check:
 
 ```powershell
 .\scripts\tests\test-stack-readiness.ps1
 ```
 
-Dieser Check prüft:
+Dieser Check prÃ¼ft:
 
 ```text
 Docker-Compose-Status
-Web-Erreichbarkeit über HTTP
+Web-Erreichbarkeit Ã¼ber HTTP
 Redis-Erreichbarkeit per PING/PONG
 Gesamtergebnis mit Exit-Code
 ```
@@ -331,7 +350,7 @@ Erwartung bei gesundem Stack:
 
 ## Redis-Ausfallsimulation
 
-Ein realistischer Fehlerfall wird über dieses Skript simuliert:
+Ein realistischer Fehlerfall wird Ã¼ber dieses Skript simuliert:
 
 ```powershell
 .\scripts\incidents\simulate-runtime-redis-outage.ps1
@@ -340,14 +359,14 @@ Ein realistischer Fehlerfall wird über dieses Skript simuliert:
 Das Skript:
 
 ```text
-prüft den Ausgangszustand
+prÃ¼ft den Ausgangszustand
 beendet den Redis-Prozess kontrolliert
 wartet auf Docker-Recovery
-prüft den RestartCount
-prüft Redis-Logs
+prÃ¼ft den RestartCount
+prÃ¼ft Redis-Logs
 bewertet das Ergebnis
 gibt Zeitstempel aus
-enthält Security-Hinweise
+enthÃ¤lt Security-Hinweise
 ```
 
 Der wichtigste Nachweis:
@@ -362,7 +381,7 @@ RestartCount NACHHER: 1
 
 ## Backup und Restore
 
-Das Projekt enthält Skripte und Dokumentation für Redis-Volume-Backups.
+Das Projekt enthÃ¤lt Skripte und Dokumentation fÃ¼r Redis-Volume-Backups.
 
 Wichtige Skripte:
 
@@ -391,7 +410,7 @@ Ein Backup ist erst dann belastbar, wenn ein Restore erfolgreich getestet wurde.
 
 ## Terminal-Session-Logging
 
-Für Betriebs- und Incident-Übungen kann eine lokale PowerShell-Session mitgeschnitten werden:
+FÃ¼r Betriebs- und Incident-Ãœbungen kann eine lokale PowerShell-Session mitgeschnitten werden:
 
 ```powershell
 New-Item -ItemType Directory -Force -Path .\logs\terminal-sessions
@@ -404,15 +423,15 @@ Beenden:
 Stop-Transcript
 ```
 
-Die Terminal-Mitschnitte werden durch `.gitignore` geschützt.
+Die Terminal-Mitschnitte werden durch `.gitignore` geschÃ¼tzt.
 
 Security-Hinweis:
 
 ```text
-Terminal-Logs können Secrets, Passwörter, Tokens, lokale Pfade oder interne Informationen enthalten.
+Terminal-Logs kÃ¶nnen Secrets, PasswÃ¶rter, Tokens, lokale Pfade oder interne Informationen enthalten.
 Nicht committen.
-Nicht ungeprüft teilen.
-Vor Weitergabe auf sensible Inhalte prüfen.
+Nicht ungeprÃ¼ft teilen.
+Vor Weitergabe auf sensible Inhalte prÃ¼fen.
 ```
 
 Dokumentation:
@@ -431,16 +450,16 @@ Wichtige Regeln:
 
 ```text
 Keine echten Secrets committen.
-Keine Passwörter in Screenshots zeigen.
-Keine Terminal-Logs ungeprüft teilen.
+Keine PasswÃ¶rter in Screenshots zeigen.
+Keine Terminal-Logs ungeprÃ¼ft teilen.
 Backups nicht nach GitHub hochladen.
 Logs nicht committen.
-Lokale Secret-Dateien durch .gitignore schützen.
+Lokale Secret-Dateien durch .gitignore schÃ¼tzen.
 Build-Kontext durch .dockerignore klein und sauber halten.
-Bei einem Secret-Leak: Secret rotieren, nicht nur löschen.
+Bei einem Secret-Leak: Secret rotieren, nicht nur lÃ¶schen.
 ```
 
-Geschützte lokale Dateien und Ordner:
+GeschÃ¼tzte lokale Dateien und Ordner:
 
 ```text
 .env
@@ -461,11 +480,11 @@ Dieses Repository nutzt:
 
 | Datei | Zweck |
 |---|---|
-| `.gitignore` | schützt Git vor lokalen, sensiblen oder generierten Dateien |
-| `.dockerignore` | schützt den Docker-Build-Kontext vor unnötigen/sensiblen Dateien |
+| `.gitignore` | schÃ¼tzt Git vor lokalen, sensiblen oder generierten Dateien |
+| `.dockerignore` | schÃ¼tzt den Docker-Build-Kontext vor unnÃ¶tigen/sensiblen Dateien |
 | `.gitattributes` | standardisiert Zeilenenden im Repository |
 
-Build-Kontext prüfen:
+Build-Kontext prÃ¼fen:
 
 ```powershell
 docker compose -f compose.prod.yml build web
@@ -475,13 +494,13 @@ docker compose -f compose.prod.yml build web
 
 ## Operations-Dokumentation
 
-Die betriebsnahen Dokumente sind in einer eigenen Übersicht zusammengefasst:
+Die betriebsnahen Dokumente sind in einer eigenen Ãœbersicht zusammengefasst:
 
 ```text
 docs/operations/README.md
 ```
 
-Dort sind die wichtigsten Betriebsbereiche des Labs gebündelt:
+Dort sind die wichtigsten Betriebsbereiche des Labs gebÃ¼ndelt:
 
 ```text
 Backup und Restore
@@ -494,7 +513,7 @@ Logging
 Lab vs. Produktion
 ```
 
-Diese Übersicht erleichtert das Lesen des Projekts und zeigt, welche praktischen Cloud-/DevOps-Grundlagen im Lab nachgewiesen werden.
+Diese Ãœbersicht erleichtert das Lesen des Projekts und zeigt, welche praktischen Cloud-/DevOps-Grundlagen im Lab nachgewiesen werden.
 
 
 ## Logging-Grundlagen
@@ -531,7 +550,7 @@ http://localhost:8082/?test=logcheck
 Dadurch konnte im Webcontainer nachvollzogen werden:
 
 ```text
-Browseraktion → Webcontainer → Logzeile erscheint live im Terminal
+Browseraktion â†’ Webcontainer â†’ Logzeile erscheint live im Terminal
 ```
 
 Fachliche Einordnung:
@@ -539,26 +558,26 @@ Fachliche Einordnung:
 | Logtyp | Beispiel | Bedeutung |
 |---|---|---|
 | Healthcheck-Zugriff | `Wget` mit HTTP 200 | normaler automatischer Healthcheck |
-| Browserzugriff | `Mozilla/5.0` und `?test=logcheck` | bewusst ausgelöster Zugriff |
+| Browserzugriff | `Mozilla/5.0` und `?test=logcheck` | bewusst ausgelÃ¶ster Zugriff |
 | cAdvisor-Warnung | fehlende `machine-id` / `system UUID` | Docker-Desktop-/WSL2-Hinweis, im Lab nicht fatal |
 
 Security-Hinweis:
 
 ```text
-Logs können sensible Informationen enthalten.
-Terminal-Ausgaben und Screenshots müssen vor öffentlicher Nutzung geprüft werden.
-Secrets, Tokens und personenbezogene Daten dürfen nicht in öffentliche Logs oder Screenshots gelangen.
+Logs kÃ¶nnen sensible Informationen enthalten.
+Terminal-Ausgaben und Screenshots mÃ¼ssen vor Ã¶ffentlicher Nutzung geprÃ¼ft werden.
+Secrets, Tokens und personenbezogene Daten dÃ¼rfen nicht in Ã¶ffentliche Logs oder Screenshots gelangen.
 ```
 
 
 ## Monitoring mit Prometheus und Grafana
-Das Projekt enthält ein kleines, bewusst begrenztes Monitoring-Lab:
+Das Projekt enthÃ¤lt ein kleines, bewusst begrenztes Monitoring-Lab:
 
 ```text
 compose.monitoring.yml
 ```
 
-Es ergänzt den produktionsnahen Stack um:
+Es ergÃ¤nzt den produktionsnahen Stack um:
 
 ```text
 Prometheus
@@ -574,7 +593,7 @@ Die Aufgabe der Komponenten:
 | Grafana | visualisiert Metriken in Dashboards |
 | cAdvisor | stellt Container-Metriken bereit |
 
-Lokale Weboberflächen:
+Lokale WeboberflÃ¤chen:
 
 | Tool | URL |
 |---|---|
@@ -603,10 +622,10 @@ Wichtige Einordnung:
 
 ```text
 Das Monitoring-Lab zeigt die Grundidee von Metriken, Targets und Dashboards.
-Es ist keine vollständige produktionsreife Observability-Plattform.
+Es ist keine vollstÃ¤ndige produktionsreife Observability-Plattform.
 ```
 
-In Produktion wären zusätzlich nötig:
+In Produktion wÃ¤ren zusÃ¤tzlich nÃ¶tig:
 
 ```text
 Authentifizierung
@@ -614,7 +633,7 @@ TLS/HTTPS
 Rollen- und Rechtekonzept
 Alerting
 Retention-Konzept
-zentrale oder hochverfügbare Speicherung
+zentrale oder hochverfÃ¼gbare Speicherung
 sichere Netzwerkfreigaben
 ```
 
@@ -626,36 +645,36 @@ docs/operations/monitoring-prometheus-grafana.md
 
 
 ## GitHub Actions CI
-Das Repository enthält eine erste GitHub-Actions-CI-Pipeline:
+Das Repository enthÃ¤lt eine erste GitHub-Actions-CI-Pipeline:
 
 ```text
 .github/workflows/docker-lab-ci.yml
 ```
 
-Die Pipeline läuft automatisch bei Push auf `main` und bei Pull Requests.
+Die Pipeline lÃ¤uft automatisch bei Push auf `main` und bei Pull Requests.
 
-Sie prüft:
+Sie prÃ¼ft:
 
 ```text
 Docker-Versionen anzeigen
 lokale CI-Secret-Datei im Runner erzeugen
-docker compose config ausführen
+docker compose config ausfÃ¼hren
 Web-Image bauen
 Stack starten
-Web per HTTP prüfen
-Redis per PING/PONG prüfen
+Web per HTTP prÃ¼fen
+Redis per PING/PONG prÃ¼fen
 bei Fehlern Logs anzeigen
-Stack aufräumen
+Stack aufrÃ¤umen
 ```
 
-Damit wird nicht nur die Compose-Datei geprüft, sondern der Stack im GitHub-Actions-Runner tatsächlich gestartet und getestet.
+Damit wird nicht nur die Compose-Datei geprÃ¼ft, sondern der Stack im GitHub-Actions-Runner tatsÃ¤chlich gestartet und getestet.
 
 Security-Hinweis:
 
 ```text
 Das CI-Secret wird nur im kurzlebigen GitHub-Actions-Runner erzeugt.
 Es wird nicht committed und nicht im Workflow ausgegeben.
-Für echte produktive Secrets wären GitHub Actions Secrets, Vault oder ein Cloud Secret Manager nötig.
+FÃ¼r echte produktive Secrets wÃ¤ren GitHub Actions Secrets, Vault oder ein Cloud Secret Manager nÃ¶tig.
 ```
 
 Dokumentation:
@@ -696,13 +715,13 @@ Dieses Projekt ist bewusst ein Lern- und Portfolio-Lab.
 | Orchestrierung | Docker Compose lokal | Kubernetes, Cloud-Service, Swarm, Nomad |
 | Secrets | lokale Secret-Datei | Vault, Cloud Secret Manager, Kubernetes Secrets |
 | Monitoring | Skripte, Logs, `docker compose ps` | Prometheus, Grafana, Cloud Monitoring, SIEM |
-| Backup | lokale TAR/GZ-Dateien | externe Speicherung, Verschlüsselung, Retention, Restore-Tests |
+| Backup | lokale TAR/GZ-Dateien | externe Speicherung, VerschlÃ¼sselung, Retention, Restore-Tests |
 | Readiness | PowerShell-Skript | Load Balancer, Readiness Probe, Monitoring |
 | Logging | lokale Logs und Transcripts | zentrale Logplattform, Zugriffsschutz, Retention |
-| CI | GitHub Actions CI vorhanden: Compose prüfen, Web-Image bauen, Stack starten, Web + Redis testen | Pipeline mit Tests, Build, Security Checks, Quality Gates |
+| CI | GitHub Actions CI vorhanden: Compose prÃ¼fen, Web-Image bauen, Stack starten, Web + Redis testen | Pipeline mit Tests, Build, Security Checks, Quality Gates |
 | CD/Deployment | noch nicht umgesetzt | Staging-/Production-Deployment mit Freigaben, Rollback und Monitoring |
 
-Das Ziel ist nicht, Produktion vorzutäuschen, sondern wichtige Betriebsprinzipien praktisch zu trainieren.
+Das Ziel ist nicht, Produktion vorzutÃ¤uschen, sondern wichtige Betriebsprinzipien praktisch zu trainieren.
 
 ---
 
@@ -715,22 +734,22 @@ docker compose -f compose.prod.yml -f compose.monitoring.yml up -d --build
 # Stack anzeigen
 docker compose -f compose.prod.yml -f compose.monitoring.yml ps
 
-# Compose-Konfiguration prüfen
+# Compose-Konfiguration prÃ¼fen
 docker compose -f compose.prod.yml -f compose.monitoring.yml config
 
 # Logs anzeigen
 docker compose -f compose.prod.yml -f compose.monitoring.yml logs --tail=80
 
-# Daily Operations Check ausführen
+# Daily Operations Check ausfÃ¼hren
 powershell -ExecutionPolicy Bypass -File .\scripts\tests\test-daily-operations.ps1
 
 # Redis-Ausfall simulieren
 .\scripts\incidents\simulate-runtime-redis-outage.ps1
 
-# Stack stoppen, ohne Volumes zu löschen
+# Stack stoppen, ohne Volumes zu lÃ¶schen
 docker compose -f compose.prod.yml -f compose.monitoring.yml down
 
-# Git-Status prüfen
+# Git-Status prÃ¼fen
 git status --short
 ```
 
@@ -761,27 +780,27 @@ Dokumentation und Troubleshooting
 
 ---
 
-## Mögliche spätere Ausbaustufen
+## MÃ¶gliche spÃ¤tere Ausbaustufen
 
-Mögliche nächste Schritte:
+MÃ¶gliche nÃ¤chste Schritte:
 
 ```text
-CI-Fehlerübungen und GitHub-Actions-Log-Diagnose
-erweiterte CI-Prüfungen, z. B. Script-Checks, Security-Checks und Build-Fehler-Simulationen
-Monitoring-Fehlerübungen und erste Alerting-Grundlagen
+CI-FehlerÃ¼bungen und GitHub-Actions-Log-Diagnose
+erweiterte CI-PrÃ¼fungen, z. B. Script-Checks, Security-Checks und Build-Fehler-Simulationen
+Monitoring-FehlerÃ¼bungen und erste Alerting-Grundlagen
 strukturierte Application Logs
 Reverse Proxy
 HTTPS im Lab
 Kubernetes-Grundlagen
 Deployment-/Rollback-Szenarien
-Secret-Rotation als Übung
+Secret-Rotation als Ãœbung
 ```
 
 ---
 
 ## Portfolio-Einordnung
 
-Dieses Projekt ist ein praxisnahes Lern- und Portfolio-Projekt für den Einstieg in Cloud-/DevOps-nahe Rollen.
+Dieses Projekt ist ein praxisnahes Lern- und Portfolio-Projekt fÃ¼r den Einstieg in Cloud-/DevOps-nahe Rollen.
 
 Es zeigt nicht nur:
 
@@ -792,10 +811,11 @@ Ich kann Docker starten.
 Sondern auch:
 
 ```text
-Ich kann Betriebszustände prüfen.
-Ich kann Fehlerfälle simulieren.
+Ich kann BetriebszustÃ¤nde prÃ¼fen.
+Ich kann FehlerfÃ¤lle simulieren.
 Ich kann Backups und Restore-Tests dokumentieren.
 Ich beachte Security- und Secret-Handling.
 Ich kann eine Repository-Struktur nachvollziehbar aufbauen.
-Ich kann technische Änderungen mit Git sauber versionieren.
+Ich kann technische Ã„nderungen mit Git sauber versionieren.
 ```
+

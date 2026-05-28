@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Docker Portfolio Lab | DevOps- & Cloud-Portfolio</title>
-  <meta name="description" content="Praxisnahes Docker-/DevOps-Portfolio mit Fokus auf Betrieb, Healthchecks, Backup/Restore, Secret-Handling, Monitoring und CI.">
+  <meta name="description" content="Praxisnahes Docker-/DevOps-Portfolio mit Fokus auf Betrieb, Reverse Proxy, HTTPS, Healthchecks, Backup/Restore, Secrets, Monitoring, Security, Image Scanning, Registry und CI/CD.">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -32,7 +32,8 @@
         <p class="hero-text">
           Dieses Portfolio zeigt nicht nur, dass Container gestartet werden können,
           sondern dass Betriebszustände geprüft, Fehlerfälle simuliert, Backups getestet,
-          Secrets geschützt und technische Arbeit nachvollziehbar dokumentiert wird.
+          Secrets geschützt, HTTPS über einen Reverse Proxy bereitgestellt und CI/CD-Prüfungen
+          nachvollziehbar dokumentiert werden.
         </p>
 
         <div class="hero-actions">
@@ -47,9 +48,12 @@
         <div class="hero-tags" aria-label="Technologien und Themen">
           <span>Docker</span>
           <span>Docker Compose</span>
+          <span>NGINX</span>
+          <span>HTTPS/TLS</span>
           <span>Redis</span>
-          <span>Backup/Restore</span>
-          <span>Monitoring</span>
+          <span>Prometheus</span>
+          <span>Grafana</span>
+          <span>Docker Scout</span>
           <span>GitHub Actions</span>
         </div>
       </div>
@@ -58,10 +62,11 @@
         <h2>Projektfokus</h2>
         <ul>
           <li><strong>Containerbetrieb:</strong> Dockerfile, Compose, Web-App, Redis</li>
+          <li><strong>Reverse Proxy:</strong> NGINX mit lokalem HTTPS/TLS</li>
           <li><strong>Betriebssicherheit:</strong> Healthchecks, Readiness, Restart Policy</li>
           <li><strong>Daten & Recovery:</strong> persistentes Volume, Backup, Restore-Test</li>
-          <li><strong>Observability:</strong> Logging, Prometheus, Grafana, cAdvisor</li>
-          <li><strong>Automation:</strong> CI-Prüfung mit GitHub Actions</li>
+          <li><strong>Security:</strong> Secrets, Log Rotation, Image Scanning, Container-Härtung</li>
+          <li><strong>Automation:</strong> GitHub Actions für Compose- und Image-Pipeline</li>
         </ul>
       </aside>
     </section>
@@ -80,48 +85,48 @@
         <article class="card">
           <h3>Containerbetrieb</h3>
           <p>
-            Aufbau eines kleinen Web-/Redis-Stacks mit Dockerfile, Docker Compose
-            und getrennten Development- und produktionsnahen Konfigurationen.
+            Aufbau eines Web-/Redis-Stacks mit Dockerfile, Docker Compose,
+            getrennten Umgebungen und schlankerem NGINX-Basis-Image.
           </p>
         </article>
 
         <article class="card">
-          <h3>Health & Readiness</h3>
+          <h3>Reverse Proxy & HTTPS</h3>
           <p>
-            Prüfung von Containerzuständen, Healthchecks, Start-Abhängigkeiten und
-            Stack-Readiness aus Betriebssicht.
+            NGINX als zentraler Einstiegspunkt mit lokalem HTTPS/TLS,
+            HTTP-Weiterleitung und dokumentierter TLS-Terminierung.
           </p>
         </article>
 
         <article class="card">
-          <h3>Backup & Restore</h3>
+          <h3>Backup, Restore & Readiness</h3>
           <p>
-            Redis-Volume-Backup, Restore-Test und Dokumentation des Grundsatzes:
-            Ein Backup ist erst nach erfolgreichem Restore-Test belastbar.
+            Redis-Volume-Backup, Restore-Test, Healthchecks, Start-Abhängigkeiten
+            und Stack-Readiness aus Betriebssicht.
           </p>
         </article>
 
         <article class="card">
           <h3>Security & Secrets</h3>
           <p>
-            Lokales Secret-Handling, Schutz durch <code>.gitignore</code> und
-            <code>.dockerignore</code>, keine echten Secrets im Repository.
+            Lokales Secret-Handling, Schutz durch <code>.gitignore</code>,
+            <code>no-new-privileges</code>, Log Rotation und sichere Prüfwege.
           </p>
         </article>
 
         <article class="card">
           <h3>Monitoring & Logging</h3>
           <p>
-            Grundlagen mit Docker-Logs, Terminal-Session-Logging sowie Monitoring-Lab
-            mit Prometheus, Grafana und cAdvisor.
+            Docker-Logs, Log Rotation, Prometheus Target API, Grafana,
+            cAdvisor und Unterscheidung zwischen Docker-Health und Monitoring-Health.
           </p>
         </article>
 
         <article class="card">
-          <h3>CI & Automatisierung</h3>
+          <h3>CI/CD & Registry</h3>
           <p>
-            GitHub Actions prüft Compose-Konfiguration, baut das Image, startet den Stack
-            und testet Web sowie Redis im Runner.
+            GitHub Actions bauen und testen das Image, Docker Scout bewertet Schwachstellen,
+            und eine lokale Registry zeigt Push-/Pull-Grundlagen.
           </p>
         </article>
       </div>
@@ -145,15 +150,15 @@
         </div>
         <div class="proof-item">
           <span>02</span>
-          <p>Ich kann Betriebszustände, Healthchecks und Readiness bewerten.</p>
+          <p>Ich kann Reverse Proxy, HTTPS, Healthchecks und Readiness nachvollziehbar bewerten.</p>
         </div>
         <div class="proof-item">
           <span>03</span>
-          <p>Ich kann einfache Ausfälle simulieren und Diagnosewege dokumentieren.</p>
+          <p>Ich kann Backup/Restore, Logging, Monitoring und Fehlerbilder dokumentieren.</p>
         </div>
         <div class="proof-item">
           <span>04</span>
-          <p>Ich beachte Security-Grundlagen, Secret-Handling und Repository-Hygiene.</p>
+          <p>Ich beachte Security-Grundlagen, Secrets, Image Scanning, Registry- und CI/CD-Prozesse.</p>
         </div>
       </div>
     </section>
@@ -170,27 +175,35 @@
       <div class="link-grid">
         <a class="doc-link" href="docs/operations/README.md">
           <span>Operations-Übersicht</span>
-          <small>Backup, Logging, Monitoring, CI und Lab-vs-Produktion</small>
+          <small>Gesamtüberblick über Betriebsdokumentation und Advanced-Nachweise</small>
         </a>
-        <a class="doc-link" href="docs/operations/github-actions-ci.md">
-          <span>GitHub Actions CI</span>
-          <small>Automatisierte Prüfung des Docker-Stacks</small>
+        <a class="doc-link" href="docs/operations/https-local-nginx.md">
+          <span>Reverse Proxy & HTTPS</span>
+          <small>NGINX, lokales TLS und HTTPS-Weiterleitung</small>
         </a>
-        <a class="doc-link" href="docs/operations/monitoring-prometheus-grafana.md">
-          <span>Monitoring</span>
-          <small>Prometheus, Grafana und cAdvisor im Lab</small>
+        <a class="doc-link" href="docs/operations/container-security-stage-1.md">
+          <span>Container Security</span>
+          <small>no-new-privileges, Capabilities und Härtungslogik</small>
+        </a>
+        <a class="doc-link" href="docs/operations/image-scanning-docker-scout.md">
+          <span>Image Scanning</span>
+          <small>Docker Scout, CVE-Bewertung und schlankeres Basis-Image</small>
+        </a>
+        <a class="doc-link" href="docs/operations/prometheus-target-api-check.md">
+          <span>Monitoring Deep Dive</span>
+          <small>Prometheus Target API, cAdvisor und Target Health</small>
+        </a>
+        <a class="doc-link" href="docs/operations/registry-deep-dive.md">
+          <span>Registry Deep Dive</span>
+          <small>lokale Registry, Tags, Digest, Push und Registry-Test</small>
+        </a>
+        <a class="doc-link" href="docs/operations/cicd-build-pipeline.md">
+          <span>CI/CD Build Pipeline</span>
+          <small>GitHub Actions für Build, Container-Test und optionale Scans</small>
         </a>
         <a class="doc-link" href="docs/operations/backup-strategie-gfs.md">
           <span>Backup-Strategie</span>
           <small>Backup, Restore-Test und Retention-Grundlagen</small>
-        </a>
-        <a class="doc-link" href="docs/troubleshooting/troubleshooting-backup-restore.md">
-          <span>Troubleshooting</span>
-          <small>Fehleranalyse rund um Backup und Restore</small>
-        </a>
-        <a class="doc-link" href="README.md">
-          <span>README</span>
-          <small>Vollständige technische Projektbeschreibung</small>
         </a>
       </div>
     </section>
@@ -198,7 +211,7 @@
     <section class="section callout">
       <div>
         <p class="eyebrow">Einordnung</p>
-        <h2>Praxisnahes Lernprojekt mit Betriebsfokus</h2>
+        <h2>Portfolio mit Betriebsfokus</h2>
         <p>
           Der Schwerpunkt liegt auf Betriebsdenken: prüfen, dokumentieren, absichern,
           Fehler nachvollziehen und technische Entscheidungen begründen.
