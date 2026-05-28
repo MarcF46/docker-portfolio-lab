@@ -785,15 +785,37 @@ Dokumentation und Troubleshooting
 Mögliche nächste Schritte:
 
 ```text
+Kubernetes-Grundlagen
+Linux-/SSH-Training für Serverbetrieb
 CI-Fehlerübungen und GitHub-Actions-Log-Diagnose
 erweiterte CI-Prüfungen, z. B. Script-Checks, Security-Checks und Build-Fehler-Simulationen
 Monitoring-Fehlerübungen und erste Alerting-Grundlagen
 strukturierte Application Logs
-Reverse Proxy
-HTTPS im Lab
-Kubernetes-Grundlagen
 Deployment-/Rollback-Szenarien
 Secret-Rotation als Übung
+GitHub Container Registry oder andere externe Registry
+Cloud-Grundlagen mit Fokus auf realistische Junior-Cloud-/DevOps-Rollen
+```
+
+Bereits umgesetzt und dokumentiert sind unter anderem:
+
+```text
+Dockerfile und Docker Compose
+persistente Redis-Datenhaltung
+Backup und getesteter Restore
+Healthchecks und Readiness-Checks
+NGINX Reverse Proxy
+lokales HTTPS/TLS
+Secret Handling
+Docker Log Rotation
+Monitoring mit Prometheus, Grafana und cAdvisor
+Prometheus Target API Check
+Container Security Stage 1
+Image Scanning mit Docker Scout
+Wechsel auf nginx:alpine-slim
+lokale Registry mit Tag-/Digest-Grundlagen
+GitHub Actions CI
+Docker Image Pipeline
 ```
 
 ---
@@ -811,11 +833,19 @@ Ich kann Docker starten.
 Sondern auch:
 
 ```text
-Ich kann Betriebszustände prüfen.
-Ich kann Fehlerfälle simulieren.
-Ich kann Backups und Restore-Tests dokumentieren.
-Ich beachte Security- und Secret-Handling.
-Ich kann eine Repository-Struktur nachvollziehbar aufbauen.
-Ich kann technische Änderungen mit Git sauber versionieren.
+Ich kann Container-Stacks strukturiert aufbauen, prüfen und dokumentieren.
+Ich kann Betriebszustände mit Healthchecks, Readiness-Checks und Monitoring bewerten.
+Ich kann Fehlerfälle simulieren und deren Auswirkungen nachvollziehen.
+Ich kann persistente Daten, Backups und Restore-Tests praktisch umsetzen.
+Ich kann Reverse Proxy, lokales HTTPS/TLS und interne Service-Kommunikation einordnen.
+Ich beachte Secret Handling, .gitignore, .dockerignore und sichere Dokumentation.
+Ich kann Container-Logs begrenzen und grundlegende Log-Diagnose durchführen.
+Ich kann einfache Container-Security-Maßnahmen wie no-new-privileges erklären und testen.
+Ich kann Image-Scanning-Ergebnisse bewerten und daraus eine technische Verbesserung ableiten.
+Ich kann ein schlankeres Basis-Image kontrolliert testen und übernehmen.
+Ich kann Registry-Grundlagen wie Tag, Push, Pull und Digest praktisch nachweisen.
+Ich kann GitHub Actions nutzen, um Docker-Images und Compose-Stacks automatisiert zu prüfen.
+Ich kann technische Änderungen mit Git sauber versionieren und nachvollziehbar dokumentieren.
 ```
 
+Das Projekt erhebt keinen Anspruch auf vollständige Enterprise-Produktionsreife. Es zeigt aber wichtige Betriebsprinzipien, die für Junior-Rollen im Bereich Systemintegration, Cloud Engineering, DevOps und Plattformbetrieb relevant sind.
