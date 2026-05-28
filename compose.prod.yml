@@ -22,7 +22,7 @@ services:
 
     # Name und Version des gebauten Images.
     # Versionen sind später wichtig für Rollbacks.
-    image: handsonlabs/my-web:v1.2
+    image: handsonlabs/my-web:v1.4
 
     # Portweiterleitung:
     # Host-Port 8082 auf deinem PC -> Container-Port 80 im Webcontainer.

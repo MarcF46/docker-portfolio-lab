@@ -1,7 +1,7 @@
 # Wir starten mit einem fertigen Nginx-Image.
 # Nginx ist ein sehr verbreiteter Webserver.
 # Alpine ist eine besonders kleine Linux-Variante.
-FROM nginx:alpine
+FROM nginx:alpine-slim
 
 # Wir setzen das Arbeitsverzeichnis im Container.
 # In diesem Ordner sucht Nginx standardmäßig nach Webseiten-Dateien.
