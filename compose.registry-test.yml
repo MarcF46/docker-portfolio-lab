@@ -11,13 +11,13 @@
 # localhost:5000
 #
 # Image:
-# localhost:5000/handsonlabs/my-web:v1.2
+# localhost:5000/handsonlabs/my-web:v1.4
 
 services:
   web-registry-test:
     # Dieses Image kommt aus der lokalen Registry.
     # Es wurde vorher mit docker image push nach localhost:5000 hochgeladen.
-    image: localhost:5000/handsonlabs/my-web:v1.2
+    image: localhost:5000/handsonlabs/my-web:v1.4
 
     # Der Container lauscht intern auf Port 80.
     # Auf deinem Windows-Host ist er über http://localhost:8083 erreichbar.
