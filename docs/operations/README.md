@@ -328,3 +328,5 @@ Es ist bewusst nicht gleichzusetzen mit vollständigem produktivem Betrieb.
 - [Container Security Stage 1](container-security-stage-1.md)
 
 - [Image Scanning mit Docker Scout](image-scanning-docker-scout.md)
+
+- [Registry Deep Dive](registry-deep-dive.md)
