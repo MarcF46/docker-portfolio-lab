@@ -322,3 +322,5 @@ Es ist bewusst nicht gleichzusetzen mit vollständigem produktivem Betrieb.
 - [Secrets Deep Dive](secrets-deep-dive.md)
 
 - [Docker Log Rotation](docker-log-rotation.md)
+
+- [Prometheus Target API Check](prometheus-target-api-check.md)
