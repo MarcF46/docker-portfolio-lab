@@ -6,6 +6,7 @@
 # - nutzt ein lokales Docker-Compose-Secret für das Redis-Passwort
 # - prüft per Health Check, ob die Dienste wirklich funktionieren
 # - begrenzt Container-Logs per Log Rotation
+# - ergänzt eine erste Container-Härtung gegen Privilegien-Eskalation
 
 services:
   # Web-Service:
@@ -32,6 +33,11 @@ services:
     # außer du hast ihn bewusst gestoppt.
     restart: unless-stopped
 
+    # Erste Container-Härtung:
+    # Verhindert, dass Prozesse im Container neue zusätzliche Privilegien erhalten.
+    security_opt:
+      - no-new-privileges:true
+
     # Log Rotation:
     # Docker begrenzt die Logdateien dieses Containers.
     # Ohne Begrenzung können Container-Logs dauerhaft wachsen und Speicherplatz füllen.
@@ -50,7 +56,13 @@ services:
     # Technischer Healthcheck für den Webcontainer.
     # Er prüft nur, ob Nginx lokal im Container antwortet.
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1"]
+      test:
+        - CMD
+        - wget
+        - --quiet
+        - --tries=1
+        - --spider
+        - http://127.0.0.1
       interval: 30s
       timeout: 3s
       retries: 3
@@ -86,6 +98,11 @@ services:
     # außer er wurde bewusst gestoppt.
     restart: unless-stopped
 
+    # Erste Container-Härtung:
+    # Verhindert, dass Prozesse im Container neue zusätzliche Privilegien erhalten.
+    security_opt:
+      - no-new-privileges:true
+
     # Log Rotation:
     # Redis kann im Betrieb regelmäßig Logs schreiben.
     # Die Begrenzung verhindert, dass lokale Container-Logs unkontrolliert wachsen.
@@ -96,8 +113,8 @@ services:
         max-file: "3"
 
     # Redis-Healthcheck.
-    # Bisher wurde redis-cli -a verwendet; das erzeugt eine Security-Warnung.
-    # Jetzt liest REDISCLI_AUTH das Passwort aus der Secret-Datei.
+    # REDISCLI_AUTH liest das Passwort aus der Secret-Datei.
+    # Die Block-Schreibweise vermeidet YAML-Parsing-Probleme durch verschachtelte Anführungszeichen.
     healthcheck:
       test:
         - CMD-SHELL
