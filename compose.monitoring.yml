@@ -98,6 +98,41 @@ services:
       retries: 5
       start_period: 30s
 
+  # Webhook Receiver:
+  # Lokaler Test-Empfänger für Grafana-Alert-Webhooks.
+  # Zweck:
+  # - Grafana kann Alert-Benachrichtigungen per HTTP POST an diesen Service senden.
+  # - Der Receiver schreibt den empfangenen JSON-Payload ins Container-Log.
+  # - Dadurch kann im Lab geprüft werden, wie ein Alert an ein externes System übergeben wird.
+  #
+  # Grafana-Contact-Point-URL aus Sicht des Grafana-Containers:
+  # http://webhook-receiver:5000/webhook
+  #
+  # Lokaler Browser-/PowerShell-Test vom Windows-Host:
+  # http://localhost:15005/health
+  webhook-receiver:
+    image: python:3.12-alpine
+
+    working_dir: /app
+
+    volumes:
+      # Python-Skript bleibt im Repository sichtbar und lernfreundlich nachvollziehbar.
+      - ./monitoring/webhook-receiver:/app:ro
+
+    command: ["python", "-u", "webhook_receiver.py"]
+
+    ports:
+      - "15005:5000"
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health').read()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
   # cAdvisor:
   # Stellt Container-Metriken als Prometheus-Metriken bereit.
   # Hinweis:
