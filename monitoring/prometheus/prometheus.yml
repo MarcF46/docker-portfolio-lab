@@ -29,3 +29,8 @@ scrape_configs:
     static_configs:
       - targets:
           - "cadvisor:8080"
+
+  # Scrapes the local antenna/sensor simulator used for operations training.
+  - job_name: "antenna-simulator"
+    static_configs:
+      - targets: ["antenna-simulator:8000"]

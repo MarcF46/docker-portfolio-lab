@@ -1,0 +1,25 @@
+services:
+  antenna-simulator:
+    build:
+      context: ./monitoring/antenna-simulator
+    container_name: dockerbung-antenna-simulator
+    environment:
+      # Lab identity for one simulated field antenna / sensor station.
+      ANTENNA_ID: hannover-linden-ant-01
+      ANTENNA_SITE: Hannover-Linden
+      ANTENNA_PROVIDER: lab-mobile-provider
+      ANTENNA_INITIAL_MODE: normal
+      METRICS_PORT: "8000"
+    ports:
+      # Host test URL: http://localhost:18000/health
+      # Prometheus uses the internal Docker name: antenna-simulator:8000
+      - "18000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://127.0.0.1:8000/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
