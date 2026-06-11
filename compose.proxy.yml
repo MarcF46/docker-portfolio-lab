@@ -11,6 +11,15 @@ services:
     volumes:
       - ./proxy/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./certs:/etc/nginx/certs:ro
+
+    # Checks whether the HTTPS reverse proxy responds inside the container.
+    # For this local lab, the self-signed certificate is accepted intentionally.
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-check-certificate --quiet --tries=1 --spider https://127.0.0.1/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
