@@ -116,9 +116,9 @@ services:
       - /var/lib/docker:/var/lib/docker:ro
 
     # Lokaler Zugriff auf cAdvisor-Weboberfläche.
-    # Browser: http://localhost:8085
+    # Browser: http://localhost:18085
     ports:
-      - "8085:8080"
+      - "18085:8080"
 
     restart: unless-stopped
 

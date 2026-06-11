@@ -63,3 +63,5 @@ certs/
 *.pem
 *.pfx
 *.p12
+
+docs/private/
