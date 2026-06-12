@@ -1,44 +1,35 @@
-# GitHub Traffic Archive
+# GitHub Traffic Summary
 
-This folder contains archived GitHub repository traffic data for the Docker Portfolio Lab.
+Last snapshot: `2026-06-12`
 
 ## Purpose
 
-GitHub only provides repository traffic data for a short rolling time window.  
-This automation archives the data regularly so the project can keep a longer-term history.
+GitHub traffic endpoints provide recent repository traffic data.
+This project archives snapshots so the portfolio lab can keep a longer-term history.
 
-## Collected Data
+## Current Snapshot Totals
 
-- Repository views
-- Repository clones
-- Top referrers
-- Popular paths
+| Metric | Count | Unique |
+|---|---:|---:|
+| Views | 1 | 1 |
+| Clones | 185 | 82 |
 
-## Automation
+## Top Referrers
 
-The data is collected by this GitHub Actions workflow:
+| Referrer | Count | Unique |
+|---|---:|---:|
+| linkedin.com | 1 | 1 |
 
-```text
-.github/workflows/collect-github-traffic.yml
-```
+## Popular Paths
 
-The collection script is located here:
+| Path | Title | Count | Unique |
+|---|---|---:|---:|
+| /MarcF46/docker-portfolio-lab | Overview | 1 | 1 |
 
-```text
-scripts/collect_github_traffic.py
-```
+## Generated Files
 
-## Output
-
-```text
-analytics/github-traffic/raw/
-analytics/github-traffic/summary/views_daily.csv
-analytics/github-traffic/summary/clones_daily.csv
-analytics/github-traffic/summary/referrers_latest.csv
-analytics/github-traffic/summary/paths_latest.csv
-```
-
-## Privacy Note
-
-This archive uses GitHub repository traffic data only.  
-It does not identify individual visitors.
+- `summary/views_daily.csv`
+- `summary/clones_daily.csv`
+- `summary/referrers_latest.csv`
+- `summary/paths_latest.csv`
+- `raw/<date>/`
