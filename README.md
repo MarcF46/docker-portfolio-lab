@@ -1,4 +1,52 @@
-# Docker Portfolio Lab
+# Docker / Grafana Monitoring Portfolio Lab
+
+> **Original portfolio project by Marc Fahlbusch**  
+> GitHub: https://github.com/MarcF46  
+> Repository: https://github.com/MarcF46/docker-portfolio-lab  
+> Portfolio: https://marcf46.github.io/docker-portfolio-lab/#docs  
+> LinkedIn: https://www.linkedin.com/in/marc-fahlbusch-1762b3335
+
+This repository is a personal learning and portfolio project focused on Docker, Docker Compose, Grafana, Prometheus, monitoring, alerting, backup/restore thinking, troubleshooting and operations-oriented DevOps practice.
+
+The project structure, documentation, screenshots, dashboard descriptions, operational scenarios and learning notes are part of my personal portfolio work.
+
+## Usage and attribution
+
+You may view this repository for learning, review and recruitment purposes.
+
+You may not copy, rebrand, republish or present this project, its documentation, screenshots, dashboard descriptions or portfolio structure as your own work.
+
+If you reference this project publicly, please provide clear attribution:
+
+**Original project by Marc Fahlbusch**  
+GitHub: https://github.com/MarcF46/docker-portfolio-lab
+
+For details, see `ATTRIBUTION.md`.
+
+---
+
+## Deutsch
+
+Dieses Repository ist ein persönliches Lern- und Portfolio-Projekt von **Marc Fahlbusch**.
+
+Es dokumentiert praktische Arbeit mit Docker, Docker Compose, Grafana, Prometheus, Monitoring, Alerting, Backup-/Restore-Denken, Troubleshooting und betriebsnaher DevOps-Praxis.
+
+Die Projektstruktur, Dokumentation, Screenshots, Dashboard-Beschreibungen, Betriebsszenarien und Lernnotizen sind Teil meiner persönlichen Portfolio-Arbeit.
+
+## Nutzung und Namensnennung
+
+Dieses Repository darf zu Lern-, Prüfungs-, Bewerbungs- und Review-Zwecken angesehen werden.
+
+Nicht erlaubt ist es, dieses Projekt, seine Dokumentation, Screenshots, Dashboard-Beschreibungen oder Portfolio-Struktur zu kopieren, umzubenennen, erneut zu veröffentlichen oder als eigene Arbeit darzustellen.
+
+Bei öffentlicher Bezugnahme bitte klar angeben:
+
+**Originalprojekt von Marc Fahlbusch**  
+GitHub: https://github.com/MarcF46/docker-portfolio-lab
+
+Weitere Details stehen in `ATTRIBUTION.md`.
+
+---
 
 Praxisnahes Docker-/DevOps-Portfolio mit Fokus auf Containerbetrieb, Troubleshooting, Backup/Restore, Healthchecks, Readiness-Checks, Reverse Proxy, HTTPS, Secret-Handling, Logging, Monitoring, Container Security, Image Scanning, Registry-Grundlagen, CI/CD und sauberer Repository-Struktur.
 
