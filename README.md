@@ -18,8 +18,6 @@ Das Repository darf gern zu Lern-, Prüfungs-, Bewerbungs- und Review-Zwecken an
 
 Wenn einzelne Ideen, Dokumentationsansätze oder Projektteile als Inspiration dienen, freue ich mich über eine faire Namensnennung und einen Link zum Original-Repository.
 
-Bitte kopiere, benenne oder veröffentliche Projektinhalte, Screenshots, Dashboard-Beschreibungen oder die Portfolio-Struktur nicht als eigene Arbeit.
-
 **Originalprojekt von Marc Fahlbusch**  
 GitHub: https://github.com/MarcF46/docker-portfolio-lab
 
