@@ -1,0 +1,293 @@
+﻿apiVersion: 1
+groups:
+    - orgId: 1
+      name: antenna-monitoring
+      folder: ""
+      interval: 1m
+      rules:
+        - uid: antenna-no-packets
+          title: Antenna No Packets
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                editorMode: code
+                expr: sum(antenna_online{job="antenna-simulator"} == bool 0)
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: Error
+          for: 1m
+          annotations:
+            description: 'No packets are arriving from the simulated antenna. Possible causes: power loss, mobile network outage, SIM/provider problem, damaged antenna, or device offline.'
+            summary: Antenna stopped sending packets
+          labels:
+            component: antenna-simulator
+            lab: grafana-monitoring
+            severity: critical
+          isPaused: false
+          notification_settings:
+            receiver: local-webhook-receiver
+        - uid: antenna-weak-signal
+          title: Antenna Weak Signal
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                editorMode: code
+                expr: sum(antenna_signal_strength_dbm{job="antenna-simulator"} < bool -100)
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: Error
+          for: 1m
+          annotations:
+            description: 'The simulated antenna signal strength is below -100 dBm. Possible causes: poor location, weather, antenna placement, mobile provider or SIM issue.'
+            summary: Antenna mobile signal is weak
+          labels:
+            component: antenna-simulator
+            lab: grafana-monitoring
+            severity: warning
+          isPaused: false
+          notification_settings:
+            receiver: local-webhook-receiver
+        - uid: antenna-low-battery
+          title: Antenna Low Battery
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                editorMode: code
+                expr: sum(antenna_battery_percent{job="antenna-simulator"} < bool 20)
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: Error
+          for: 1m
+          annotations:
+            description: The simulated antenna battery level is below 20 percent. A maintenance visit or battery replacement may be required.
+            summary: Antenna battery is low
+          labels:
+            component: antenna-simulator
+            lab: grafana-monitoring
+            severity: warning
+          isPaused: false
+          notification_settings:
+            receiver: local-webhook-receiver
+        - uid: antenna-high-packet-delay
+          title: Antenna High Packet Delay
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                editorMode: code
+                expr: sum(antenna_packet_delay_seconds{job="antenna-simulator"} > bool 10)
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: Error
+          for: 1m
+          annotations:
+            description: 'Packet delivery delay is above 10 seconds. Possible causes: poor mobile network quality, overloaded gateway, queue backlog, or slow processing.'
+            summary: Antenna packets are delayed
+          labels:
+            component: antenna-simulator
+            lab: grafana-monitoring
+            severity: warning
+          isPaused: false
+          notification_settings:
+            receiver: local-webhook-receiver
+        - uid: antenna-many-errors
+          title: Antenna Many Errors
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                editorMode: code
+                expr: (sum(increase(antenna_errors_total{job="antenna-simulator"}[2m])) or vector(0)) > bool 5
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: C
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: OK
+          execErrState: Error
+          for: 1m
+          annotations:
+            description: 'More than five simulated errors occurred within two minutes. Possible causes: firmware issue, API change, invalid data format, sensor fault, or transmission problem.'
+            summary: Antenna error rate is high
+          labels:
+            component: antenna-simulator
+            lab: grafana-monitoring
+            severity: warning
+          isPaused: false
+          notification_settings:
+            receiver: local-webhook-receiver
+
