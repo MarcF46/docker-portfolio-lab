@@ -1,37 +1,16 @@
 # Docker / Grafana Monitoring Portfolio Lab
 
-> **Original portfolio project by Marc Fahlbusch**  
+> **Originales Portfolio-Projekt von Marc Fahlbusch**  
 > GitHub: https://github.com/MarcF46  
 > Repository: https://github.com/MarcF46/docker-portfolio-lab  
 > Portfolio: https://marcf46.github.io/docker-portfolio-lab/#docs  
 > LinkedIn: https://www.linkedin.com/in/marc-fahlbusch-1762b3335
 
-This repository is a personal learning and portfolio project focused on Docker, Docker Compose, Grafana, Prometheus, monitoring, alerting, backup/restore thinking, troubleshooting and operations-oriented DevOps practice.
-
-The project structure, documentation, screenshots, dashboard descriptions, operational scenarios and learning notes are part of my personal portfolio work.
-
-## Usage and attribution
-
-You are welcome to view this repository for learning, review and recruitment purposes.
-
-If this project inspires your own work or you reference parts of it publicly, please include fair attribution and link back to the original repository.
-
-Please do not copy, rebrand, republish or present this project, its documentation, screenshots, dashboard descriptions or portfolio structure as your own work.
-
-**Original project by Marc Fahlbusch**  
-GitHub: https://github.com/MarcF46/docker-portfolio-lab
-
-For details, see `ATTRIBUTION.md`.
-
----
-
-## Deutsch
-
 Das Repository ist ein persönliches Lern- und Portfolio-Projekt von **Marc Fahlbusch**.
 
-Es dokumentiert praktische Arbeit mit Docker, Docker Compose, Grafana, Prometheus, Monitoring, Alerting, Backup-/Restore-Denken, Troubleshooting und betriebsnaher DevOps-Praxis.
+Dokumentiert wird praktische Arbeit mit Docker, Docker Compose, Grafana, Prometheus, Monitoring, Alerting, Backup-/Restore-Denken, Troubleshooting und betriebsnaher DevOps-Praxis.
 
-Die Projektstruktur, Dokumentation, Screenshots, Dashboard-Beschreibungen, Betriebsszenarien und Lernnotizen sind Teil meiner persönlichen Portfolio-Arbeit.
+Projektstruktur, Dokumentation, Screenshots, Dashboard-Beschreibungen, Betriebsszenarien und Lernnotizen gehören zu meiner persönlichen Portfolio-Arbeit.
 
 ## Nutzung und Namensnennung
 
