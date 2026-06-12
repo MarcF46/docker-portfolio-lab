@@ -19,6 +19,7 @@
         <a href="#skills">Kompetenzen</a>
         <a href="#proof">Nachweise</a>
         <a href="#docs">Docker-Dokumentation</a>
+        <a href="#monitoring-lab">Monitoring</a>
         <a href="#external-projects">Weitere Projekte</a>
         <a class="nav-button" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
@@ -31,10 +32,10 @@
         <p class="eyebrow">Junior Cloud / DevOps Portfolio</p>
         <h1>Praxisnahes Docker-/DevOps-Lab mit Betriebsfokus</h1>
         <p class="hero-text">
-          Dieses Portfolio zeigt nicht nur, dass Container gestartet werden können,
-          sondern dass Betriebszustände geprüft, Fehlerfälle simuliert, Backups getestet,
-          Secrets geschützt, HTTPS über einen Reverse Proxy bereitgestellt und CI/CD-Prüfungen
-          nachvollziehbar dokumentiert werden.
+          Der Fokus liegt auf nachvollziehbaren Betriebsabläufen: Container werden nicht nur gestartet,
+          sondern geprüft, beobachtet und mit realistischen Fehlerfällen getestet. Dazu gehören
+          Backup-/Restore-Abläufe, Secret-Handling, HTTPS über einen Reverse Proxy, Monitoring,
+          Alerting und CI/CD-Prüfungen.
         </p>
 
         <div class="hero-actions">
@@ -75,7 +76,7 @@
     <section class="section" id="skills">
       <div class="section-heading">
         <p class="eyebrow">Kompetenzbereiche</p>
-        <h2>Was im Projekt praktisch umgesetzt wird</h2>
+        <h2>Was im Projekt praktisch umgesetzt wurde</h2>
         <p>
           Die Landingpage fasst die wichtigsten Themen zusammen. Die technische Tiefe liegt weiterhin
           im Repository und in den Dokumentationsdateien.
@@ -83,53 +84,53 @@
       </div>
 
       <div class="card-grid">
-        <article class="card">
+        <a class="card" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">
           <h3>Containerbetrieb</h3>
           <p>
             Aufbau eines Web-/Redis-Stacks mit Dockerfile, Docker Compose,
             getrennten Umgebungen und schlankerem NGINX-Basis-Image.
           </p>
-        </article>
+        </a>
 
-        <article class="card">
+        <a class="card" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/https-local-nginx.md" target="_blank" rel="noopener noreferrer">
           <h3>Reverse Proxy & HTTPS</h3>
           <p>
             NGINX als zentraler Einstiegspunkt mit lokalem HTTPS/TLS,
             HTTP-Weiterleitung und dokumentierter TLS-Terminierung.
           </p>
-        </article>
+        </a>
 
-        <article class="card">
+        <a class="card" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/backup-strategie-gfs.md" target="_blank" rel="noopener noreferrer">
           <h3>Backup, Restore & Readiness</h3>
           <p>
             Redis-Volume-Backup, Restore-Test, Healthchecks, Start-Abhängigkeiten
             und Stack-Readiness aus Betriebssicht.
           </p>
-        </article>
+        </a>
 
-        <article class="card">
+        <a class="card" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/container-security-stage-1.md" target="_blank" rel="noopener noreferrer">
           <h3>Security & Secrets</h3>
           <p>
             Lokales Secret-Handling, Schutz durch <code>.gitignore</code>,
             <code>no-new-privileges</code>, Log Rotation und sichere Prüfwege.
           </p>
-        </article>
+        </a>
 
-        <article class="card">
+        <a class="card" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md" target="_blank" rel="noopener noreferrer">
           <h3>Monitoring & Logging</h3>
           <p>
             Docker-Logs, Log Rotation, Prometheus Target API, Grafana,
             cAdvisor und Unterscheidung zwischen Docker-Health und Monitoring-Health.
           </p>
-        </article>
+        </a>
 
-        <article class="card">
+        <a class="card" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/cicd-build-pipeline.md" target="_blank" rel="noopener noreferrer">
           <h3>CI/CD & Registry</h3>
           <p>
             GitHub Actions bauen und testen das Image, Docker Scout bewertet Schwachstellen,
             und eine lokale Registry zeigt Push-/Pull-Grundlagen.
           </p>
-        </article>
+        </a>
       </div>
     </section>
 
@@ -138,29 +139,29 @@
         <p class="eyebrow">Nachweis</p>
         <h2>Was dieses Projekt zeigt</h2>
         <p>
-          Das Projekt ist bewusst als Lern- und Portfolio-Lab aufgebaut. Es erhebt
-          keinen Anspruch auf vollständige Enterprise-Produktionsreife, sondern zeigt
-          wichtige Betriebsprinzipien praktisch und nachvollziehbar.
+          Das Projekt ist bewusst als Lern- und Portfolio-Lab aufgebaut. Im Mittelpunkt stehen
+          praktische Betriebsabläufe, nachvollziehbare Prüfungen und typische Situationen,
+          die in Docker-, DevOps- und Cloud-Umgebungen regelmäßig relevant werden.
         </p>
       </div>
 
       <div class="proof-list">
-        <div class="proof-item">
+        <a class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">
           <span>01</span>
-          <p>Ich kann Docker-Stacks strukturiert aufbauen, starten und prüfen.</p>
-        </div>
-        <div class="proof-item">
+          <p>Docker-Stacks wurden strukturiert aufgebaut, gestartet und über nachvollziehbare Prüfungen bewertet.</p>
+        </a>
+        <a class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/https-local-nginx.md" target="_blank" rel="noopener noreferrer">
           <span>02</span>
-          <p>Ich kann Reverse Proxy, HTTPS, Healthchecks und Readiness nachvollziehbar bewerten.</p>
-        </div>
-        <div class="proof-item">
+          <p>Reverse Proxy, HTTPS, Healthchecks und Readiness wurden aus Betriebssicht eingerichtet und überprüft.</p>
+        </a>
+        <a class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/README.md" target="_blank" rel="noopener noreferrer">
           <span>03</span>
-          <p>Ich kann Backup/Restore, Logging, Monitoring und Fehlerbilder dokumentieren.</p>
-        </div>
-        <div class="proof-item">
+          <p>Backup-/Restore-Abläufe, Logging, Monitoring und Fehlerbilder wurden praktisch getestet und dokumentiert.</p>
+        </a>
+        <a class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/container-security-stage-1.md" target="_blank" rel="noopener noreferrer">
           <span>04</span>
-          <p>Ich beachte Security-Grundlagen, Secrets, Image Scanning, Registry- und CI/CD-Prozesse.</p>
-        </div>
+          <p>Security-Grundlagen wie Secrets, Image Scanning, Registry-Nutzung und CI/CD-Prozesse wurden bewusst in das Lab eingebaut.</p>
+        </a>
       </div>
     </section>
 
@@ -170,6 +171,7 @@
         <h2>Technische Vertiefung im Docker Portfolio Lab</h2>
         <p>
           Diese Links führen zu den wichtigsten Dokumentationsbereichen und Nachweisen des Docker-Projekts.
+          Die einzelnen Seiten halten fest, welche Betriebsfälle im Lab umgesetzt, geprüft und dokumentiert wurden.
         </p>
       </div>
 
@@ -177,10 +179,6 @@
         <a class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/README.md" target="_blank" rel="noopener noreferrer">
           <span>Operations-Übersicht</span>
           <small>Gesamtüberblick über Betriebsdokumentation und Advanced-Nachweise</small>
-        </a>
-        <a class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md" target="_blank" rel="noopener noreferrer">
-          <span>Grafana Monitoring Lab</span>
-          <small>Prometheus, Grafana, Alerting, Webhook-Receiver, Sensor-Simulation und GeoJSON-Geomap</small>
         </a>
         <a class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/https-local-nginx.md" target="_blank" rel="noopener noreferrer">
           <span>Reverse Proxy & HTTPS</span>
@@ -213,14 +211,51 @@
       </div>
     </section>
 
+    <section class="section split-section" id="monitoring-lab">
+      <div>
+        <p class="eyebrow">Monitoring & Alerting</p>
+        <h2>Grafana Monitoring & Sensor Operations Lab</h2>
+        <p>
+          In diesem separaten Monitoring-Bereich wurden Prometheus, Grafana, Alerting,
+          ein lokaler Webhook-Receiver, eine Antennen-/Sensor-Simulation und eine GeoJSON-Geomap
+          zusammengeführt. Dabei ging es nicht nur um schöne Dashboards, sondern um sichtbare
+          Zustandswechsel, Alarmwege und echte Verifikation im Lab.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md" target="_blank" rel="noopener noreferrer">
+            Monitoring Lab öffnen
+          </a>
+        </div>
+      </div>
+
+      <div class="proof-list">
+        <a class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#prometheus-target-health" target="_blank" rel="noopener noreferrer">
+          <span>01</span>
+          <p>Prometheus-Targets, Grafana-Dashboards und Container-Health wurden sichtbar gemacht und fachlich eingeordnet.</p>
+        </a>
+        <a class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#alerting-und-webhook-receiver" target="_blank" rel="noopener noreferrer">
+          <span>02</span>
+          <p>Alert-Regeln wurden getestet und die Zustellung über einen lokalen Webhook-Receiver nachvollzogen.</p>
+        </a>
+        <a class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#antennen-sensor-simulator" target="_blank" rel="noopener noreferrer">
+          <span>03</span>
+          <p>Realistische Betriebsmodi wie <code>weak_signal</code>, <code>many_errors</code>, <code>delayed_packets</code>, <code>low_battery</code> und <code>no_packets</code> wurden gezielt simuliert, um typische Störungen sichtbar zu machen.</p>
+        </a>
+        <a class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#standortvisualisierung-mit-geojson" target="_blank" rel="noopener noreferrer">
+          <span>04</span>
+          <p>Standort- und Zustandsdaten wurden über eine GeoJSON-Geomap visualisiert, um Betriebszustände räumlich einordnen zu können.</p>
+        </a>
+      </div>
+    </section>
+
 <section class="section split-section" id="external-projects">
       <div>
         <p class="eyebrow">Weitere Portfolio-Projekte</p>
         <h2>Linux Borg Backup & Restore Lab</h2>
         <p>
-          Ergänzendes Linux-Backup- und Restore-Lab mit BorgBackup. Das Projekt zeigt,
-          wie ein verschlüsseltes Backup-Repository erstellt, Testdaten gesichert,
-          eine gelöschte Datei wiederhergestellt und der Restore anschließend überprüft wird.
+          Ergänzendes Linux-Backup- und Restore-Lab mit BorgBackup. Im Mittelpunkt stand
+          der komplette Ablauf: ein verschlüsseltes Backup-Repository aufbauen, Testdaten sichern,
+          einen Restore praktisch durchführen und das Ergebnis anschließend überprüfen.
         </p>
         <div class="hero-actions">
           <a class="button primary" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
@@ -230,22 +265,22 @@
       </div>
 
       <div class="proof-list">
-        <div class="proof-item">
+        <a class="proof-item" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
           <span>01</span>
-          <p>Ich kann mit BorgBackup ein verschlüsseltes Backup-Repository unter Linux/WSL2 erstellen.</p>
-        </div>
-        <div class="proof-item">
+          <p>Im Linux/WSL2-Lab wurde ein verschlüsseltes BorgBackup-Repository als sichere Backup-Basis aufgebaut.</p>
+        </a>
+        <a class="proof-item" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
           <span>02</span>
-          <p>Ich kann Testdaten sichern, Archivinhalte prüfen und eine gelöschte Datei wiederherstellen.</p>
-        </div>
-        <div class="proof-item">
+          <p>Testdaten wurden gesichert, Archivinhalte geprüft und ein Restore-Ablauf praktisch verifiziert.</p>
+        </a>
+        <a class="proof-item" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
           <span>03</span>
-          <p>Ich kann einen Restore-Test dokumentieren und mit <code>borg check</code> ergänzend prüfen.</p>
-        </div>
-        <div class="proof-item">
+          <p>Der Restore-Test wurde dokumentiert und zusätzlich mit <code>borg check</code> auf Konsistenz geprüft.</p>
+        </a>
+        <a class="proof-item" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
           <span>04</span>
-          <p>Ich beachte Sicherheitsgrenzen wie Passphrases, lokale Backup-Repositories und <code>.gitignore</code>.</p>
-        </div>
+          <p>Sicherheitsgrenzen wie Passphrases, lokale Backup-Repositories und <code>.gitignore</code> wurden bewusst berücksichtigt.</p>
+        </a>
       </div>
     </section>
 
@@ -285,14 +320,22 @@
 
   <footer class="site-footer">
     <p>Docker Portfolio Lab · Praxisnahes DevOps-/Cloud-Lernprojekt</p>
+
     <p>
-      Originales Portfolio-Projekt von <strong>Marc Fahlbusch</strong>.
-      Dokumentation, Screenshots, Dashboard-Beschreibungen und Projektstruktur sind Teil meiner persönlichen Portfolio-Arbeit.
+      Dieses Portfolio ist ein persönliches Lern- und Praxisprojekt von <strong>Marc Fahlbusch</strong>.
+      Es zeigt meinen eigenen Projektaufbau mit Dokumentation, Screenshots, Dashboards und nachvollziehbaren Betriebsabläufen.
     </p>
+
     <p>
-      Original portfolio project by <strong>Marc Fahlbusch</strong>.
-      Please provide attribution when referencing this work.
+      Wenn dich Teile dieses Projekts inspirieren oder du darauf verweist, freue ich mich über eine faire Namensnennung
+      und einen Link zum Original-Repository.
     </p>
+
+    <p>
+      This is an original portfolio project by <strong>Marc Fahlbusch</strong>.
+      If you reference or build on this work, please credit the original repository.
+    </p>
+
     <p>
       <a href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
       ·

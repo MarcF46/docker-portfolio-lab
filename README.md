@@ -12,11 +12,11 @@ The project structure, documentation, screenshots, dashboard descriptions, opera
 
 ## Usage and attribution
 
-You may view this repository for learning, review and recruitment purposes.
+You are welcome to view this repository for learning, review and recruitment purposes.
 
-You may not copy, rebrand, republish or present this project, its documentation, screenshots, dashboard descriptions or portfolio structure as your own work.
+If this project inspires your own work or you reference parts of it publicly, please include fair attribution and link back to the original repository.
 
-If you reference this project publicly, please provide clear attribution:
+Please do not copy, rebrand, republish or present this project, its documentation, screenshots, dashboard descriptions or portfolio structure as your own work.
 
 **Original project by Marc Fahlbusch**  
 GitHub: https://github.com/MarcF46/docker-portfolio-lab
@@ -35,11 +35,11 @@ Die Projektstruktur, Dokumentation, Screenshots, Dashboard-Beschreibungen, Betri
 
 ## Nutzung und Namensnennung
 
-Dieses Repository darf zu Lern-, Prüfungs-, Bewerbungs- und Review-Zwecken angesehen werden.
+Dieses Repository darf gern zu Lern-, Prüfungs-, Bewerbungs- und Review-Zwecken angesehen werden.
 
-Nicht erlaubt ist es, dieses Projekt, seine Dokumentation, Screenshots, Dashboard-Beschreibungen oder Portfolio-Struktur zu kopieren, umzubenennen, erneut zu veröffentlichen oder als eigene Arbeit darzustellen.
+Wenn dich Teile dieses Projekts inspirieren oder du öffentlich darauf verweist, freue ich mich über eine faire Namensnennung und einen Link zum Original-Repository.
 
-Bei öffentlicher Bezugnahme bitte klar angeben:
+Bitte kopiere, benenne oder veröffentliche dieses Projekt, seine Dokumentation, Screenshots, Dashboard-Beschreibungen oder Portfolio-Struktur nicht als eigene Arbeit.
 
 **Originalprojekt von Marc Fahlbusch**  
 GitHub: https://github.com/MarcF46/docker-portfolio-lab
@@ -75,18 +75,22 @@ Es zeigt unter anderem:
 
 ## Was dieses Projekt nachweist
 
-Dieses Projekt zeigt praktische Grundlagen für Junior-Rollen im Bereich Cloud, DevOps, Plattformbetrieb und Systemadministration:
+Dieses Repository dokumentiert ein praxisnahes Docker-/DevOps-Lab mit Fokus auf Betrieb, Monitoring, Recovery, Security und nachvollziehbare technische Dokumentation.
 
-- Ich kann Docker-Stacks strukturiert aufbauen, starten und prüfen.
-- Ich kann Container-Zustände, Healthchecks und Readiness nachvollziehbar bewerten.
-- Ich kann Persistenz, Backup und Restore dokumentieren und testen.
-- Ich kann Reverse Proxy, lokales HTTPS/TLS und interne Service-Kommunikation einordnen.
-- Ich kann einfache Ausfälle simulieren und das Verhalten des Stacks analysieren.
-- Ich achte auf Secret-Handling, `.gitignore`, `.dockerignore` und saubere Repository-Hygiene.
-- Ich kann Container-Security-Grundlagen wie `no-new-privileges`, Capabilities und Log Rotation erklären.
-- Ich kann Image-Scanning-Ergebnisse bewerten und ein schlankeres Basis-Image kontrolliert testen.
-- Ich kann Registry-Grundlagen wie Tag, Push, Pull und Digest praktisch nachweisen.
-- Ich kann technische Arbeit so dokumentieren, dass andere sie nachvollziehen können.
+Im Projekt wurde ein Docker-Stack strukturiert aufgebaut, gestartet und über konkrete Prüfungen bewertet. Dabei ging es nicht nur darum, Container laufen zu lassen, sondern Betriebszustände sichtbar zu machen und typische Fragen aus dem Alltag eines Junior Cloud-/DevOps-/Plattform-Teams praktisch nachzustellen.
+
+Wichtige Schwerpunkte waren:
+
+- Docker-Stacks wurden aufgebaut, gestartet und über Status-, Log- und Healthcheck-Ausgaben geprüft.
+- Container-Zustände, Healthchecks und Readiness wurden aus Betriebssicht eingeordnet.
+- Persistenz, Backup und Restore wurden nicht nur beschrieben, sondern praktisch getestet und dokumentiert.
+- Reverse Proxy, lokales HTTPS/TLS und interne Service-Kommunikation wurden im Lab umgesetzt und nachvollziehbar geprüft.
+- Einfache Ausfälle wurden simuliert, um das Verhalten des Stacks sichtbar zu machen und Diagnosewege zu üben.
+- Secret-Handling, `.gitignore`, `.dockerignore` und saubere Repository-Hygiene wurden bewusst berücksichtigt.
+- Container-Security-Grundlagen wie `no-new-privileges`, Capabilities und Log Rotation wurden praktisch eingeordnet.
+- Image-Scanning-Ergebnisse wurden bewertet und ein schlankeres Basis-Image kontrolliert getestet.
+- Registry-Grundlagen wie Tag, Push, Pull und Digest wurden praktisch nachvollzogen.
+- Die technische Arbeit wurde so dokumentiert, dass Aufbau, Prüfungen, Fehlerbilder und Ergebnisse auch später nachvollziehbar bleiben.
 
 > Hinweis: Dieses Projekt ist ein Lern- und Portfolio-Lab. Es ist bewusst produktionsnah aufgebaut, ersetzt aber keine vollständige Enterprise-Produktionsumgebung.
 
@@ -689,6 +693,7 @@ Dokumentation:
 
 ```text
 docs/operations/monitoring-prometheus-grafana.md
+docs/operations/grafana-monitoring-lab.md
 ```
 
 
@@ -872,28 +877,28 @@ Docker Image Pipeline
 
 Dieses Projekt ist ein praxisnahes Lern- und Portfolio-Projekt für den Einstieg in Cloud-/DevOps-nahe Rollen.
 
-Es zeigt nicht nur:
+Im Lab wurde nicht nur ein Docker-Stack gestartet. Der Fokus lag darauf, den Stack wie ein kleines Betriebssystem aus Services zu betrachten: mit Zuständen, Abhängigkeiten, Logs, Healthchecks, Backups, Security-Grenzen, Monitoring und wiederholbaren Prüfungen.
+
+Besonders wichtig war dabei die Frage:
 
 ```text
-Ich kann Docker starten.
+Wie verhält sich der Stack, wenn im Betrieb etwas passiert?
 ```
 
-Sondern auch:
+Daraus entstanden mehrere praktische Nachweise:
 
-```text
-Ich kann Container-Stacks strukturiert aufbauen, prüfen und dokumentieren.
-Ich kann Betriebszustände mit Healthchecks, Readiness-Checks und Monitoring bewerten.
-Ich kann Fehlerfälle simulieren und deren Auswirkungen nachvollziehen.
-Ich kann persistente Daten, Backups und Restore-Tests praktisch umsetzen.
-Ich kann Reverse Proxy, lokales HTTPS/TLS und interne Service-Kommunikation einordnen.
-Ich beachte Secret Handling, .gitignore, .dockerignore und sichere Dokumentation.
-Ich kann Container-Logs begrenzen und grundlegende Log-Diagnose durchführen.
-Ich kann einfache Container-Security-Maßnahmen wie no-new-privileges erklären und testen.
-Ich kann Image-Scanning-Ergebnisse bewerten und daraus eine technische Verbesserung ableiten.
-Ich kann ein schlankeres Basis-Image kontrolliert testen und übernehmen.
-Ich kann Registry-Grundlagen wie Tag, Push, Pull und Digest praktisch nachweisen.
-Ich kann GitHub Actions nutzen, um Docker-Images und Compose-Stacks automatisiert zu prüfen.
-Ich kann technische Änderungen mit Git sauber versionieren und nachvollziehbar dokumentieren.
-```
+- Container-Stacks wurden strukturiert aufgebaut, geprüft und nachvollziehbar dokumentiert.
+- Betriebszustände wurden über Healthchecks, Readiness-Checks und Monitoring sichtbar gemacht.
+- Fehlerfälle wurden simuliert, beobachtet und mit Logs sowie Statusausgaben eingeordnet.
+- Persistente Daten, Backups und Restore-Tests wurden praktisch umgesetzt.
+- Reverse Proxy, lokales HTTPS/TLS und interne Service-Kommunikation wurden im Lab nachvollzogen.
+- Secret Handling, `.gitignore`, `.dockerignore` und sichere Dokumentation wurden konsequent berücksichtigt.
+- Container-Logs wurden begrenzt und für grundlegende Log-Diagnose genutzt.
+- Container-Security-Maßnahmen wie `no-new-privileges` wurden praktisch eingeordnet.
+- Image-Scanning-Ergebnisse wurden ausgewertet und als Grundlage für eine kontrollierte technische Verbesserung genutzt.
+- Ein schlankeres Basis-Image wurde getestet und übernommen.
+- Registry-Grundlagen wie Tag, Push, Pull und Digest wurden praktisch nachvollzogen.
+- GitHub Actions wurden genutzt, um Docker-Images und Compose-Stacks automatisiert zu prüfen.
+- Technische Änderungen wurden mit Git versioniert und so dokumentiert, dass sie später nachvollziehbar bleiben.
 
 Das Projekt erhebt keinen Anspruch auf vollständige Enterprise-Produktionsreife. Es zeigt aber wichtige Betriebsprinzipien, die für Junior-Rollen im Bereich Systemintegration, Cloud Engineering, DevOps und Plattformbetrieb relevant sind.
