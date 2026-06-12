@@ -27,7 +27,7 @@ For details, see `ATTRIBUTION.md`.
 
 ## Deutsch
 
-Dieses Repository ist ein persönliches Lern- und Portfolio-Projekt von **Marc Fahlbusch**.
+Das Repository ist ein persönliches Lern- und Portfolio-Projekt von **Marc Fahlbusch**.
 
 Es dokumentiert praktische Arbeit mit Docker, Docker Compose, Grafana, Prometheus, Monitoring, Alerting, Backup-/Restore-Denken, Troubleshooting und betriebsnaher DevOps-Praxis.
 
@@ -35,11 +35,11 @@ Die Projektstruktur, Dokumentation, Screenshots, Dashboard-Beschreibungen, Betri
 
 ## Nutzung und Namensnennung
 
-Dieses Repository darf gern zu Lern-, Prüfungs-, Bewerbungs- und Review-Zwecken angesehen werden.
+Das Repository darf gern zu Lern-, Prüfungs-, Bewerbungs- und Review-Zwecken angesehen werden.
 
-Wenn dich Teile dieses Projekts inspirieren oder du öffentlich darauf verweist, freue ich mich über eine faire Namensnennung und einen Link zum Original-Repository.
+Wenn einzelne Ideen, Dokumentationsansätze oder Projektteile als Inspiration dienen, freue ich mich über eine faire Namensnennung und einen Link zum Original-Repository.
 
-Bitte kopiere, benenne oder veröffentliche dieses Projekt, seine Dokumentation, Screenshots, Dashboard-Beschreibungen oder Portfolio-Struktur nicht als eigene Arbeit.
+Bitte kopiere, benenne oder veröffentliche Projektinhalte, Screenshots, Dashboard-Beschreibungen oder die Portfolio-Struktur nicht als eigene Arbeit.
 
 **Originalprojekt von Marc Fahlbusch**  
 GitHub: https://github.com/MarcF46/docker-portfolio-lab
@@ -50,11 +50,11 @@ Weitere Details stehen in `ATTRIBUTION.md`.
 
 Praxisnahes Docker-/DevOps-Portfolio mit Fokus auf Containerbetrieb, Troubleshooting, Backup/Restore, Healthchecks, Readiness-Checks, Reverse Proxy, HTTPS, Secret-Handling, Logging, Monitoring, Container Security, Image Scanning, Registry-Grundlagen, CI/CD und sauberer Repository-Struktur.
 
-Dieses Repository ist bewusst kein reines Startbeispiel. Es zeigt anhand eines kleinen containerisierten Stacks, dass Docker-Container nicht nur gestartet, sondern auch geprüft, dokumentiert, abgesichert, über Reverse Proxy/HTTPS bereitgestellt, gescannt und in realistischeren Betriebsfällen getestet werden können.
+Das Repository ist bewusst kein reines Startbeispiel. Anhand eines kleinen containerisierten Stacks wird gezeigt, dass Docker-Container nicht nur gestartet, sondern auch geprüft, dokumentiert, abgesichert, über Reverse Proxy/HTTPS bereitgestellt, gescannt und in realistischeren Betriebsfällen getestet werden können.
 
 ## Kurzüberblick
 
-Dieses Projekt ist ein praxisnahes Docker-/DevOps-Lab für den Einstieg in Cloud-, DevOps-, Plattform- und Systemadministrationsrollen.
+Das Projekt ist als praxisnahes Docker-/DevOps-Lab für den Einstieg in Cloud-, DevOps-, Plattform- und Systemadministrationsrollen aufgebaut.
 
 Es zeigt unter anderem:
 
@@ -73,9 +73,9 @@ Es zeigt unter anderem:
 - GitHub Actions CI und separate Docker Image Pipeline
 - Simulation typischer Betriebs- und Fehlerfälle
 
-## Was dieses Projekt nachweist
+## Was das Projekt nachweist
 
-Dieses Repository dokumentiert ein praxisnahes Docker-/DevOps-Lab mit Fokus auf Betrieb, Monitoring, Recovery, Security und nachvollziehbare technische Dokumentation.
+Das Repository dokumentiert ein praxisnahes Docker-/DevOps-Lab mit Fokus auf Betrieb, Monitoring, Recovery, Security und nachvollziehbare technische Dokumentation.
 
 Im Projekt wurde ein Docker-Stack strukturiert aufgebaut, gestartet und über konkrete Prüfungen bewertet. Dabei ging es nicht nur darum, Container laufen zu lassen, sondern Betriebszustände sichtbar zu machen und typische Fragen aus dem Alltag eines Junior Cloud-/DevOps-/Plattform-Teams praktisch nachzustellen.
 
@@ -92,13 +92,13 @@ Wichtige Schwerpunkte waren:
 - Registry-Grundlagen wie Tag, Push, Pull und Digest wurden praktisch nachvollzogen.
 - Die technische Arbeit wurde so dokumentiert, dass Aufbau, Prüfungen, Fehlerbilder und Ergebnisse auch später nachvollziehbar bleiben.
 
-> Hinweis: Dieses Projekt ist ein Lern- und Portfolio-Lab. Es ist bewusst produktionsnah aufgebaut, ersetzt aber keine vollständige Enterprise-Produktionsumgebung.
+> Hinweis: Das Projekt ist ein Lern- und Portfolio-Lab. Es ist bewusst produktionsnah aufgebaut, ersetzt aber keine vollständige Enterprise-Produktionsumgebung.
 
 ---
 
 ## Ziel des Projekts
 
-Ziel dieses Projekts ist es, Docker nicht nur als Startbefehl zu lernen, sondern aus Betriebssicht zu verstehen.
+Ziel des Projekts ist es, Docker nicht nur als Startbefehl zu lernen, sondern aus Betriebssicht zu verstehen.
 
 Das Projekt trainiert Grundlagen für einen Einstieg als:
 
@@ -395,14 +395,14 @@ Erwartung bei gesundem Stack:
 ```text
 [OK] Web-Service antwortet mit HTTP Status 200.
 [OK] Redis antwortet korrekt mit PONG.
-[OK] Stack ist aus Sicht dieses Readiness-Checks bereit.
+[OK] Stack ist aus Sicht des Readiness-Checks bereit.
 ```
 
 ---
 
 ## Redis-Ausfallsimulation
 
-Ein realistischer Fehlerfall wird über dieses Skript simuliert:
+Ein realistischer Fehlerfall wird über das Skript simuliert:
 
 ```powershell
 .\scripts\incidents\simulate-runtime-redis-outage.ps1
@@ -496,7 +496,7 @@ docs/operations/terminal-session-logging.md
 
 ## Security-Regeln im Projekt
 
-Dieses Projekt behandelt Security bewusst als wiederkehrendes Thema.
+Security wird im Projekt bewusst als wiederkehrendes Thema behandelt.
 
 Wichtige Regeln:
 
@@ -528,7 +528,7 @@ Notizen/
 
 ## Git- und Build-Hygiene
 
-Dieses Repository nutzt:
+Das Repository nutzt:
 
 | Datei | Zweck |
 |---|---|
@@ -761,7 +761,7 @@ docs/architecture/projektstruktur-und-aufraeumplan.md
 
 ## Lab vs. Produktion
 
-Dieses Projekt ist bewusst ein Lern- und Portfolio-Lab.
+Das Projekt ist bewusst als Lern- und Portfolio-Lab aufgebaut.
 
 | Thema | Lernprojekt | Produktion |
 |---|---|---|
@@ -810,7 +810,7 @@ git status --short
 
 ## Aktueller Lernstand
 
-Dieses Projekt zeigt aktuell:
+Der aktuelle Lernstand umfasst:
 
 ```text
 Docker-Grundlagen
@@ -875,7 +875,7 @@ Docker Image Pipeline
 
 ## Portfolio-Einordnung
 
-Dieses Projekt ist ein praxisnahes Lern- und Portfolio-Projekt für den Einstieg in Cloud-/DevOps-nahe Rollen.
+Das Projekt ist als praxisnahes Lern- und Portfolio-Projekt für den Einstieg in Cloud-/DevOps-nahe Rollen angelegt.
 
 Im Lab wurde nicht nur ein Docker-Stack gestartet. Der Fokus lag darauf, den Stack wie ein kleines Betriebssystem aus Services zu betrachten: mit Zuständen, Abhängigkeiten, Logs, Healthchecks, Backups, Security-Grenzen, Monitoring und wiederholbaren Prüfungen.
 
