@@ -5,8 +5,8 @@
     "name": "antenna-sensor-ops",
     "namespace": "default",
     "uid": "cd43f8e6-71c4-4167-a3da-285dd34797e9",
-    "resourceVersion": "1781211918563993",
-    "generation": 4,
+    "resourceVersion": "1781270539913016",
+    "generation": 6,
     "creationTimestamp": "2026-06-11T20:43:02Z",
     "labels": {
       "grafana.app/deprecatedInternalID": "2522561952595968"
@@ -14,10 +14,10 @@
     "annotations": {
       "grafana.app/createdBy": "user:afn0z1pe3uhogd",
       "grafana.app/folder": "",
-      "grafana.app/message": "Antenna Dashboard V1.0",
+      "grafana.app/message": "Geo Marker Komfiguriert und Optisch angepasst",
       "grafana.app/saved-from-ui": "Grafana v13.0.1+security-01 (9bbe672d)",
       "grafana.app/updatedBy": "user:afn0z1pe3uhogd",
-      "grafana.app/updatedTimestamp": "2026-06-11T21:05:18Z"
+      "grafana.app/updatedTimestamp": "2026-06-12T13:22:19Z"
     }
   },
   "spec": {
@@ -718,6 +718,144 @@
                     },
                     "thresholdsStyle": {
                       "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-15": {
+        "kind": "Panel",
+        "spec": {
+          "id": 15,
+          "title": "Antenna Site Map",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "spec": {}
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "geomap",
+            "version": "13.0.1+security-01",
+            "spec": {
+              "options": {
+                "basemap": {
+                  "config": {},
+                  "name": "Layer 0",
+                  "noRepeat": false,
+                  "type": "osm-standard"
+                },
+                "controls": {
+                  "mouseWheelZoom": true,
+                  "showAttribution": true,
+                  "showDebug": false,
+                  "showMeasure": true,
+                  "showScale": true,
+                  "showZoom": true
+                },
+                "layers": [
+                  {
+                    "config": {
+                      "rules": [],
+                      "src": "http://localhost:18000/location.geojson",
+                      "style": {
+                        "color": {
+                          "fixed": "dark-green"
+                        },
+                        "opacity": 1,
+                        "rotation": {
+                          "fixed": 0,
+                          "max": 360,
+                          "min": -360,
+                          "mode": "mod"
+                        },
+                        "size": {
+                          "fixed": 5,
+                          "max": 15,
+                          "min": 2
+                        },
+                        "symbol": {
+                          "fixed": "img/icons/marker/triangle.svg",
+                          "mode": "fixed"
+                        },
+                        "symbolAlign": {
+                          "horizontal": "center",
+                          "vertical": "center"
+                        },
+                        "textConfig": {
+                          "fontSize": 12,
+                          "offsetX": 0,
+                          "offsetY": 0,
+                          "textAlign": "center",
+                          "textBaseline": "middle"
+                        }
+                      }
+                    },
+                    "name": "Layer 2",
+                    "opacity": 1,
+                    "tooltip": true,
+                    "type": "geojson"
+                  }
+                ],
+                "tooltip": {
+                  "mode": "details"
+                },
+                "view": {
+                  "allLayers": true,
+                  "dashboardVariable": false,
+                  "id": "coords",
+                  "lat": 52.3705,
+                  "lon": 9.7166,
+                  "noRepeat": false,
+                  "zoom": 12
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "custom": {
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
                     }
                   }
                 },
@@ -1626,6 +1764,19 @@
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-14"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 32,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-15"
               }
             }
           }
