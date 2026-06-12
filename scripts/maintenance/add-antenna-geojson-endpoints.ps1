@@ -1,4 +1,36 @@
-﻿import json
+$ErrorActionPreference = 'Stop'
+
+# Replaces monitoring/antenna-simulator/antenna_simulator.py with an enhanced version.
+# Adds:
+# - /location.geojson         static approximate site location
+# - /location-status.geojson  dynamic GeoJSON with current simulator state in properties
+# - CORS headers for local Grafana/browser access
+# Safe behavior:
+# - creates a timestamped backup first
+# - does not print secrets
+# - keeps the existing simulator metric names and lab control endpoint
+
+$ScriptPath = $MyInvocation.MyCommand.Path
+$ScriptDir = Split-Path -Parent $ScriptPath
+$ProjectRoot = Split-Path -Parent (Split-Path -Parent $ScriptDir)
+
+$TargetPath = Join-Path $ProjectRoot 'monitoring\antenna-simulator\antenna_simulator.py'
+
+if (-not (Test-Path $TargetPath)) {
+    $ProjectRoot = Get-Location
+    $TargetPath = Join-Path $ProjectRoot 'monitoring\antenna-simulator\antenna_simulator.py'
+}
+
+if (-not (Test-Path $TargetPath)) {
+    throw "Target file not found: $TargetPath"
+}
+
+$Timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+$BackupPath = "$TargetPath.backup-$Timestamp"
+Copy-Item -Path $TargetPath -Destination $BackupPath -Force
+
+$PythonCode = @'
+import json
 import random
 import threading
 import time
@@ -432,3 +464,21 @@ def main():
 
 if __name__ == "__main__":
     main()
+'@
+
+Set-Content -Path $TargetPath -Value $PythonCode -Encoding UTF8
+
+Write-Host "OK: Enhanced antenna simulator with GeoJSON endpoints."
+Write-Host "Updated file:"
+Write-Host "  $TargetPath"
+Write-Host "Backup created:"
+Write-Host "  $BackupPath"
+Write-Host ""
+Write-Host "New endpoints:"
+Write-Host "  http://localhost:18000/location.geojson"
+Write-Host "  http://localhost:18000/location-status.geojson"
+Write-Host ""
+Write-Host "Next commands:"
+Write-Host "  docker compose -f compose.prod.yml -f compose.monitoring.yml -f compose.proxy.yml -f compose.antenna-simulator.yml up -d --build antenna-simulator"
+Write-Host "  curl.exe http://localhost:18000/location.geojson"
+Write-Host "  curl.exe http://localhost:18000/location-status.geojson"
