@@ -1,6 +1,6 @@
 # GitHub Traffic Summary
 
-Last snapshot: `2026-06-24`
+Last snapshot: `2026-06-25`
 
 ## Purpose
 
@@ -12,7 +12,7 @@ This project archives snapshots so the portfolio lab can keep a longer-term hist
 | Metric | Count | Unique |
 |---|---:|---:|
 | Views | 2 | 2 |
-| Clones | 457 | 141 |
+| Clones | 470 | 149 |
 
 ## Top Referrers
 
