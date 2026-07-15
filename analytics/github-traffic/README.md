@@ -1,6 +1,6 @@
 # GitHub Traffic Summary
 
-Last snapshot: `2026-07-14`
+Last snapshot: `2026-07-15`
 
 ## Purpose
 
@@ -11,20 +11,21 @@ This project archives snapshots so the portfolio lab can keep a longer-term hist
 
 | Metric | Count | Unique |
 |---|---:|---:|
-| Views | 4 | 3 |
-| Clones | 214 | 61 |
+| Views | 7 | 4 |
+| Clones | 220 | 60 |
 
 ## Top Referrers
 
 | Referrer | Count | Unique |
 |---|---:|---:|
-| github.com | 1 | 1 |
+| github.com | 2 | 2 |
 
 ## Popular Paths
 
 | Path | Title | Count | Unique |
 |---|---|---:|---:|
-| /MarcF46/docker-portfolio-lab | Overview | 3 | 2 |
+| /MarcF46/docker-portfolio-lab | Overview | 5 | 3 |
+| /MarcF46/docker-portfolio-lab/blob/main/ATTRIBUTION.md | /blob/main/ATTRIBUTION.md | 1 | 1 |
 | /MarcF46/docker-portfolio-lab/blob/main/docs/operations/backup-strategie-gfs.md | /blob/main/docs/operations/backup-strategie-gfs.md | 1 | 1 |
 
 ## Generated Files
