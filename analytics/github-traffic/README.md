@@ -1,6 +1,6 @@
 # GitHub Traffic Summary
 
-Last snapshot: `2026-07-29`
+Last snapshot: `2026-07-30`
 
 ## Purpose
 
@@ -11,8 +11,8 @@ This project archives snapshots so the portfolio lab can keep a longer-term hist
 
 | Metric | Count | Unique |
 |---|---:|---:|
-| Views | 17 | 6 |
-| Clones | 104 | 32 |
+| Views | 14 | 5 |
+| Clones | 106 | 33 |
 
 ## Top Referrers
 
@@ -24,8 +24,7 @@ This project archives snapshots so the portfolio lab can keep a longer-term hist
 
 | Path | Title | Count | Unique |
 |---|---|---:|---:|
-| /MarcF46/docker-portfolio-lab/tree/main/.github/workflows | /tree/main/.github/workflows | 16 | 6 |
-| /MarcF46/docker-portfolio-lab | Overview | 1 | 1 |
+| /MarcF46/docker-portfolio-lab/tree/main/.github/workflows | /tree/main/.github/workflows | 14 | 5 |
 
 ## Generated Files
 
