@@ -3,478 +3,266 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Docker Portfolio Lab | DevOps- & Cloud-Portfolio</title>
-  <meta name="description" content="Praxisnahes Docker-/DevOps-Portfolio mit Fokus auf Betrieb, Reverse Proxy, HTTPS, Healthchecks, Backup/Restore, Secrets, Monitoring, Security, Image Scanning, Registry und CI/CD.">
+  <title>Marc Fahlbusch | IT-Portfolio</title>
+  <meta name="description" content="IT-Portfolio von Marc Fahlbusch mit Praxisprojekten zu Microsoft 365, PowerShell, Linux, Docker, DevOps, Monitoring, Backup und Automatisierung.">
   <link rel="stylesheet" href="assets/styles.css">
 
-<script data-goatcounter="https://marcf46-portfolio.goatcounter.com/count"
-        async src="https://gc.zgo.at/count.js"></script>
+  <script data-goatcounter="https://marcf46-portfolio.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body id="top">
   <header class="site-header">
     <nav class="nav" aria-label="Hauptnavigation">
       <a data-goatcounter-click="click-nav-top" class="logo" href="#top" aria-label="Zur Startseite">
-        <span class="logo-mark">▣</span>
-        <span>Docker Portfolio Lab</span>
+        <span class="logo-mark">MF</span>
+        <span>Marc Fahlbusch · Portfolio</span>
       </a>
 
       <div class="nav-links">
+        <a data-goatcounter-click="click-nav-projects" href="#projects">Projekte</a>
         <a data-goatcounter-click="click-nav-skills" href="#skills">Kompetenzen</a>
-        <a data-goatcounter-click="click-nav-proof" href="#proof">Nachweise</a>
-        <a data-goatcounter-click="click-nav-docs" href="#docs">Docker-Dokumentation</a>
-        <a data-goatcounter-click="click-nav-monitoring-lab" href="#monitoring-lab">Monitoring</a>
-        <a data-goatcounter-click="click-nav-external-projects" href="#external-projects">Weitere Projekte</a>
-        <a data-goatcounter-click="click-repo-docker-portfolio-lab" class="nav-button" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a data-goatcounter-click="click-nav-profiles" href="#profiles">Profile</a>
+        <a data-goatcounter-click="click-github-profile" class="nav-button" href="https://github.com/MarcF46" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </nav>
   </header>
 
-  <main id="top">
+  <main>
     <section class="hero">
       <div class="hero-content">
-        <p class="eyebrow">Junior Cloud / DevOps Portfolio</p>
-        <h1>Praxisnahes Docker-/DevOps-Lab mit Betriebsfokus</h1>
+        <p class="eyebrow">IT-Systemintegration · Cloud · Automation</p>
+        <h1>Praxisprojekte statt Stichwortsammlung.</h1>
         <p class="hero-text">
-          Der Fokus liegt auf nachvollziehbaren Betriebsabläufen: Container werden nicht nur gestartet,
-          sondern geprüft, beobachtet und mit realistischen Fehlerfällen getestet. Dazu gehören
-          Backup-/Restore-Abläufe, Secret-Handling, HTTPS über einen Reverse Proxy, Monitoring,
-          Alerting und CI/CD-Prüfungen.
+          Dieses Portfolio bündelt meine technischen Labs und dokumentiert, was ich praktisch aufgebaut,
+          getestet und nachvollzogen habe. Die Projekte reichen von Microsoft 365 und PowerShell über
+          Linux-Administration bis zu Docker, Monitoring, Backup und DevOps-Grundlagen.
         </p>
 
         <div class="hero-actions">
-          <a data-goatcounter-click="click-repo-docker-portfolio-lab" class="button primary" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">
-            GitHub Repository öffnen
-          </a>
-          <a data-goatcounter-click="click-nav-docs" class="button secondary" href="#docs">
-            Dokumentation ansehen
-          </a>
-        </div>
-
-        <div class="hero-tags" aria-label="Technologien und Themen">
-          <a data-goatcounter-click="click-tag-docker" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">Docker</a>
-          <a data-goatcounter-click="click-tag-docker-compose" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/compose.prod.yml" target="_blank" rel="noopener noreferrer">Docker Compose</a>
-          <a data-goatcounter-click="click-tag-nginx" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/https-local-nginx.md" target="_blank" rel="noopener noreferrer">NGINX</a>
-          <a data-goatcounter-click="click-tag-https-tls" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/https-local-nginx.md" target="_blank" rel="noopener noreferrer">HTTPS/TLS</a>
-          <a data-goatcounter-click="click-tag-redis" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/backup-strategie-gfs.md" target="_blank" rel="noopener noreferrer">Redis</a>
-          <a data-goatcounter-click="click-tag-prometheus" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/prometheus-target-api-check.md" target="_blank" rel="noopener noreferrer">Prometheus</a>
-          <a data-goatcounter-click="click-tag-grafana" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md" target="_blank" rel="noopener noreferrer">Grafana</a>
-          <a data-goatcounter-click="click-tag-docker-scout" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/image-scanning-docker-scout.md" target="_blank" rel="noopener noreferrer">Docker Scout</a>
-          <a data-goatcounter-click="click-tag-github-actions" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/tree/main/.github/workflows" target="_blank" rel="noopener noreferrer">GitHub Actions</a>
+          <a data-goatcounter-click="click-nav-projects" class="button primary" href="#projects">Projekte ansehen</a>
+          <a data-goatcounter-click="click-github-profile" class="button secondary" href="https://github.com/MarcF46" target="_blank" rel="noopener noreferrer">GitHub-Profil öffnen</a>
         </div>
       </div>
 
-      <aside class="hero-card" aria-label="Projektstatus">
-        <h2>Projektfokus</h2>
+      <aside class="hero-card" aria-label="Technische Schwerpunkte">
+        <p class="card-kicker">Schwerpunkte</p>
         <ul>
-          <li><strong>Containerbetrieb:</strong> Dockerfile, Compose, Web-App, Redis</li>
-          <li><strong>Reverse Proxy:</strong> NGINX mit lokalem HTTPS/TLS</li>
-          <li><strong>Betriebssicherheit:</strong> Healthchecks, Readiness, Restart Policy</li>
-          <li><strong>Daten & Recovery:</strong> persistentes Volume, Backup, Restore-Test</li>
-          <li><strong>Security:</strong> Secrets, Log Rotation, Image Scanning, Container-Härtung</li>
-          <li><strong>Automation:</strong> GitHub Actions für Compose- und Image-Pipeline</li>
+          <li><strong>Microsoft 365 & PowerShell</strong><span>Administration und Lifecycle-Automatisierung</span></li>
+          <li><strong>Linux Administration</strong><span>Dienste, Netzwerk, Logs und Betriebsdiagnose</span></li>
+          <li><strong>Docker & DevOps</strong><span>Containerbetrieb, Security und CI/CD</span></li>
+          <li><strong>Monitoring & Operations</strong><span>Prometheus, Grafana, Alerting und Recovery</span></li>
         </ul>
       </aside>
     </section>
 
-    <section class="section" id="skills">
+    <section class="section" id="projects">
+      <div class="section-heading">
+        <p class="eyebrow">Portfolio-Projekte</p>
+        <h2>Aktuelle Labs und technische Nachweise</h2>
+        <p>
+          Jedes Projekt steht für einen eigenen Lern- und Praxisbereich. Die Kurzbeschreibungen zeigen
+          den Kern des Labs, die Repositories enthalten den Code, die Dokumentation und die technischen Details.
+        </p>
+      </div>
+
+      <div class="project-grid">
+        <article class="project-card featured-project">
+          <div class="project-topline">
+            <span class="project-type">Microsoft 365 · PowerShell</span>
+            <span class="project-state">Lifecycle Automation</span>
+          </div>
+          <h3>Microsoft 365 Lifecycle Automation Lab</h3>
+          <p class="project-summary">
+            PowerShell-Lab für kontrolliertes Onboarding und Offboarding in Microsoft 365 mit Microsoft Graph,
+            Exchange Online und nachvollziehbaren Reports.
+          </p>
+
+          <div class="tag-list" aria-label="Technologien im Microsoft 365 Lab">
+            <span>PowerShell</span><span>Microsoft Graph</span><span>Exchange Online</span><span>Entra ID</span>
+          </div>
+
+          <ol class="project-points">
+            <li><strong>Onboarding:</strong> Benutzer, Lizenzen und Gruppen werden aus vorbereiteten CSV-Daten geprüft und verarbeitet.</li>
+            <li><strong>Klare Aufgabenteilung:</strong> Microsoft Graph und Exchange Online übernehmen jeweils die Aufgaben, für die sie gedacht sind.</li>
+            <li><strong>Offboarding:</strong> Anmeldung sperren, Sitzungen beenden und Mitgliedschaften sowie Lizenzen kontrolliert entfernen.</li>
+            <li><strong>Kontrolle:</strong> DryRun, Verifikation und Reports machen Änderungen vor und nach der Ausführung nachvollziehbar.</li>
+          </ol>
+
+          <div class="project-actions">
+            <a data-goatcounter-click="click-repo-m365-lifecycle-lab" class="button primary" href="https://github.com/MarcF46/m365-lifecycle-automation-lab" target="_blank" rel="noopener noreferrer">Repository öffnen</a>
+            <a data-goatcounter-click="click-doc-m365-architecture" class="text-link" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/architecture.md" target="_blank" rel="noopener noreferrer">Architektur ansehen →</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-topline">
+            <span class="project-type">Docker · DevOps</span>
+            <span class="project-state">Operations Lab</span>
+          </div>
+          <h3>Docker Portfolio Lab</h3>
+          <p class="project-summary">
+            Container- und Betriebs-Lab mit Web-App, Redis, NGINX, HTTPS, Healthchecks, Backup/Restore,
+            Security-Grundlagen und CI/CD.
+          </p>
+
+          <div class="tag-list" aria-label="Technologien im Docker Lab">
+            <span>Docker</span><span>NGINX</span><span>Redis</span><span>GitHub Actions</span>
+          </div>
+
+          <ul class="project-points compact-points">
+            <li>Container-Stacks strukturiert aufbauen und betreiben.</li>
+            <li>Reverse Proxy, HTTPS, Healthchecks und Readiness praktisch prüfen.</li>
+            <li>Backup/Restore, Image Scanning und CI/CD als Betriebsbausteine integrieren.</li>
+          </ul>
+
+          <div class="project-actions">
+            <a data-goatcounter-click="click-repo-docker-portfolio-lab" class="button primary" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">Repository öffnen</a>
+            <a data-goatcounter-click="click-doc-operations-readme" class="text-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/README.md" target="_blank" rel="noopener noreferrer">Dokumentation →</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-topline">
+            <span class="project-type">Monitoring · Operations</span>
+            <span class="project-state">Sensor Simulation</span>
+          </div>
+          <h3>Grafana Monitoring & Sensor Operations Lab</h3>
+          <p class="project-summary">
+            Monitoring-Lab mit Prometheus, Grafana, cAdvisor, Alerting, Webhook-Receiver und simulierten
+            Sensorzuständen für nachvollziehbare Betriebs- und Fehlerbilder.
+          </p>
+
+          <div class="tag-list" aria-label="Technologien im Monitoring Lab">
+            <span>Prometheus</span><span>Grafana</span><span>Alerting</span><span>GeoJSON</span>
+          </div>
+
+          <ul class="project-points compact-points">
+            <li>Targets und Systemzustände sichtbar machen und bewerten.</li>
+            <li>Alarmregeln sowie Webhook-Zustellung praktisch testen.</li>
+            <li>Fehlerzustände simulieren und räumlich in Grafana darstellen.</li>
+          </ul>
+
+          <div class="project-actions">
+            <a data-goatcounter-click="click-doc-grafana-monitoring" class="button primary" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md" target="_blank" rel="noopener noreferrer">Monitoring Lab öffnen</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-topline">
+            <span class="project-type">Linux Administration</span>
+            <span class="project-state">Junior Admin Lab</span>
+          </div>
+          <h3>Ubuntu Lab Baseline</h3>
+          <p class="project-summary">
+            Linux-Admin-Lab mit Healthchecks, systemd, SSH, Firewall, Logs, Backup/Restore,
+            Security-Basics und strukturierter Betriebsdiagnose.
+          </p>
+
+          <div class="tag-list" aria-label="Technologien im Ubuntu Lab">
+            <span>Ubuntu</span><span>systemd</span><span>SSH</span><span>UFW</span><span>journalctl</span>
+          </div>
+
+          <ul class="project-points compact-points">
+            <li>Dienste, Ports, Firewall und Logs systematisch untersuchen.</li>
+            <li>Runbooks und Incident Cards für wiederholbare Abläufe erstellen.</li>
+            <li>Fehler schichtweise statt durch reine Befehlsausführung diagnostizieren.</li>
+          </ul>
+
+          <div class="project-actions">
+            <a data-goatcounter-click="click-repo-ubuntu-lab-baseline" class="button primary" href="https://github.com/MarcF46/ubuntu-lab-baseline" target="_blank" rel="noopener noreferrer">Repository öffnen</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-topline">
+            <span class="project-type">Linux · Backup</span>
+            <span class="project-state">Recovery Lab</span>
+          </div>
+          <h3>Linux Borg Backup & Restore Lab</h3>
+          <p class="project-summary">
+            Backup- und Recovery-Lab mit BorgBackup unter Linux/WSL2. Der Schwerpunkt liegt auf einem
+            vollständigen Ablauf von der Sicherung bis zur überprüften Wiederherstellung.
+          </p>
+
+          <div class="tag-list" aria-label="Technologien im BorgBackup Lab">
+            <span>BorgBackup</span><span>Linux</span><span>Backup</span><span>Restore</span>
+          </div>
+
+          <ul class="project-points compact-points">
+            <li>Verschlüsseltes Backup-Repository aufbauen.</li>
+            <li>Testdaten sichern und einen Restore praktisch durchführen.</li>
+            <li>Wiederherstellung und Repository zusätzlich mit <code>borg check</code> prüfen.</li>
+          </ul>
+
+          <div class="project-actions">
+            <a data-goatcounter-click="click-repo-borgbackup-lab" class="button primary" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">Repository öffnen</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section soft-section" id="skills">
       <div class="section-heading">
         <p class="eyebrow">Kompetenzbereiche</p>
-        <h2>Was im Projekt praktisch umgesetzt wurde</h2>
+        <h2>Was sich durch die Projekte zieht</h2>
         <p>
-          Die Landingpage fasst die wichtigsten Themen zusammen. Die technische Tiefe liegt weiterhin
-          im Repository und in den Dokumentationsdateien.
+          Die Labs sind unterschiedlich, folgen aber demselben Grundgedanken: Systeme nicht nur konfigurieren,
+          sondern Zustände prüfen, Änderungen nachvollziehbar machen und Fehler strukturiert eingrenzen.
         </p>
       </div>
 
-      <div class="card-grid">
-        <a data-goatcounter-click="click-repo-docker-portfolio-lab" class="card" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">
-          <h3>Containerbetrieb</h3>
-          <p>
-            Aufbau eines Web-/Redis-Stacks mit Dockerfile, Docker Compose,
-            getrennten Umgebungen und schlankerem NGINX-Basis-Image.
-          </p>
-        </a>
-
-        <a data-goatcounter-click="click-doc-https-local-nginx" class="card" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/https-local-nginx.md" target="_blank" rel="noopener noreferrer">
-          <h3>Reverse Proxy & HTTPS</h3>
-          <p>
-            NGINX als zentraler Einstiegspunkt mit lokalem HTTPS/TLS,
-            HTTP-Weiterleitung und dokumentierter TLS-Terminierung.
-          </p>
-        </a>
-
-        <a data-goatcounter-click="click-doc-backup-strategy" class="card" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/backup-strategie-gfs.md" target="_blank" rel="noopener noreferrer">
-          <h3>Backup, Restore & Readiness</h3>
-          <p>
-            Redis-Volume-Backup, Restore-Test, Healthchecks, Start-Abhängigkeiten
-            und Stack-Readiness aus Betriebssicht.
-          </p>
-        </a>
-
-        <a data-goatcounter-click="click-doc-container-security" class="card" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/container-security-stage-1.md" target="_blank" rel="noopener noreferrer">
-          <h3>Security & Secrets</h3>
-          <p>
-            Lokales Secret-Handling, Schutz durch <code>.gitignore</code>,
-            <code>no-new-privileges</code>, Log Rotation und sichere Prüfwege.
-          </p>
-        </a>
-
-        <a data-goatcounter-click="click-doc-grafana-monitoring" class="card" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md" target="_blank" rel="noopener noreferrer">
-          <h3>Monitoring & Logging</h3>
-          <p>
-            Docker-Logs, Log Rotation, Prometheus Target API, Grafana,
-            cAdvisor und Unterscheidung zwischen Docker-Health und Monitoring-Health.
-          </p>
-        </a>
-
-        <a data-goatcounter-click="click-doc-cicd-build-pipeline" class="card" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/cicd-build-pipeline.md" target="_blank" rel="noopener noreferrer">
-          <h3>CI/CD & Registry</h3>
-          <p>
-            GitHub Actions bauen und testen das Image, Docker Scout bewertet Schwachstellen,
-            und eine lokale Registry zeigt Push-/Pull-Grundlagen.
-          </p>
-        </a>
-      </div>
-    </section>
-
-    <section class="section split-section" id="proof">
-      <div>
-        <p class="eyebrow">Nachweis</p>
-        <h2>Was das Projekt zeigt</h2>
-        <p>
-          Das Projekt ist bewusst als Lern- und Portfolio-Lab aufgebaut. Im Mittelpunkt stehen
-          praktische Betriebsabläufe, nachvollziehbare Prüfungen und typische Situationen,
-          die in Docker-, DevOps- und Cloud-Umgebungen regelmäßig relevant werden.
-        </p>
-      </div>
-
-      <div class="proof-list">
-        <a data-goatcounter-click="click-repo-docker-portfolio-lab" class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">
+      <div class="skill-grid">
+        <div class="skill-card">
           <span>01</span>
-          <p>Docker-Stacks wurden strukturiert aufgebaut, gestartet und über nachvollziehbare Prüfungen bewertet.</p>
-        </a>
-        <a data-goatcounter-click="click-doc-https-local-nginx" class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/https-local-nginx.md" target="_blank" rel="noopener noreferrer">
-          <span>02</span>
-          <p>Reverse Proxy, HTTPS, Healthchecks und Readiness wurden aus Betriebssicht eingerichtet und überprüft.</p>
-        </a>
-        <a data-goatcounter-click="click-doc-operations-readme" class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/README.md" target="_blank" rel="noopener noreferrer">
-          <span>03</span>
-          <p>Backup-/Restore-Abläufe, Logging, Monitoring und Fehlerbilder wurden praktisch getestet und dokumentiert.</p>
-        </a>
-        <a data-goatcounter-click="click-doc-container-security" class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/container-security-stage-1.md" target="_blank" rel="noopener noreferrer">
-          <span>04</span>
-          <p>Security-Grundlagen wie Secrets, Image Scanning, Registry-Nutzung und CI/CD-Prozesse wurden bewusst in das Lab eingebaut.</p>
-        </a>
-      </div>
-    </section>
-
-    <section class="section" id="docs">
-      <div class="section-heading">
-        <p class="eyebrow">Docker-Dokumentation</p>
-        <h2>Technische Vertiefung im Docker Portfolio Lab</h2>
-        <p>
-          Diese Links führen zu den wichtigsten Dokumentationsbereichen und Nachweisen des Docker-Projekts.
-          Die einzelnen Seiten halten fest, welche Betriebsfälle im Lab umgesetzt, geprüft und dokumentiert wurden.
-        </p>
-      </div>
-
-      <div class="link-grid">
-        <a data-goatcounter-click="click-doc-operations-readme" class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/README.md" target="_blank" rel="noopener noreferrer">
-          <span>Operations-Übersicht</span>
-          <small>Gesamtüberblick über Betriebsdokumentation und Advanced-Nachweise</small>
-        </a>
-        <a data-goatcounter-click="click-doc-https-local-nginx" class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/https-local-nginx.md" target="_blank" rel="noopener noreferrer">
-          <span>Reverse Proxy & HTTPS</span>
-          <small>NGINX, lokales TLS und HTTPS-Weiterleitung</small>
-        </a>
-        <a data-goatcounter-click="click-doc-container-security" class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/container-security-stage-1.md" target="_blank" rel="noopener noreferrer">
-          <span>Container Security</span>
-          <small>no-new-privileges, Capabilities und Härtungslogik</small>
-        </a>
-        <a data-goatcounter-click="click-doc-image-scanning" class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/image-scanning-docker-scout.md" target="_blank" rel="noopener noreferrer">
-          <span>Image Scanning</span>
-          <small>Docker Scout, CVE-Bewertung und schlankeres Basis-Image</small>
-        </a>
-        <a data-goatcounter-click="click-doc-prometheus-target-api" class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/prometheus-target-api-check.md" target="_blank" rel="noopener noreferrer">
-          <span>Monitoring Deep Dive</span>
-          <small>Prometheus Target API, cAdvisor und Target Health</small>
-        </a>
-        <a data-goatcounter-click="click-doc-registry-deep-dive" class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/registry-deep-dive.md" target="_blank" rel="noopener noreferrer">
-          <span>Registry Deep Dive</span>
-          <small>lokale Registry, Tags, Digest, Push und Registry-Test</small>
-        </a>
-        <a data-goatcounter-click="click-doc-cicd-build-pipeline" class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/cicd-build-pipeline.md" target="_blank" rel="noopener noreferrer">
-          <span>CI/CD Build Pipeline</span>
-          <small>GitHub Actions für Build, Container-Test und optionale Scans</small>
-        </a>
-        <a data-goatcounter-click="click-doc-website-analytics" class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/website-analytics.md" target="_blank" rel="noopener noreferrer">
-          <span>Website Analytics</span>
-          <small>GoatCounter Pageviews, Klick-Events und archivierte GitHub-Traffic-Daten</small>
-        </a>
-        <a data-goatcounter-click="click-doc-backup-strategy" class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/backup-strategie-gfs.md" target="_blank" rel="noopener noreferrer">
-          <span>Backup-Strategie</span>
-          <small>Backup, Restore-Test und Retention-Grundlagen</small>
-        </a>
-      </div>
-    </section>
-
-    <section class="section split-section portfolio-project" id="monitoring-lab">
-      <div>
-        <p class="eyebrow">Monitoring & Alerting</p>
-        <h2>Grafana Monitoring & Sensor Operations Lab</h2>
-        <p>
-          In diesem separaten Monitoring-Bereich wurden Prometheus, Grafana, Alerting,
-          ein lokaler Webhook-Receiver, eine Antennen-/Sensor-Simulation und eine GeoJSON-Geomap
-          zusammengeführt. Dabei ging es nicht nur um schöne Dashboards, sondern um sichtbare
-          Zustandswechsel, Alarmwege und echte Verifikation im Lab.
-        </p>
-        <div class="hero-tags" aria-label="Technologien und Themen im Monitoring Lab">
-          <a data-goatcounter-click="click-tag-monitoring-prometheus" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/prometheus-target-api-check.md" target="_blank" rel="noopener noreferrer">Prometheus</a>
-          <a data-goatcounter-click="click-tag-monitoring-grafana" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md" target="_blank" rel="noopener noreferrer">Grafana</a>
-          <a data-goatcounter-click="click-tag-monitoring-alerting" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#alerting-und-webhook-receiver" target="_blank" rel="noopener noreferrer">Alerting</a>
-          <a data-goatcounter-click="click-tag-monitoring-webhook" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#alerting-und-webhook-receiver" target="_blank" rel="noopener noreferrer">Webhook</a>
-          <a data-goatcounter-click="click-tag-monitoring-cadvisor" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#prometheus-target-health" target="_blank" rel="noopener noreferrer">cAdvisor</a>
-          <a data-goatcounter-click="click-tag-monitoring-geojson" class="tag-button" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#standortvisualisierung-mit-geojson" target="_blank" rel="noopener noreferrer">GeoJSON</a>
+          <h3>Administration</h3>
+          <p>Microsoft 365, Entra ID, Exchange Online, Linux-Dienste, Benutzer, Gruppen und Berechtigungen.</p>
         </div>
-        <div class="hero-actions">
-          <a data-goatcounter-click="click-doc-grafana-monitoring" class="button primary" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md" target="_blank" rel="noopener noreferrer">
-            Monitoring Lab öffnen
+        <div class="skill-card">
+          <span>02</span>
+          <h3>Automatisierung</h3>
+          <p>PowerShell, wiederholbare Abläufe, Validierung, DryRun, Reporting und kontrollierte Änderungen.</p>
+        </div>
+        <div class="skill-card">
+          <span>03</span>
+          <h3>Betrieb & Diagnose</h3>
+          <p>Healthchecks, Logs, Monitoring, Alerting, Netzwerkpfade und schichtweise Fehlersuche.</p>
+        </div>
+        <div class="skill-card">
+          <span>04</span>
+          <h3>DevOps-Grundlagen</h3>
+          <p>Docker, Reverse Proxy, CI/CD, Image Scanning, Backup/Restore und dokumentierte Betriebsabläufe.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="profiles">
+      <div class="profile-panel">
+        <div>
+          <p class="eyebrow">Profile & Repositories</p>
+          <h2>Technische Details liegen auf GitHub.</h2>
+          <p>
+            Diese Seite dient als Einstieg in meine Projekte. Die vollständigen Repositories zeigen Code,
+            Dokumentation, Runbooks und die einzelnen Entwicklungsschritte.
+          </p>
+        </div>
+
+        <div class="profile-links">
+          <a data-goatcounter-click="click-github-profile" class="profile-link" href="https://github.com/MarcF46" target="_blank" rel="noopener noreferrer">
+            <strong>GitHub</strong>
+            <span>Öffentliche Repositories und technische Labs</span>
+          </a>
+          <a data-goatcounter-click="click-linkedin-profile" class="profile-link" href="https://www.linkedin.com/in/marc-fahlbusch-1762b3335" target="_blank" rel="noopener noreferrer">
+            <strong>LinkedIn</strong>
+            <span>Berufliches Profil und Projektupdates</span>
           </a>
         </div>
-      </div>
-
-      <div class="proof-list">
-        <a data-goatcounter-click="click-doc-monitoring-target-health" class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#prometheus-target-health" target="_blank" rel="noopener noreferrer">
-          <span>01</span>
-          <p>Prometheus-Targets, Grafana-Dashboards und Container-Health wurden sichtbar gemacht und fachlich eingeordnet.</p>
-        </a>
-        <a data-goatcounter-click="click-doc-monitoring-alerting-webhook" class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#alerting-und-webhook-receiver" target="_blank" rel="noopener noreferrer">
-          <span>02</span>
-          <p>Alert-Regeln wurden getestet und die Zustellung über einen lokalen Webhook-Receiver nachvollzogen.</p>
-        </a>
-        <a data-goatcounter-click="click-doc-monitoring-antenna-simulator" class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#antennen-sensor-simulator" target="_blank" rel="noopener noreferrer">
-          <span>03</span>
-          <p>Realistische Betriebsmodi wie <code>weak_signal</code>, <code>many_errors</code>, <code>delayed_packets</code>, <code>low_battery</code> und <code>no_packets</code> wurden gezielt simuliert, um typische Störungen sichtbar zu machen.</p>
-        </a>
-        <a data-goatcounter-click="click-doc-monitoring-geojson" class="proof-item" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/docs/operations/grafana-monitoring-lab.md#standortvisualisierung-mit-geojson" target="_blank" rel="noopener noreferrer">
-          <span>04</span>
-          <p>Standort- und Zustandsdaten wurden über eine GeoJSON-Geomap visualisiert, um Betriebszustände räumlich einordnen zu können.</p>
-        </a>
-      </div>
-    </section>
-
-    <section class="section split-section portfolio-project" id="external-projects">
-      <div>
-        <p class="eyebrow">Weitere Portfolio-Projekte</p>
-        <h2>Linux Borg Backup & Restore Lab</h2>
-        <p>
-          Ergänzendes Linux-Backup- und Restore-Lab mit BorgBackup. Im Mittelpunkt stand
-          der komplette Ablauf: ein verschlüsseltes Backup-Repository aufbauen, Testdaten sichern,
-          einen Restore praktisch durchführen und das Ergebnis anschließend überprüfen.
-        </p>
-        <div class="hero-tags" aria-label="Technologien und Themen im Borg Backup Lab">
-          <a data-goatcounter-click="click-tag-borgbackup" class="tag-button" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">BorgBackup</a>
-          <a data-goatcounter-click="click-tag-borg-backup" class="tag-button" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">Backup</a>
-          <a data-goatcounter-click="click-tag-borg-restore" class="tag-button" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">Restore-Test</a>
-          <a data-goatcounter-click="click-tag-borg-check" class="tag-button" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">borg check</a>
-          <a data-goatcounter-click="click-tag-borg-encryption" class="tag-button" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">Verschlüsselung</a>
-          <a data-goatcounter-click="click-tag-borg-wsl2" class="tag-button" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">Linux/WSL2</a>
-        </div>
-        <div class="hero-actions">
-          <a data-goatcounter-click="click-repo-borgbackup-lab" class="button primary" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
-            Borg Backup Lab öffnen
-          </a>
-        </div>
-      </div>
-
-      <div class="proof-list">
-        <a data-goatcounter-click="click-repo-borgbackup-lab" class="proof-item" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
-          <span>01</span>
-          <p>Im Linux/WSL2-Lab wurde ein verschlüsseltes BorgBackup-Repository als sichere Backup-Basis aufgebaut.</p>
-        </a>
-        <a data-goatcounter-click="click-repo-borgbackup-lab" class="proof-item" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
-          <span>02</span>
-          <p>Testdaten wurden gesichert, Archivinhalte geprüft und ein Restore-Ablauf praktisch verifiziert.</p>
-        </a>
-        <a data-goatcounter-click="click-repo-borgbackup-lab" class="proof-item" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
-          <span>03</span>
-          <p>Der Restore-Test wurde dokumentiert und zusätzlich mit <code>borg check</code> auf Konsistenz geprüft.</p>
-        </a>
-        <a data-goatcounter-click="click-repo-borgbackup-lab" class="proof-item" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
-          <span>04</span>
-          <p>Sicherheitsgrenzen wie Passphrases, lokale Backup-Repositories und <code>.gitignore</code> wurden bewusst berücksichtigt.</p>
-        </a>
-      </div>
-    </section>
-
-    <section class="section split-section portfolio-project" id="ubuntu-lab-baseline">
-      <div>
-        <p class="eyebrow">Weitere Portfolio-Projekte</p>
-        <h2>Ubuntu Lab Baseline – Linux Junior Admin</h2>
-        <p>
-          Strukturiertes Linux-Admin-Lab mit Fokus auf Healthchecks, systemd, SSH,
-          Firewall, Logs, Backup/Restore, Security-Basics, Monitoring-Grundlagen
-          und technischer Betriebsdokumentation.
-        </p>
-        <p>
-          Besonderer Schwerpunkt ist die schichtweise Diagnose und nachvollziehbare
-          Bewertung statt reiner Befehlsausführung.
-        </p>
-        <div class="hero-tags" aria-label="Technologien und Themen im Ubuntu Lab">
-          <a data-goatcounter-click="click-tag-ubuntu" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline" target="_blank" rel="noopener noreferrer">Ubuntu</a>
-          <a data-goatcounter-click="click-tag-linux-admin" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/blob/main/README.md" target="_blank" rel="noopener noreferrer">Linux Administration</a>
-          <a data-goatcounter-click="click-tag-systemd" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/blob/main/docs/runbooks/lab21-dienstprobleme-schichtenmodell-runbook.md" target="_blank" rel="noopener noreferrer">systemd</a>
-          <a data-goatcounter-click="click-tag-journalctl" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/blob/main/docs/operations/lab08-logging-baseline.md" target="_blank" rel="noopener noreferrer">journalctl</a>
-          <a data-goatcounter-click="click-tag-ssh" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/blob/main/docs/operations/lab21b-ssh-cups-port-bindung-firewall-bewertung.md" target="_blank" rel="noopener noreferrer">SSH</a>
-          <a data-goatcounter-click="click-tag-ufw" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/blob/main/docs/operations/lab13b-ufw-change-plan.md" target="_blank" rel="noopener noreferrer">UFW</a>
-          <a data-goatcounter-click="click-tag-fail2ban" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/blob/main/docs/operations/lab14-fail2ban-change-plan.md" target="_blank" rel="noopener noreferrer">Fail2ban</a>
-          <a data-goatcounter-click="click-tag-auditd" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/blob/main/docs/operations/lab15-auditd-installation-baseline.md" target="_blank" rel="noopener noreferrer">auditd</a>
-          <a data-goatcounter-click="click-tag-backup-restore" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/blob/main/docs/operations/lab12-backup-restore-baseline.md" target="_blank" rel="noopener noreferrer">Backup/Restore</a>
-          <a data-goatcounter-click="click-tag-monitoring" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/blob/main/docs/operations/lab17c-service-monitoring-matrix.md" target="_blank" rel="noopener noreferrer">Monitoring</a>
-          <a data-goatcounter-click="click-tag-runbooks" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/tree/main/docs/runbooks" target="_blank" rel="noopener noreferrer">Runbooks</a>
-          <a data-goatcounter-click="click-tag-incident-cards" class="tag-button" href="https://github.com/MarcF46/ubuntu-lab-baseline/tree/main/docs/incident-cards" target="_blank" rel="noopener noreferrer">Incident Cards</a>
-        </div>
-        <div class="hero-actions">
-          <a data-goatcounter-click="click-repo-ubuntu-lab-baseline" class="button primary" href="https://github.com/MarcF46/ubuntu-lab-baseline" target="_blank" rel="noopener noreferrer">
-            Ubuntu Lab Baseline öffnen
-          </a>
-        </div>
-      </div>
-
-      <div class="proof-list">
-        <a data-goatcounter-click="click-repo-ubuntu-lab-baseline" class="proof-item" href="https://github.com/MarcF46/ubuntu-lab-baseline" target="_blank" rel="noopener noreferrer">
-          <span>01</span>
-          <p>Systematische Linux-Healthchecks wurden für Systemstatus, Dienste, Ports, Firewall, Ressourcen und Logs aufgebaut.</p>
-        </a>
-        <a data-goatcounter-click="click-repo-ubuntu-lab-baseline" class="proof-item" href="https://github.com/MarcF46/ubuntu-lab-baseline" target="_blank" rel="noopener noreferrer">
-          <span>02</span>
-          <p>SSH, CUPS, UFW, systemd und journalctl wurden in betriebsnahen Diagnoseabläufen geprüft und bewertet.</p>
-        </a>
-        <a data-goatcounter-click="click-repo-ubuntu-lab-baseline" class="proof-item" href="https://github.com/MarcF46/ubuntu-lab-baseline" target="_blank" rel="noopener noreferrer">
-          <span>03</span>
-          <p>Runbooks, Incident Cards, Statusberichte und Change-Bewertungen dokumentieren wiederholbare Admin-Abläufe.</p>
-        </a>
-        <a data-goatcounter-click="click-repo-ubuntu-lab-baseline" class="proof-item" href="https://github.com/MarcF46/ubuntu-lab-baseline" target="_blank" rel="noopener noreferrer">
-          <span>04</span>
-          <p>Die Diagnose folgt einem betrieblichen Schichtenmodell: Systemstatus, Dienststatus, Port/Bindung, Firewall, Netzwerkpfad, Logs und Konfiguration.</p>
-        </a>
-      </div>
-    </section>
-
-    <section class="section split-section portfolio-project" id="m365-lifecycle-lab">
-      <div>
-        <p class="eyebrow">Microsoft 365 Administration & Automation</p>
-        <h2>Microsoft 365 Lifecycle Automation Lab</h2>
-        <p>
-          PowerShell-basiertes Administrations-Lab für kontrolliertes Onboarding und Offboarding in Microsoft 365.
-          Mitarbeiterdaten werden validiert, zunächst als DryRun geprüft und anschließend bewusst über Microsoft Graph
-          und Exchange Online PowerShell verarbeitet. Der Schwerpunkt liegt auf App-only-Authentifizierung,
-          nachvollziehbaren Sicherheitsmechanismen, Retry-/Verify-Logik und technischen Reports.
-        </p>
-
-        <div class="hero-tags" aria-label="Technologien und Themen im Microsoft 365 Lifecycle Automation Lab">
-          <a data-goatcounter-click="click-tag-m365-powershell" class="tag-button" href="https://github.com/MarcF46/m365-lifecycle-automation-lab" target="_blank" rel="noopener noreferrer">PowerShell</a>
-          <a data-goatcounter-click="click-tag-m365-graph" class="tag-button" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/architecture.md" target="_blank" rel="noopener noreferrer">Microsoft Graph</a>
-          <a data-goatcounter-click="click-tag-m365-exchange" class="tag-button" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/exchange-online-automation-notes.md" target="_blank" rel="noopener noreferrer">Exchange Online</a>
-          <a data-goatcounter-click="click-tag-m365-entra" class="tag-button" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/authentication-concept.md" target="_blank" rel="noopener noreferrer">Microsoft Entra ID</a>
-          <a data-goatcounter-click="click-tag-m365-app-only" class="tag-button" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/authentication-concept.md" target="_blank" rel="noopener noreferrer">App-only Auth</a>
-          <a data-goatcounter-click="click-tag-m365-dryrun" class="tag-button" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/onboarding-runbook.md" target="_blank" rel="noopener noreferrer">DryRun / Execute</a>
-          <a data-goatcounter-click="click-tag-m365-reporting" class="tag-button" href="https://github.com/MarcF46/m365-lifecycle-automation-lab" target="_blank" rel="noopener noreferrer">Reporting</a>
-        </div>
-
-        <div class="hero-actions">
-          <a data-goatcounter-click="click-repo-m365-lifecycle-lab" class="button primary" href="https://github.com/MarcF46/m365-lifecycle-automation-lab" target="_blank" rel="noopener noreferrer">
-            M365 Lifecycle Lab öffnen
-          </a>
-          <a data-goatcounter-click="click-doc-m365-architecture" class="button secondary" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/architecture.md" target="_blank" rel="noopener noreferrer">
-            Architektur ansehen
-          </a>
-        </div>
-      </div>
-
-      <div class="proof-list">
-        <a data-goatcounter-click="click-doc-m365-onboarding" class="proof-item" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/onboarding-runbook.md" target="_blank" rel="noopener noreferrer">
-          <span>01</span>
-          <p>Onboarding-Daten werden vor Schreiboperationen validiert und im DryRun als geplanter Zielzustand geprüft.</p>
-        </a>
-        <a data-goatcounter-click="click-doc-m365-graph-exchange" class="proof-item" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/architecture.md" target="_blank" rel="noopener noreferrer">
-          <span>02</span>
-          <p>Microsoft Graph und Exchange Online werden nach technischer Zuständigkeit getrennt und im Lifecycle gemeinsam orchestriert.</p>
-        </a>
-        <a data-goatcounter-click="click-doc-m365-auth" class="proof-item" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/authentication-concept.md" target="_blank" rel="noopener noreferrer">
-          <span>03</span>
-          <p>Zertifikatsbasierte App-only-Authentifizierung vermeidet Benutzerkennwörter und tenant-spezifische Secrets im Repository.</p>
-        </a>
-        <a data-goatcounter-click="click-doc-m365-offboarding" class="proof-item" href="https://github.com/MarcF46/m365-lifecycle-automation-lab/blob/main/docs/offboarding-runbook.md" target="_blank" rel="noopener noreferrer">
-          <span>04</span>
-          <p>Offboarding nutzt kontrollierten Rechteentzug, Exchange-vor-Lizenz-Reihenfolge sowie Retry-/Verify-Prüfungen für Cloud-Verzögerungen.</p>
-        </a>
-      </div>
-    </section>
-
-    <section class="section" id="portfolio-links">
-      <div class="section-heading">
-        <p class="eyebrow">Portfolio-Links</p>
-        <h2>Weitere Nachweise und Profile</h2>
-        <p>
-          Zentrale Links zu meinem GitHub-Profil, LinkedIn-Profil und den aktuellen Portfolio-Projekten.
-        </p>
-      </div>
-
-      <div class="link-grid">
-        <a data-goatcounter-click="click-github-profile" class="doc-link" href="https://github.com/MarcF46" target="_blank" rel="noopener noreferrer">
-          <span>GitHub-Profil</span>
-          <small>Übersicht über öffentliche Repositories und Lernprojekte</small>
-        </a>
-        <a data-goatcounter-click="click-linkedin-profile" class="doc-link" href="https://www.linkedin.com/in/marc-fahlbusch-1762b3335" target="_blank" rel="noopener noreferrer">
-          <span>LinkedIn-Profil</span>
-          <small>Berufliches Profil, Lernfortschritte und Projektupdates</small>
-        </a>
-        <a data-goatcounter-click="click-repo-docker-portfolio-lab" class="doc-link" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">
-          <span>Docker Portfolio Lab</span>
-          <small>Docker-/DevOps-Lab mit Betriebsfokus, Monitoring, Security und CI/CD</small>
-        </a>
-        <a data-goatcounter-click="click-repo-m365-lifecycle-lab" class="doc-link" href="https://github.com/MarcF46/m365-lifecycle-automation-lab" target="_blank" rel="noopener noreferrer">
-          <span>Microsoft 365 Lifecycle Automation Lab</span>
-          <small>PowerShell-Automatisierung für Onboarding, Offboarding, Graph, Exchange Online und Reporting</small>
-        </a>
-        <a data-goatcounter-click="click-repo-borgbackup-lab" class="doc-link" href="https://github.com/MarcF46/linux-borg-backup-restore-lab" target="_blank" rel="noopener noreferrer">
-          <span>Linux Borg Backup & Restore Lab</span>
-          <small>Backup- und Restore-Lab mit BorgBackup unter Linux/WSL2</small>
-        </a>
-        <a data-goatcounter-click="click-repo-ubuntu-lab-baseline" class="doc-link" href="https://github.com/MarcF46/ubuntu-lab-baseline" target="_blank" rel="noopener noreferrer">
-          <span>Ubuntu Lab Baseline – Linux Junior Admin</span>
-          <small>Linux-Admin-Baseline mit Healthchecks, Runbooks, Incident Cards und schichtweiser Diagnose</small>
-        </a>
-        <a data-goatcounter-click="click-nav-top" class="doc-link" href="#top">
-          <span>Zurück nach oben</span>
-          <small>Zurück zum Einstieg dieser Portfolio-Seite</small>
-        </a>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>Docker Portfolio Lab · Praxisnahes DevOps-/Cloud-Lernprojekt</p>
-
-    <p>
-      Das Portfolio ist ein persönliches Lern- und Praxisprojekt von <strong>Marc Fahlbusch</strong>.
-      Es zeigt meinen eigenen Projektaufbau mit Dokumentation, Screenshots, Dashboards und nachvollziehbaren Betriebsabläufen.
-    </p>
-
-    <p>
-      Wenn einzelne Ideen, Dokumentationsansätze oder Projektteile als Inspiration dienen, freue ich mich über eine faire Namensnennung
-      und einen Link zum Original-Repository.
-    </p>
-
-    <p>
-      <a data-goatcounter-click="click-repo-docker-portfolio-lab" href="https://github.com/MarcF46/docker-portfolio-lab" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
-      ·
-      <a data-goatcounter-click="click-attribution" href="https://github.com/MarcF46/docker-portfolio-lab/blob/main/ATTRIBUTION.md" target="_blank" rel="noopener noreferrer">Attribution / Namensnennung</a>
-    </p>
+    <span>Marc Fahlbusch · IT-Portfolio</span>
+    <a data-goatcounter-click="click-nav-top" href="#top">Nach oben ↑</a>
   </footer>
 </body>
 </html>
-
-
-
