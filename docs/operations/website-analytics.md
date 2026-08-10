@@ -1,67 +1,30 @@
-# Website Analytics
+# Repository Traffic & Portfolio Analytics
 
-This document describes the lightweight analytics setup for the Docker Portfolio Lab.
+This document describes the traffic and analytics setup that remains relevant after the central portfolio website was moved out of this repository.
 
-## Purpose
+## Current Structure
 
-The portfolio landing page should provide a basic operational overview of how the public project is used:
-
-- How often the landing page is opened
-- Which important links are clicked
-- Which GitHub repository traffic is visible
-- How repository traffic can be archived beyond GitHub's short traffic window
-
-The goal is not to identify individual visitors. The setup is used only for general portfolio and operations insight.
-
-## Components
+The responsibilities are now separated:
 
 ```text
-GitHub Pages landing page
-        ├── GoatCounter pageview tracking
-        ├── GoatCounter click events
-        └── GitHub repository traffic archive
-                ├── GitHub Actions scheduled workflow
-                ├── GitHub REST API traffic endpoints
-                └── archived JSON/CSV summaries
+MarcF46.github.io
+└── central portfolio website and GoatCounter pageview/click tracking
+
+MarcF46/docker-portfolio-lab
+└── Docker/DevOps lab and GitHub repository traffic archive
 ```
 
-## Landing Page Analytics
+The public portfolio is available at:
 
-The landing page uses GoatCounter as a lightweight, privacy-friendly analytics tool.
-
-The tracking script is embedded in `index.html`:
-
-```html
-<script data-goatcounter="https://marcf46-portfolio.goatcounter.com/count"
-        async src="https://gc.zgo.at/count.js"></script>
+```text
+https://marcf46.github.io/
 ```
 
-## Tracked Click Events
+The Docker lab remains available at:
 
-Important portfolio links are marked with `data-goatcounter-click`.
-
-Examples:
-
-```html
-<a data-goatcounter-click="click-repo-docker-portfolio-lab"
-   href="https://github.com/MarcF46/docker-portfolio-lab">
+```text
+https://github.com/MarcF46/docker-portfolio-lab
 ```
-
-```html
-<a data-goatcounter-click="click-linkedin-profile"
-   href="https://www.linkedin.com/in/marc-fahlbusch-1762b3335">
-```
-
-Currently tracked event groups include:
-
-- Navigation clicks
-- Docker Portfolio Lab repository clicks
-- Documentation clicks
-- Monitoring lab clicks
-- BorgBackup lab clicks
-- GitHub profile clicks
-- LinkedIn profile clicks
-- Attribution link clicks
 
 ## GitHub Repository Traffic Archive
 
@@ -101,9 +64,9 @@ analytics/github-traffic/summary/paths_latest.csv
 
 ## Why the Archive Exists
 
-GitHub only provides repository traffic data for a short rolling window.
+GitHub provides repository traffic data only for a limited rolling window.
 
-By collecting this data regularly, the project keeps a longer-term history of:
+By collecting the data regularly, the project keeps a longer-term history of:
 
 - Repository views
 - Unique visitors
@@ -112,15 +75,33 @@ By collecting this data regularly, the project keeps a longer-term history of:
 - Top referrers
 - Popular repository paths
 
+## Portfolio Website Analytics
+
+The central portfolio website is no longer hosted in this repository.
+
+Pageviews and selected click events are tracked on the dedicated portfolio repository:
+
+```text
+https://github.com/MarcF46/MarcF46.github.io
+```
+
+The website itself is published at:
+
+```text
+https://marcf46.github.io/
+```
+
+GoatCounter remains the lightweight analytics service used for the portfolio website. Website-specific HTML and click-event configuration therefore belong to the dedicated portfolio repository rather than to this Docker lab.
+
 ## Security Notes
 
-A dedicated GitHub secret is used for the workflow:
+A dedicated GitHub secret is used for the repository traffic workflow:
 
 ```text
 TRAFFIC_TOKEN
 ```
 
-The token should be stored only as a GitHub Actions repository secret and, if needed, in a secure password manager such as KeePass.
+The token should be stored only as a GitHub Actions repository secret and, if needed, in a secure password manager.
 
 The token should not be stored in:
 
@@ -133,43 +114,25 @@ The token should not be stored in:
 
 ## Privacy Notes
 
-This setup is intentionally limited.
-
-It does not aim to identify individual visitors. It provides only general operational signals such as pageviews, referrers, browser/system categories and selected click events.
+The traffic archive and portfolio analytics are intended only for general operational insight.
 
 Important limitations:
 
-- Browser tracking protection and ad blockers can block GoatCounter
-- Own test visits can appear in the dashboard
-- GitHub clone statistics may include automated systems, CI jobs or repeated local activity
-- Events in GoatCounter can appear as path-like entries in the dashboard
-
-## Operational Verification
-
-The setup was verified by checking:
-
-1. GitHub Actions workflow runs successfully
-2. GitHub traffic data is archived into JSON and CSV files
-3. GoatCounter script is present in the live GitHub Pages HTML
-4. Pageviews appear in the GoatCounter dashboard
-5. Click events appear in the GoatCounter dashboard
+- Repository traffic may include automated systems, CI jobs or repeated local activity
+- Browser tracking protection and ad blockers can block website analytics
+- Own test visits can appear in analytics data
+- The setup is not intended to identify individual visitors
 
 ## Current Status
 
 ```text
-GitHub traffic archive: active
-GoatCounter pageviews: active
-GoatCounter click events: active
+Central portfolio website: MarcF46.github.io
+Docker repository traffic archive: active
+Portfolio GoatCounter analytics: active on the dedicated portfolio site
 Additional server/VPS required: no
 Monthly cost: 0 EUR
 ```
 
-## Future Improvements
+## Architecture Decision
 
-Possible future improvements:
-
-- Add a small local script to summarize the CSV data
-- Create a simple chart from archived GitHub traffic
-- Add a short README section linking to this analytics documentation
-- Review the GoatCounter dashboard after real LinkedIn or GitHub traffic
-- Add a privacy note to the public landing page if needed
+The former combined setup has intentionally been separated so that the Docker repository remains a technical project repository while the personal portfolio website can grow independently as more labs are added.
