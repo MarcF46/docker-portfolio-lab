@@ -1,6 +1,6 @@
 # GitHub Traffic Summary
 
-Last snapshot: `2026-09-03`
+Last snapshot: `2026-09-04`
 
 ## Purpose
 
@@ -11,8 +11,8 @@ This project archives snapshots so the portfolio lab can keep a longer-term hist
 
 | Metric | Count | Unique |
 |---|---:|---:|
-| Views | 5 | 2 |
-| Clones | 141 | 33 |
+| Views | 4 | 2 |
+| Clones | 150 | 36 |
 
 ## Top Referrers
 
@@ -24,8 +24,8 @@ This project archives snapshots so the portfolio lab can keep a longer-term hist
 
 | Path | Title | Count | Unique |
 |---|---|---:|---:|
-| /MarcF46/docker-portfolio-lab/issues | /issues | 2 | 2 |
 | /MarcF46/docker-portfolio-lab/blob/main/.dockerignore | /blob/main/.dockerignore | 1 | 1 |
+| /MarcF46/docker-portfolio-lab/issues | /issues | 1 | 1 |
 | /MarcF46/docker-portfolio-lab/issues/views | /issues/views | 1 | 1 |
 | /MarcF46/docker-portfolio-lab/pulls | /pulls | 1 | 1 |
 
