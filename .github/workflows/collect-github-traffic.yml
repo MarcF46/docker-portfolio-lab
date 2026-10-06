@@ -1,11 +1,35 @@
+# Zweck:
+# Dieses Workflow-File ruft einmal pro Tag die GitHub-Traffic-API auf und
+# archiviert deren 14-Tage-Daten dauerhaft unter analytics/github-traffic/.
+#
+# WICHTIG:
+# Für die Traffic-API wird das Repository-Secret TRAFFIC_TOKEN benötigt.
+# Der Token muss für dieses Repository "Administration: Read" besitzen.
+#
+# Die Kommentare sind bewusst ausführlich gehalten, damit der Ablauf auch
+# Monate später noch nachvollziehbar bleibt.
+
 name: Collect GitHub traffic
 
 on:
+  # Erlaubt einen manuellen Start über:
+  # Actions -> Collect GitHub traffic -> Run workflow
   workflow_dispatch:
 
+  # Automatischer täglicher Start.
+  # GitHub interpretiert Cron-Zeiten in UTC.
+  # 06:17 UTC = 08:17 Uhr in der deutschen Sommerzeit
+  # bzw. 07:17 Uhr in der deutschen Winterzeit.
   schedule:
     - cron: "17 6 * * *"
 
+# Verhindert parallele Läufe desselben Collectors.
+concurrency:
+  group: github-traffic-collector
+  cancel-in-progress: false
+
+# Der Workflow darf Repository-Inhalte schreiben, weil der letzte Schritt
+# die neu erzeugten Statistikdateien committen und nach main pushen soll.
 permissions:
   contents: write
 
@@ -13,23 +37,39 @@ jobs:
   collect-traffic:
     name: Archive repository traffic snapshot
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
+      # Lädt den aktuellen Repository-Inhalt auf den GitHub-Runner.
+      # persist-credentials bleibt aktiv, damit der spätere git push
+      # den temporären GITHUB_TOKEN des Workflows verwenden kann.
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
+      # Stellt eine definierte Python-Version für das Collector-Skript bereit.
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
-          python-version: "3.x"
+          python-version: "3.13"
 
+      # TRAFFIC_TOKEN ist ein selbst verwaltetes Repository-Secret.
+      # Es wird ausschließlich an diesen Prozess als Umgebungsvariable
+      # übergeben und von GitHub in Logs maskiert.
+      #
+      # Der automatisch erzeugte GITHUB_TOKEN wird NICHT für die Traffic-API
+      # verwendet. Er hat nicht die benötigte Repository-Administration-
+      # Leseberechtigung für diese Endpunkte.
       - name: Collect GitHub traffic data
         env:
-          GITHUB_TOKEN: ${{ github.token }}
           TRAFFIC_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
         run: |
           python scripts/collect_github_traffic.py
 
+      # Nur wenn sich Dateien unter analytics/github-traffic geändert haben,
+      # werden sie versioniert. Dadurch entstehen keine leeren Commits.
+      #
+      # actions/checkout stellt für den Push weiterhin den temporären
+      # GITHUB_TOKEN bereit. Dieser Token wird nach dem Job ungültig.
       - name: Commit archived traffic data
         run: |
           git config user.name "github-actions[bot]"
