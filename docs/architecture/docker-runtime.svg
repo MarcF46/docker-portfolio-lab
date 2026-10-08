@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">Docker-Betrieb und DevOps</title>
+  <desc id="desc">Browser erreicht über NGINX Reverse Proxy die Web-Anwendung, die Redis mit persistentem Volume nutzt. Backup, Healthchecks und CI/CD flankieren den Betrieb.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b6fdc"/>
+    </marker>
+    <style>
+      .bg{fill:#ffffff}
+      .box{fill:#ffffff;stroke:#dce5ef;stroke-width:2}
+      .accent{fill:#edf5ff;stroke:#0b6fdc;stroke-width:2}
+      .dark{fill:#142033}
+      .muted{fill:#607087}
+      .line{stroke:#0b6fdc;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .line-dashed{stroke:#0b6fdc;stroke-width:2.5;fill:none;stroke-dasharray:8 7;marker-end:url(#arrow)}
+      .title{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#142033}
+      .h{font:700 22px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#142033}
+      .t{font:500 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#607087}
+      .s{font:600 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#607087}
+      .label{font:700 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0b6fdc}
+    </style>
+  </defs>
+  <rect class="bg" width="100%" height="100%"/>
+
+  <text class="title" x="60" y="58">Docker-Betrieb und DevOps</text>
+  <text class="t" x="60" y="88">Container-Stack mit Betrieb, Sicherheit und Wiederherstellung</text>
+
+  <rect class="box" x="60" y="180" rx="18" ry="18" width="210" height="105"/>
+  <text class="h" x="113" y="222">Browser</text>
+  <text class="t" x="98" y="252">HTTPS-Zugriff</text>
+
+  <rect class="accent" x="350" y="180" rx="18" ry="18" width="250" height="105"/>
+  <text class="h" x="400" y="222">NGINX</text>
+  <text class="t" x="382" y="252">Reverse Proxy · TLS</text>
+
+  <rect class="accent" x="680" y="180" rx="18" ry="18" width="220" height="105"/>
+  <text class="h" x="741" y="222">Web-App</text>
+  <text class="t" x="715" y="252">Container-Service</text>
+
+  <rect class="box" x="970" y="180" rx="18" ry="18" width="180" height="105"/>
+  <text class="h" x="1020" y="222">Redis</text>
+  <text class="t" x="994" y="252">persistente Daten</text>
+
+  <path class="line" d="M270 233 H350"/>
+  <path class="line" d="M600 233 H680"/>
+  <path class="line" d="M900 233 H970"/>
+
+  <rect class="box" x="930" y="390" rx="18" ry="18" width="240" height="100"/>
+  <text class="h" x="977" y="430">Docker Volume</text>
+  <text class="t" x="971" y="460">Persistenz · Restore</text>
+  <path class="line" d="M1060 285 V390"/>
+
+  <rect class="box" x="60" y="390" rx="18" ry="18" width="250" height="100"/>
+  <text class="h" x="92" y="430">GitHub Actions</text>
+  <text class="t" x="95" y="460">Build · Scan · CI/CD</text>
+  <path class="line-dashed" d="M310 440 H680"/>
+  <text class="label" x="440" y="422">Image / Pipeline</text>
+
+  <rect class="box" x="380" y="390" rx="18" ry="18" width="250" height="100"/>
+  <text class="h" x="420" y="430">Healthchecks</text>
+  <text class="t" x="415" y="460">Readiness · Logs</text>
+  <path class="line-dashed" d="M505 390 V285"/>
+
+  <rect class="box" x="680" y="390" rx="18" ry="18" width="200" height="100"/>
+  <text class="h" x="712" y="430">Backup</text>
+  <text class="t" x="704" y="460">Sichern · Restore</text>
+  <path class="line-dashed" d="M880 440 H930"/>
+</svg>
