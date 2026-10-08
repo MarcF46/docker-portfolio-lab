@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">Grafana-Systemüberwachung und Sensorbetrieb</title>
+  <desc id="desc">Container- und Sensorsignale werden von Prometheus gesammelt, in Grafana visualisiert und über Alerting an einen Webhook-Receiver gemeldet.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b6fdc"/>
+    </marker>
+    <style>
+      .bg{fill:#ffffff}
+      .box{fill:#ffffff;stroke:#dce5ef;stroke-width:2}
+      .accent{fill:#edf5ff;stroke:#0b6fdc;stroke-width:2}
+      .dark{fill:#142033}
+      .muted{fill:#607087}
+      .line{stroke:#0b6fdc;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .line-dashed{stroke:#0b6fdc;stroke-width:2.5;fill:none;stroke-dasharray:8 7;marker-end:url(#arrow)}
+      .title{font:700 30px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#142033}
+      .h{font:700 22px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#142033}
+      .t{font:500 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#607087}
+      .s{font:600 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#607087}
+      .label{font:700 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0b6fdc}
+    </style>
+  </defs>
+  <rect class="bg" width="100%" height="100%"/>
+
+  <text class="title" x="60" y="58">Monitoring und Alarmierung</text>
+  <text class="t" x="60" y="88">Metriken sammeln, visualisieren und Störungen melden</text>
+
+  <rect class="box" x="60" y="175" rx="18" ry="18" width="240" height="105"/>
+  <text class="h" x="104" y="216">Container</text>
+  <text class="t" x="96" y="248">cAdvisor · Targets</text>
+
+  <rect class="box" x="60" y="355" rx="18" ry="18" width="240" height="105"/>
+  <text class="h" x="116" y="396">Sensoren</text>
+  <text class="t" x="92" y="428">simulierte Zustände</text>
+
+  <rect class="accent" x="430" y="255" rx="18" ry="18" width="260" height="115"/>
+  <text class="h" x="493" y="298">Prometheus</text>
+  <text class="t" x="470" y="330">Metriken · Regeln · Targets</text>
+
+  <rect class="accent" x="835" y="145" rx="18" ry="18" width="260" height="105"/>
+  <text class="h" x="914" y="186">Grafana</text>
+  <text class="t" x="874" y="218">Dashboards · GeoJSON</text>
+
+  <rect class="box" x="835" y="330" rx="18" ry="18" width="260" height="105"/>
+  <text class="h" x="904" y="371">Alerting</text>
+  <text class="t" x="870" y="403">Warnung · Critical</text>
+
+  <rect class="box" x="835" y="500" rx="18" ry="18" width="260" height="95"/>
+  <text class="h" x="873" y="540">Webhook-Receiver</text>
+  <text class="t" x="893" y="570">Zustellung prüfen</text>
+
+  <path class="line" d="M300 228 L430 290"/>
+  <path class="line" d="M300 408 L430 335"/>
+  <path class="line" d="M690 295 L835 205"/>
+  <path class="line" d="M690 330 L835 382"/>
+  <path class="line" d="M965 435 V500"/>
+
+  <text class="label" x="320" y="244">scrape</text>
+  <text class="label" x="728" y="251">visualisieren</text>
+  <text class="label" x="721" y="377">Regel auslösen</text>
+</svg>
