@@ -3,7 +3,7 @@
 > **Originales Portfolio-Projekt von Marc Fahlbusch**  
 > GitHub: https://github.com/MarcF46  
 > Repository: https://github.com/MarcF46/docker-portfolio-lab  
-> Portfolio: https://marcf46.github.io/docker-portfolio-lab/#docs  
+> Portfolio: https://marcf46.github.io/projects.html#docker  
 > LinkedIn: https://www.linkedin.com/in/marc-fahlbusch-1762b3335
 
 Das Repository ist ein persönliches Lern- und Portfolio-Projekt von **Marc Fahlbusch**.
@@ -12,16 +12,16 @@ Dokumentiert wird praktische Arbeit mit Docker, Docker Compose, Grafana, Prometh
 
 Projektstruktur, Dokumentation, Screenshots, Dashboard-Beschreibungen, Betriebsszenarien und Lernnotizen gehören zu meiner persönlichen Portfolio-Arbeit.
 
-## Nutzung und Namensnennung
+## Lizenz, Lernen und Weiterverwendung
 
-Das Repository darf gern zu Lern-, Prüfungs-, Bewerbungs- und Review-Zwecken angesehen werden.
+**Dieses Projekt ist öffentlich und darf ausdrücklich weiterverwendet werden.** Der vom Autor erstellte Code und die zugehörige Dokumentation werden unter der [MIT-Lizenz](LICENSE) bereitgestellt.
 
-Wenn einzelne Ideen, Dokumentationsansätze oder Projektteile als Inspiration dienen, freue ich mich über eine faire Namensnennung und einen Link zum Original-Repository.
+Du darfst das Lab herunterladen, nachvollziehen, verändern und weitergeben oder eigene Lösungen darauf aufbauen. Die MIT-Lizenz erlaubt auch kommerzielle Nutzung. Bei der Weitergabe von Kopien oder wesentlichen Teilen müssen Copyright-Hinweis und Lizenz erhalten bleiben.
 
 **Originalprojekt von Marc Fahlbusch**  
 GitHub: https://github.com/MarcF46/docker-portfolio-lab
 
-Weitere Details stehen in `ATTRIBUTION.md`.
+Ein zusätzlicher Link zum Original freut mich. Bitte achte darauf, deine eigene Projektarbeit und die ursprüngliche Arbeit anderer korrekt darzustellen. Für Drittanbieter-Inhalte gelten deren jeweilige Rechte. Weitere Hinweise: [ATTRIBUTION.md](ATTRIBUTION.md).
 
 ---
 
