@@ -29,6 +29,20 @@ Praxisnahes Docker-/DevOps-Portfolio mit Fokus auf Containerbetrieb, Troubleshoo
 
 Das Repository ist bewusst kein reines Startbeispiel. Anhand eines kleinen containerisierten Stacks wird gezeigt, dass Docker-Container nicht nur gestartet, sondern auch geprüft, dokumentiert, abgesichert, über Reverse Proxy/HTTPS bereitgestellt, gescannt und in realistischeren Betriebsfällen getestet werden können.
 
+## Architektur im Überblick
+
+### Docker-Betrieb und DevOps
+
+![Architekturdiagramm des Docker-Stacks](docs/architecture/docker-runtime.svg)
+
+Die Darstellung zeigt den Weg vom HTTPS-Zugriff über NGINX zur Web-Anwendung und Redis. Healthchecks, CI/CD sowie Backup und Restore ergänzen den eigentlichen Container-Stack um typische Betriebsaufgaben.
+
+### Monitoring und Alarmierung
+
+![Architekturdiagramm des Monitoring-Ablaufs](docs/architecture/monitoring-flow.svg)
+
+Prometheus sammelt Metriken aus Containern und simulierten Sensorzuständen. Grafana visualisiert die Daten, während Alarmregeln definierte Störungen erkennen und über einen Webhook-Receiver nachvollziehbar weitergeben.
+
 ## Kurzüberblick
 
 Das Projekt ist als praxisnahes Docker-/DevOps-Lab für den Einstieg in Cloud-, DevOps-, Plattform- und Systemadministrationsrollen aufgebaut.
