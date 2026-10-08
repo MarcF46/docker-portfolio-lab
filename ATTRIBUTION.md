@@ -1,81 +1,38 @@
 # Attribution / Namensnennung
 
-## English
+## Deutsch
 
-This project was created by:
+**Projekt:** Docker / Grafana Monitoring Portfolio Lab  
+**Autor:** Marc Fahlbusch  
+**Original-Repository:** https://github.com/MarcF46/docker-portfolio-lab  
+**GitHub-Profil:** https://github.com/MarcF46
 
-**Marc Fahlbusch**  
-GitHub: https://github.com/MarcF46  
-Repository: https://github.com/MarcF46/docker-portfolio-lab  
-Portfolio: https://marcf46.github.io/docker-portfolio-lab/#docs  
-LinkedIn: https://www.linkedin.com/in/marc-fahlbusch-1762b3335
+Dieses Repository ist ein öffentliches Lern- und Portfolio-Projekt für Docker, Docker Compose, Grafana, Prometheus, Monitoring, Alerting, Backup/Restore, Troubleshooting und betriebsorientierte DevOps-Praxis.
 
-## Project
+### Teilen und Weiterverwenden ausdrücklich erwünscht
 
-**Docker / Grafana Monitoring Portfolio Lab**
+Der selbst erstellte Quellcode und die zugehörige Originaldokumentation stehen unter der **MIT-Lizenz** (siehe [LICENSE](LICENSE)). Du darfst das Projekt für Lernzwecke kopieren, ausprobieren, verändern, weitergeben und auch in eigene Lösungen übernehmen – einschließlich kommerzieller Nutzung, soweit du die Lizenzbedingungen beachtest.
 
-This repository documents a personal DevOps and cloud engineering learning project focused on Docker, Docker Compose, Grafana, Prometheus, monitoring, alerting, troubleshooting, backup/restore thinking and operations-oriented infrastructure practice.
+**Erforderlich:** Bei der Weitergabe von Kopien oder wesentlichen Teilen müssen der Copyright-Hinweis und die MIT-Lizenz erhalten bleiben. Ein zusätzlicher Hinweis auf das Original-Repository ist willkommen, aber nicht zwingend vorgeschrieben.
 
-## Attribution requirement
+Das Projekt darf als Vorlage dienen. Bitte gib bei Beschreibungen deiner eigenen Erfahrungen wahrheitsgemäß an, welche Arbeit du selbst geleistet hast. Die MIT-Lizenz ändert nichts daran, wer die ursprünglichen Projektteile erstellt hat.
 
-If you reference, discuss, share or build upon ideas from this project, please clearly mention:
+### Drittanbieter-Komponenten
 
-> Original project by Marc Fahlbusch  
-> GitHub: https://github.com/MarcF46/docker-portfolio-lab
-
-## Not permitted
-
-The following is not permitted without prior written permission:
-
-- copying this repository and presenting it as your own portfolio project
-- rebranding the documentation, screenshots or dashboard descriptions as your own work
-- publishing modified versions of the documentation without attribution
-- using the project structure, screenshots or written explanations to misrepresent your own experience
-- claiming authorship of this portfolio project or its documentation
-
-## Third-party components
-
-This project may use or reference third-party tools such as Docker, Grafana, Prometheus, NGINX and related open-source software. Those tools remain governed by their own respective licenses and trademarks.
-
-This attribution notice applies to the original portfolio work, documentation, project structure, screenshots, explanations and operational learning material created for this repository.
+Die MIT-Lizenz gilt nur für Inhalte, für die der Autor die entsprechenden Nutzungsrechte vergeben darf. Eingebundene bzw. referenzierte Drittanbieter-Software, Marken, Logos und sonstige fremde Inhalte behalten ihre jeweiligen Rechte und Lizenzbedingungen.
 
 ---
 
-## Deutsch
+## English
 
-Dieses Projekt wurde erstellt von:
+**Project:** Docker / Grafana Monitoring Portfolio Lab  
+**Original author:** Marc Fahlbusch  
+**Repository:** https://github.com/MarcF46/docker-portfolio-lab
 
-**Marc Fahlbusch**  
-GitHub: https://github.com/MarcF46  
-Repository: https://github.com/MarcF46/docker-portfolio-lab  
-Portfolio: https://marcf46.github.io/docker-portfolio-lab/#docs  
-LinkedIn: https://www.linkedin.com/in/marc-fahlbusch-1762b3335
+### Learning, sharing and reuse are encouraged
 
-## Projekt
+The original code and documentation created for this repository are provided under the **MIT License** (see [LICENSE](LICENSE)). You are welcome to study, copy, adapt, distribute and integrate the licensed materials into your own projects, including commercial projects, provided that the copyright and license notices are retained in copies or substantial portions.
 
-**Docker / Grafana Monitoring Portfolio Lab**
+A link to the original repository is appreciated, but not an additional legal requirement. Please accurately represent which work you performed yourself; the license does not change the original authorship.
 
-Dieses Repository dokumentiert ein persönliches DevOps- und Cloud-Engineering-Lernprojekt mit Fokus auf Docker, Docker Compose, Grafana, Prometheus, Monitoring, Alerting, Troubleshooting, Backup-/Restore-Denken und betriebsnaher Infrastrukturpraxis.
-
-## Erforderliche Namensnennung
-
-Wenn du dieses Projekt öffentlich erwähnst, besprichst, teilst oder darauf aufbaust, gib bitte klar an:
-
-> Originalprojekt von Marc Fahlbusch  
-> GitHub: https://github.com/MarcF46/docker-portfolio-lab
-
-## Nicht erlaubt
-
-Ohne vorherige schriftliche Zustimmung ist Folgendes nicht erlaubt:
-
-- dieses Repository zu kopieren und als eigenes Portfolio-Projekt darzustellen
-- die Dokumentation, Screenshots oder Dashboard-Beschreibungen umzubenennen und als eigene Arbeit auszugeben
-- veränderte Versionen der Dokumentation ohne Namensnennung zu veröffentlichen
-- Projektstruktur, Screenshots oder Erklärtexte zu verwenden, um eigene Erfahrung vorzutäuschen
-- die Urheberschaft an diesem Portfolio-Projekt oder seiner Dokumentation zu beanspruchen
-
-## Drittanbieter-Komponenten
-
-Dieses Projekt kann Drittanbieter-Werkzeuge wie Docker, Grafana, Prometheus, NGINX und weitere Open-Source-Komponenten verwenden oder darauf Bezug nehmen. Diese Werkzeuge unterliegen weiterhin ihren jeweiligen eigenen Lizenzen und Markenrechten.
-
-Dieser Attribution-Hinweis bezieht sich auf die ursprüngliche Portfolio-Arbeit, Dokumentation, Projektstruktur, Screenshots, Erklärungen und betriebsnahen Lernmaterialien, die für dieses Repository erstellt wurden.
+Third-party components, logos, trademarks and other externally owned material remain subject to their respective rights and license terms.
